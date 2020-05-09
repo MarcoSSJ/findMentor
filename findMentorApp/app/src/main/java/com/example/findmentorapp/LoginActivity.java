@@ -13,7 +13,18 @@ import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.time.Instant;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -46,18 +57,68 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick (View v) {
+            String username = username_text.getText().toString();
+            String password = password_text.getText().toString();
+            String loginURL = "x.x.x.x:xx";//后面再确定
+            try {
+                URL url = new URL(loginURL);
+                HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+                conn.setRequestMethod("POST");
+                conn.setReadTimeout(5000);
+                conn.setConnectTimeout(5000);
+
+                conn.setRequestProperty("Content-Type",
+                        "application/x-www-form-urlencoded;charset=UTF-8");
+
+                conn.setDoOutput(true);
+                conn.setDoInput(true);
+                conn.setUseCaches(false);
+
+                /*String data = "username="+ URLEncoder.encode(username,"UTF-8")+
+                        "&password="+URLEncoder.encode(password,"UTF-8");*/
+                String data = "";
+                JSONObject obj = new JSONObject();
+                obj.put("username",username);
+                obj.put("password",password);
+                data = obj.toString();
+
+                OutputStream out = conn.getOutputStream();
+                out.write(data.getBytes());
+                out.flush();
+                out.close();
+
+                InputStream is = conn.getInputStream();
+                if(conn.getResponseCode()==HttpURLConnection.HTTP_OK) {
+
+                    ByteArrayOutputStream message = new ByteArrayOutputStream();
+                    String response = "";
+                    byte[] b = new byte[1024];
+                    int len ;
+                    while((len = is.read(b))!=-1){
+                        response += new String(b,0,len);
+                    }
+                    is.close();
+                    System.out.println(response);
+                    //需要根据response的形式来决定怎么处理：json？或者其他什么形式？
+
+                    //以下为登陆成功跳转代码
+                    Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                    //intent.putExtra("fragid",1); //添加Extra
+                    startActivity(intent);
+                    finish();
 
 
-
-            //以下为登陆成功跳转代码
-            Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-            //intent.putExtra("fragid",1); //添加Extra
-            startActivity(intent);
-            finish();
-
-            //弹窗
-            Toast toast=Toast.makeText(getApplicationContext(), "登录失败", Toast.LENGTH_SHORT);
-            toast.show();
+                    //不成功，弹窗
+                    Toast toast=Toast.makeText(getApplicationContext(), "登录失败", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             }
         });
 
