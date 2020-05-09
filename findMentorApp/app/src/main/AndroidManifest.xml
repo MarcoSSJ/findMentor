@@ -18,6 +18,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.example.findmentorapp.LoginActivity"
+            android:label="用户登录" >
+        </activity>
+        <activity
+            android:name="com.example.findmentorapp.RegisterActivity"
+            android:label="用户注册" >
+        </activity>
     </application>
 
 </manifest>

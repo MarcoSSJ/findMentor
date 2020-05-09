@@ -1,9 +1,11 @@
 package com.example.findmentorapp.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,6 +14,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.findmentorapp.LoginActivity;
+import com.example.findmentorapp.MainActivity;
 import com.example.findmentorapp.R;
 
 public class HomeFragment extends Fragment {
@@ -30,6 +34,19 @@ public class HomeFragment extends Fragment {
                 textView.setText(s);
             }
         });
+
+        //跳转登录界面
+        Button toLogButton = (Button)root.findViewById(R.id.toLogin);
+        toLogButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick (View v) {
+                Intent intent = new Intent(getActivity(),LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+
         return root;
     }
 }
