@@ -64,7 +64,26 @@ public class LoginActivity extends AppCompatActivity {
         public void run() {
             String username = username_text.getText().toString();
             String password = password_text.getText().toString();
-            String loginURL = "x.x.x.x:xx";
+            String loginURL = "http://www.mocky.io/v2/5eb7a69f3100000d00c8a200";
+            handler = new Handler(Looper.getMainLooper()) {
+                @Override
+                public void handleMessage(Message msg) {
+                    super.handleMessage(msg);
+                    if(msg.what == 0) {
+                        //不成功，弹窗
+                        Toast toast=Toast.makeText(getApplicationContext(), "登录失败", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+                    else if(msg.what == 1) {
+                        //以下为登陆成功跳转代码
+                        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                        //intent.putExtra("fragid",1); //添加Extra
+                        startActivity(intent);
+                        finish();
+                    }
+
+                }
+            };
             try {
                 URL url = new URL(loginURL);
                 HttpURLConnection conn = (HttpURLConnection)url.openConnection();
@@ -94,20 +113,28 @@ public class LoginActivity extends AppCompatActivity {
 
                 InputStream is = conn.getInputStream();
                 if(conn.getResponseCode()==HttpURLConnection.HTTP_OK) {
-
-                    ByteArrayOutputStream msg = new ByteArrayOutputStream();
-                    String response = "";
+                    StringBuilder response = new StringBuilder();
                     byte[] b = new byte[1024];
                     int len ;
                     while((len = is.read(b))!=-1){
-                        response += new String(b,0,len);
+                        response.append(new String(b, 0, len));
                     }
                     is.close();
-                    System.out.println(response);
-                    //需要根据response的形式来决定怎么处理：json？或者其他什么形式？
-                    Message message = Message.obtain();
-                    message.what = 1;
-                    handler.sendMessage(message);
+                    String res = new String(response);
+                    System.out.println(res);
+                    JSONObject obj = new JSONObject(res);
+                    String login = obj.getString("result");
+                    if(login.equals("true")) {
+                        Message message = Message.obtain();
+                        message.what = 1;
+                        handler.sendMessage(message);
+                    }
+                    else
+                    {
+                        Message message = Message.obtain();
+                        message.what = 0;
+                        handler.sendMessage(message);
+                    }
                 }
                 else {
                     Message message = Message.obtain();
@@ -119,7 +146,12 @@ public class LoginActivity extends AppCompatActivity {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+            Message message = Message.obtain();
+            message.what = 1;
+            handler.sendMessage(message);
         }
     };
 
