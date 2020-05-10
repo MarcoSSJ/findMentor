@@ -2,6 +2,8 @@ package com.example.findmentorapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.StrictMode;
 import android.text.NoCopySpan;
 import android.view.MenuItem;
@@ -36,34 +38,32 @@ public class LoginActivity extends AppCompatActivity {
     private EditText username_text;
     private EditText password_text;
 
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if(msg.what == 0) {
+                //不成功，弹窗
+                Toast toast=Toast.makeText(getApplicationContext(), "登录失败", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+            else if(msg.what == 1) {
+                //以下为登陆成功跳转代码
+                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                //intent.putExtra("fragid",1); //添加Extra
+                startActivity(intent);
+                finish();
+            }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-        
-        ActionBar actionBar = getSupportActionBar();
-        if(actionBar != null){
-            actionBar.setHomeButtonEnabled(true);
-            actionBar.setDisplayHomeAsUpEnabled(true);
         }
+    };
 
-
-        //用户名与密码输入
-        username_text = (EditText)findViewById(R.id.editText_log_username);
-        password_text = (EditText)findViewById(R.id.editText_log_password);
-
-        //处理点击登录按钮
-        loginButton = (Button)findViewById(R.id.button_login);
-        loginButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick (View v) {
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
             String username = username_text.getText().toString();
             String password = password_text.getText().toString();
-            String loginURL = "x.x.x.x:xx";//后面再确定
+            String loginURL = "x.x.x.x:xx";
             try {
                 URL url = new URL(loginURL);
                 HttpURLConnection conn = (HttpURLConnection)url.openConnection();
@@ -94,7 +94,7 @@ public class LoginActivity extends AppCompatActivity {
                 InputStream is = conn.getInputStream();
                 if(conn.getResponseCode()==HttpURLConnection.HTTP_OK) {
 
-                    ByteArrayOutputStream message = new ByteArrayOutputStream();
+                    ByteArrayOutputStream msg = new ByteArrayOutputStream();
                     String response = "";
                     byte[] b = new byte[1024];
                     int len ;
@@ -104,18 +104,16 @@ public class LoginActivity extends AppCompatActivity {
                     is.close();
                     System.out.println(response);
                     //需要根据response的形式来决定怎么处理：json？或者其他什么形式？
-
-                    //以下为登陆成功跳转代码
-                    Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-                    //intent.putExtra("fragid",1); //添加Extra
-                    startActivity(intent);
-                    finish();
-
-
-                    //不成功，弹窗
-                    Toast toast=Toast.makeText(getApplicationContext(), "登录失败", Toast.LENGTH_SHORT);
-                    toast.show();
+                    Message message = Message.obtain();
+                    message.what = 1;
+                    handler.sendMessage(message);
                 }
+                else {
+                    Message message = Message.obtain();
+                    message.what = 0;
+                    handler.sendMessage(message);
+                }
+                conn.disconnect();
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -123,6 +121,35 @@ public class LoginActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        }
+    };
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+
+        //StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        //StrictMode.setThreadPolicy(policy);
+
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar != null){
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
+
+        //用户名与密码输入
+        username_text = (EditText)findViewById(R.id.editText_log_username);
+        password_text = (EditText)findViewById(R.id.editText_log_password);
+
+        //处理点击登录按钮
+        loginButton = (Button)findViewById(R.id.button_login);
+        loginButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick (View v) {
+                new Thread(runnable).start();
             }
         });
 
