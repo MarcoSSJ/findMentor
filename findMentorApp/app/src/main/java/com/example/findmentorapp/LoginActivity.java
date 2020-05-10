@@ -3,6 +3,7 @@ package com.example.findmentorapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.os.StrictMode;
 import android.text.NoCopySpan;
@@ -38,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText username_text;
     private EditText password_text;
 
-    private Handler handler = new Handler() {
+    private Handler handler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
