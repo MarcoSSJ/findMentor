@@ -79,13 +79,13 @@ public class LoginActivity extends AppCompatActivity {
                 conn.setDoInput(true);
                 conn.setUseCaches(false);
 
-                /*String data = "username="+ URLEncoder.encode(username,"UTF-8")+
-                        "&password="+URLEncoder.encode(password,"UTF-8");*/
-                String data = "";
-                JSONObject obj = new JSONObject();
-                obj.put("username",username);
-                obj.put("password",password);
-                data = obj.toString();
+                String data = "username="+ URLEncoder.encode(username,"UTF-8")+
+                        "&password="+URLEncoder.encode(password,"UTF-8");
+//                String data = "";
+//                JSONObject obj = new JSONObject();
+//                obj.put("username",username);
+//                obj.put("password",password);
+//                data = obj.toString();
 
                 OutputStream out = conn.getOutputStream();
                 out.write(data.getBytes());
@@ -119,12 +119,9 @@ public class LoginActivity extends AppCompatActivity {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
         }
     };
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
