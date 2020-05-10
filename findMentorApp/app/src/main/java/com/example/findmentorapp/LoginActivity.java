@@ -2,6 +2,7 @@ package com.example.findmentorapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.text.NoCopySpan;
 import android.view.MenuItem;
 import android.view.View;
@@ -41,6 +42,9 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        
         ActionBar actionBar = getSupportActionBar();
         if(actionBar != null){
             actionBar.setHomeButtonEnabled(true);
