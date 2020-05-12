@@ -1,6 +1,8 @@
 package com.example.findmentorapp;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -38,45 +40,32 @@ public class LoginActivity extends AppCompatActivity {
     private Button registerButton;
     private EditText username_text;
     private EditText password_text;
-
-    private Handler handler = new Handler(Looper.getMainLooper()) {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            if(msg.what == 0) {
-                //不成功，弹窗
-                Toast toast=Toast.makeText(getApplicationContext(), "登录失败", Toast.LENGTH_SHORT);
-                toast.show();
-            }
-            else if(msg.what == 1) {
-                //以下为登陆成功跳转代码
-                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-                //intent.putExtra("fragid",1); //添加Extra
-                startActivity(intent);
-                finish();
-            }
-
-        }
-    };
+    private SharedPreferences sharedPreferences;
 
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
+
             String username = username_text.getText().toString();
             String password = password_text.getText().toString();
             String loginURL = "http://www.mocky.io/v2/5eb7a69f3100000d00c8a200";
-            handler = new Handler(Looper.getMainLooper()) {
+            //不成功，弹窗
+            //以下为登陆成功跳转代码
+            //intent.putExtra("fragid",1); //添加Extra
+            //不成功，弹窗
+            //以下为登陆成功跳转代码
+            //intent.putExtra("fragid",1); //添加Extra
+            Handler handler = new Handler(Looper.getMainLooper()) {
                 @Override
                 public void handleMessage(Message msg) {
                     super.handleMessage(msg);
-                    if(msg.what == 0) {
+                    if (msg.what == 0) {
                         //不成功，弹窗
-                        Toast toast=Toast.makeText(getApplicationContext(), "登录失败", Toast.LENGTH_SHORT);
+                        Toast toast = Toast.makeText(getApplicationContext(), "登录失败", Toast.LENGTH_SHORT);
                         toast.show();
-                    }
-                    else if(msg.what == 1) {
+                    } else if (msg.what == 1) {
                         //以下为登陆成功跳转代码
-                        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         //intent.putExtra("fragid",1); //添加Extra
                         startActivity(intent);
                         finish();
@@ -106,6 +95,8 @@ public class LoginActivity extends AppCompatActivity {
 //                obj.put("password",password);
 //                data = obj.toString();
 
+
+
                 OutputStream out = conn.getOutputStream();
                 out.write(data.getBytes());
                 out.flush();
@@ -125,6 +116,16 @@ public class LoginActivity extends AppCompatActivity {
                     JSONObject obj = new JSONObject(res);
                     String login = obj.getString("result");
                     if(login.equals("true")) {
+                        String sessionID = obj.getString("sessionID");
+                        MyApplication application = (MyApplication) getApplicationContext();
+                        application.setSessionID(sessionID);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        {
+                            editor.putBoolean("remenberpass",true);
+                            editor.putString("username",username);
+                            editor.putString("password",password);
+                            editor.apply();
+                        }
                         Message message = Message.obtain();
                         message.what = 1;
                         handler.sendMessage(message);
@@ -153,6 +154,7 @@ public class LoginActivity extends AppCompatActivity {
             message.what = 1;
             handler.sendMessage(message);
         }
+
     };
 
     @Override
@@ -173,6 +175,14 @@ public class LoginActivity extends AppCompatActivity {
         //用户名与密码输入
         username_text = (EditText)findViewById(R.id.editText_log_username);
         password_text = (EditText)findViewById(R.id.editText_log_password);
+
+        sharedPreferences = getSharedPreferences("remenberpass", Context.MODE_PRIVATE);
+        boolean isRemenber=sharedPreferences.getBoolean("remenberpass",false);
+        if(isRemenber)
+        {
+            username_text.setText(sharedPreferences.getString("username",""));
+            password_text.setText(sharedPreferences.getString("password",""));
+        }
 
         //处理点击登录按钮
         loginButton = (Button)findViewById(R.id.button_login);
