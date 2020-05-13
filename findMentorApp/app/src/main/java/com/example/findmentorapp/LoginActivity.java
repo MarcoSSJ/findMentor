@@ -89,13 +89,6 @@ public class LoginActivity extends AppCompatActivity {
 
                 String data = "username="+ URLEncoder.encode(username,"UTF-8")+
                         "&password="+URLEncoder.encode(password,"UTF-8");
-//                String data = "";
-//                JSONObject obj = new JSONObject();
-//                obj.put("username",username);
-//                obj.put("password",password);
-//                data = obj.toString();
-
-
 
                 OutputStream out = conn.getOutputStream();
                 out.write(data.getBytes());
@@ -111,6 +104,8 @@ public class LoginActivity extends AppCompatActivity {
                         response.append(new String(b, 0, len));
                     }
                     is.close();
+                    conn.disconnect();
+
                     String res = new String(response);
                     System.out.println(res);
                     JSONObject obj = new JSONObject(res);
@@ -119,6 +114,7 @@ public class LoginActivity extends AppCompatActivity {
                         String sessionID = obj.getString("sessionID");
                         MyApplication application = (MyApplication) getApplicationContext();
                         application.setSessionID(sessionID);
+                        //登录成功后在sharedpreference存入用户名和密码
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         {
                             editor.putBoolean("remenberpass",true);
@@ -176,6 +172,7 @@ public class LoginActivity extends AppCompatActivity {
         username_text = (EditText)findViewById(R.id.editText_log_username);
         password_text = (EditText)findViewById(R.id.editText_log_password);
 
+//        如果有存储好的用户名和密码就直接取出来
         sharedPreferences = getSharedPreferences("remenberpass", Context.MODE_PRIVATE);
         boolean isRemenber=sharedPreferences.getBoolean("remenberpass",false);
         if(isRemenber)
