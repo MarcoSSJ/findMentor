@@ -1,6 +1,8 @@
 package com.example.findmentorapp;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +23,8 @@ public class PersonalDataChangeActivity extends AppCompatActivity {
     private EditText editText_age;
     private EditText editText_signature;
     private Button button;
+    private SharedPreferences sharedPreferences;
+
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +45,8 @@ public class PersonalDataChangeActivity extends AppCompatActivity {
         radioButton_female=(RadioButton)findViewById(R.id.radioButton_personalDataChange_female);
         editText_age = (EditText)findViewById(R.id.editText_personalDataChange_age);
         editText_signature = (EditText)findViewById(R.id.editText_personalDataChange_signature);
+
+        sharedPreferences = getSharedPreferences("remenberpass", Context.MODE_PRIVATE);
 
         //todo：预先设置name等，然后获取用户输入的
         editText_name.setText("李四");

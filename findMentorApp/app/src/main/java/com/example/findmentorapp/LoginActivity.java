@@ -49,12 +49,7 @@ public class LoginActivity extends AppCompatActivity {
             String username = username_text.getText().toString();
             String password = password_text.getText().toString();
             String loginURL = "http://www.mocky.io/v2/5eb7a69f3100000d00c8a200";
-            //不成功，弹窗
-            //以下为登陆成功跳转代码
-            //intent.putExtra("fragid",1); //添加Extra
-            //不成功，弹窗
-            //以下为登陆成功跳转代码
-            //intent.putExtra("fragid",1); //添加Extra
+
             Handler handler = new Handler(Looper.getMainLooper()) {
                 @Override
                 public void handleMessage(Message msg) {
@@ -146,9 +141,6 @@ public class LoginActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            Message message = Message.obtain();
-            message.what = 1;
-            handler.sendMessage(message);
         }
 
     };

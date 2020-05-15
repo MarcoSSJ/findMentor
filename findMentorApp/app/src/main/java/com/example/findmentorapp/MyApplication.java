@@ -7,6 +7,7 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        setSessionID("");
     }
     public void setSessionID(String sessionID) {
         this.sessionID = sessionID;

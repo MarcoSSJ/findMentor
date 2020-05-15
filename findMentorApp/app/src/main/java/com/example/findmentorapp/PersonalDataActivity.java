@@ -1,6 +1,8 @@
 package com.example.findmentorapp;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +20,8 @@ public class PersonalDataActivity extends AppCompatActivity {
     private TextView textView_age;
     private TextView textView_signature;
     private Button button;
+    private SharedPreferences sharedPreferences;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,9 +39,44 @@ public class PersonalDataActivity extends AppCompatActivity {
         textView_sex = (TextView)findViewById(R.id.textView_personalData_sex);
         textView_signature = (TextView)findViewById(R.id.textView_personalData_signature);
 
-        //todo:在此处设置显示
-        textView_name.setText("李四");
+        sharedPreferences = getSharedPreferences("remenberpass", Context.MODE_PRIVATE);
+        String name = sharedPreferences.getString("name","");
+        String age = sharedPreferences.getString("age","");
+        String sex = sharedPreferences.getString("sex","");
+        String signature = sharedPreferences.getString("signature","");
 
+        MyApplication application = (MyApplication) getApplicationContext();
+        String sessionID = application.getSessionID();
+
+        if(sessionID.equals(""))
+        {
+            textView_name.setText("请登录");
+            textView_age.setText("请登录");
+            textView_sex.setText("请登录");
+            textView_signature.setText("请登录");
+        }
+        //todo:在此处设置显示
+        else {
+            if (name.equals(""))
+                textView_name.setText("李四");
+            else
+                textView_name.setText(name);
+
+            if (age.equals(""))
+                textView_age.setText("0");
+            else
+                textView_age.setText(age);
+
+            if (sex.equals(""))
+                textView_sex.setText("男");
+            else
+                textView_sex.setText(sex);
+
+            if (signature.equals(""))
+                textView_signature.setText("李四");
+            else
+                textView_signature.setText(signature);
+        }
         //todo:修改按钮处理
         button = (Button)findViewById(R.id.button_personalData);
         button.setOnClickListener(new View.OnClickListener(){
