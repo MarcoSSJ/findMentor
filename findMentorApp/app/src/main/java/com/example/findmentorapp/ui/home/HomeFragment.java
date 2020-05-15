@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.findmentorapp.LoginActivity;
 import com.example.findmentorapp.MainActivity;
+import com.example.findmentorapp.PersonalDataActivity;
 import com.example.findmentorapp.R;
 
 public class HomeFragment extends Fragment {
@@ -35,11 +36,23 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        final TextView toPersonalData = (TextView)root.findViewById(R.id.textView_home_data);
+        //toPersonalData.setVisibility(View.INVISIBLE);
+        toPersonalData.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick (View v) {
+
+                Intent intent = new Intent(getActivity(), PersonalDataActivity.class);
+                startActivity(intent);
+            }
+        });
+
         //跳转登录界面
         Button toLogButton = (Button)root.findViewById(R.id.toLogin);
         toLogButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick (View v) {
+
                 Intent intent = new Intent(getActivity(),LoginActivity.class);
                 startActivity(intent);
             }
