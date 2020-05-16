@@ -133,7 +133,6 @@ public class LoginActivity extends AppCompatActivity {
                     message.what = 0;
                     handler.sendMessage(message);
                 }
-                conn.disconnect();
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {

@@ -73,7 +73,7 @@ public class PersonalDataActivity extends AppCompatActivity {
                 textView_sex.setText(sex);
 
             if (signature.equals(""))
-                textView_signature.setText("李四");
+                textView_signature.setText("请输入签名档");
             else
                 textView_signature.setText(signature);
         }

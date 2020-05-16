@@ -113,17 +113,6 @@ public class RegisterActivity extends AppCompatActivity {
                     JSONObject obj = new JSONObject(res);
                     String login = obj.getString("result");
                     if(login.equals("true")) {
-//                        String sessionID = obj.getString("sessionID");
-//                        MyApplication application = (MyApplication) getApplicationContext();
-//                        application.setSessionID(sessionID);
-
-//                        SharedPreferences.Editor editor = sharedPreferences.edit();
-//                        {
-//                            editor.putBoolean("remenberpass",true);
-//                            editor.putString("username",username);
-//                            editor.putString("password",password);
-//                            editor.apply();
-//                        }
                         Message message = Message.obtain();
                         message.what = 1;
                         handler.sendMessage(message);
@@ -140,7 +129,6 @@ public class RegisterActivity extends AppCompatActivity {
                     message.what = 0;
                     handler.sendMessage(message);
                 }
-                conn.disconnect();
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {
