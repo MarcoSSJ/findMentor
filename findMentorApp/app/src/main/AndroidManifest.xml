@@ -40,6 +40,10 @@
             android:name="com.example.findmentorapp.PersonalDataChangeActivity"
             android:label="资料修改" >
         </activity>
+        <activity
+            android:name="com.example.findmentorapp.AccountActivity"
+            android:label="账户管理" >
+        </activity>
     </application>
 
 </manifest>

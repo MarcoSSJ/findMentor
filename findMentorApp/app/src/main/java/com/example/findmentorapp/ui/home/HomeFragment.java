@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.findmentorapp.AccountActivity;
 import com.example.findmentorapp.LoginActivity;
 import com.example.findmentorapp.MainActivity;
 import com.example.findmentorapp.PersonalDataActivity;
@@ -57,6 +59,20 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        //跳转账户管理
+        TextView textView_toAccount = (TextView)root.findViewById(R.id.textView_home_toAccount);
+        //textView_toAccount.setVisibility(View.INVISIBLE);
+        textView_toAccount.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick (View v) {
+
+                Intent intent = new Intent(getActivity(), AccountActivity.class);
+                startActivity(intent);
+            }
+        });
+        ImageView imageView_toAccount = (ImageView)root.findViewById(R.id.imageView_home_toAccount);
+        //imageView_toAccount.setVisibility(View.INVISIBLE);
 
 
 
