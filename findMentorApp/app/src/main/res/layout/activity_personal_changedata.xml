@@ -9,23 +9,26 @@
 
     <EditText
         android:id="@+id/editText_personalDataChange_signature"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_width="214dp"
+        android:layout_height="149dp"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:gravity="top"
+        android:inputType="textMultiLine"
+        android:maxLines="3"
+        android:minLines="1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.722"
+        app:layout_constraintHorizontal_bias="0.72"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.625" />
+        app:layout_constraintVertical_bias="0.768" />
 
     <TextView
         android:id="@+id/textView_personalDataChange4"
         android:layout_width="80dp"
         android:layout_height="40dp"
         android:gravity="center"
-        android:text="签名："
+        android:text="简介："
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -102,14 +105,13 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.872" />
+        app:layout_constraintVertical_bias="0.925" />
 
     <EditText
         android:id="@+id/editText_personalDataChange_name"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:ems="10"
-        android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.722"
