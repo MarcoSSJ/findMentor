@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,6 +17,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.findmentorapp.AccountActivity;
+import com.example.findmentorapp.FavoriteActivity;
 import com.example.findmentorapp.LoginActivity;
 import com.example.findmentorapp.MainActivity;
 import com.example.findmentorapp.PersonalDataActivity;
@@ -61,9 +63,8 @@ public class HomeFragment extends Fragment {
         });
 
         //跳转账户管理
-        TextView textView_toAccount = (TextView)root.findViewById(R.id.textView_home_toAccount);
-        //textView_toAccount.setVisibility(View.INVISIBLE);
-        textView_toAccount.setOnClickListener(new View.OnClickListener(){
+        LinearLayout layout_toAccount = (LinearLayout)root.findViewById(R.id.layout_home_account);
+        layout_toAccount.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick (View v) {
 
@@ -71,8 +72,19 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        ImageView imageView_toAccount = (ImageView)root.findViewById(R.id.imageView_home_toAccount);
-        //imageView_toAccount.setVisibility(View.INVISIBLE);
+        //layout_toAccount.setVisibility(View.INVISIBLE);
+
+        //跳转关注列表
+        LinearLayout layout_toFavorite = (LinearLayout)root.findViewById(R.id.layout_home_favorite);
+        layout_toFavorite.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick (View v) {
+
+                Intent intent = new Intent(getActivity(), FavoriteActivity.class);
+                startActivity(intent);
+            }
+        });
+        //layout_toAccount.setVisibility(View.INVISIBLE);
 
 
 

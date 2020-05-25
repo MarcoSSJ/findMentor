@@ -48,7 +48,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.04"
         app:srcCompat="@drawable/ic_account_circle_black_24dp"
-        tools:ignore="MissingConstraints" />
+        />
 
     <TextView
         android:id="@+id/textView_home_data"
@@ -64,30 +64,86 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.077" />
 
-    <TextView
-        android:id="@+id/textView_home_toAccount"
-        android:layout_width="256dp"
-        android:layout_height="42dp"
-        android:text="     我的账户"
-        android:textSize="18sp"
-        android:gravity="center_vertical|left"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.638"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.309" />
+    <LinearLayout
+        android:id="@+id/layout_home_account"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
 
-    <ImageView
-        android:id="@+id/imageView_home_toAccount"
-        android:layout_width="35dp"
-        android:layout_height="39dp"
-        app:srcCompat="@drawable/ic_lock_black_24dp"
+        android:orientation="horizontal"
+        android:paddingLeft="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.139"
+        app:layout_constraintHorizontal_bias="0.48"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.308" />
+        app:layout_constraintVertical_bias="0.267">
+
+        <ImageView
+            android:id="@+id/imageView_home_Account"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.139"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.308"
+            app:srcCompat="@drawable/ic_lock_black_24dp" />
+
+        <TextView
+            android:id="@+id/textView_home_Account"
+            android:layout_width="256dp"
+            android:layout_height="35dp"
+            android:gravity="center_vertical|left"
+            android:text="     我的账户"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.638"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.309" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_home_favorite"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+
+        android:orientation="horizontal"
+        android:paddingLeft="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.48"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.362">
+
+        <ImageView
+            android:id="@+id/imageView_home_favorite"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.139"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.308"
+            app:srcCompat="@drawable/ic_favorite_black_24dp" />
+
+        <TextView
+            android:id="@+id/textView_home_favorite"
+            android:layout_width="256dp"
+            android:layout_height="35dp"
+            android:gravity="center_vertical|left"
+            android:text="     我的关注"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.638"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.309" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
