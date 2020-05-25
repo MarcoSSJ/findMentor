@@ -48,6 +48,10 @@
             android:name="com.example.findmentorapp.InfoDetailActivity"
             android:label="详细信息" >
         </activity>
+        <activity
+            android:name="com.example.findmentorapp.FavoriteActivity"
+            android:label="我的关注" >
+        </activity>
     </application>
 
 </manifest>
