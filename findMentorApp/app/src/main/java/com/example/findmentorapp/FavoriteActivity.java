@@ -66,14 +66,14 @@ public class FavoriteActivity extends AppCompatActivity {
             viewHolder.text.setText(s_text[position]);
             viewHolder.name.setText(s_name[position]);
 
-//            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    // todo 点击item事件,以后需要从这里跳到详情页，需要传去参数（position表示所在位置‘下面类中加了个id可以用来存id用于跳转）
-//                    Intent intent = new Intent(getActivity(), InfoDetailActivity.class);
-//                    startActivity(intent);
-//                }
-//            });
+            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // todo 点击item事件,以后需要从这里跳到详情页，需要传去参数（position表示所在位置‘下面类中加了个id可以用来存id用于跳转）
+                    Intent intent = new Intent(FavoriteActivity.this, OthersDataActivity.class);
+                    startActivity(intent);
+                }
+            });
 
         }
 

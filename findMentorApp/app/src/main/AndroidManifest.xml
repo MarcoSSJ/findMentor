@@ -52,6 +52,10 @@
             android:name="com.example.findmentorapp.FavoriteActivity"
             android:label="我的关注" >
         </activity>
+        <activity
+            android:name="com.example.findmentorapp.OthersDataActivity"
+            android:label="他人资料" >
+        </activity>
     </application>
 
 </manifest>
