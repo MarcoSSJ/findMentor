@@ -251,7 +251,10 @@ public class AccountActivity extends AppCompatActivity {
             @Override
             public void onClick (View v) {
                 //new Thread(fix_pwd).start();
-                //TODO:需要新activity？
+                //TODO activity已建立
+                Intent intent = new Intent(AccountActivity.this,ChangePasswordActivity.class);
+                //intent.putExtra("fragid",1); //添加Extra
+                startActivity(intent);
             }
         });
     }

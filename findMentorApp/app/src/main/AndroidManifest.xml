@@ -56,6 +56,10 @@
             android:name="com.example.findmentorapp.OthersDataActivity"
             android:label="他人资料" >
         </activity>
+        <activity
+            android:name="com.example.findmentorapp.ChangePasswordActivity"
+            android:label="修改密码" >
+        </activity>
     </application>
 
 </manifest>
