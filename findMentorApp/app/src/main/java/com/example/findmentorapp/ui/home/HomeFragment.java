@@ -51,6 +51,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        //todo 以下控件在非登录态可见，登录态隐藏
         //跳转登录界面
         Button toLogButton = (Button)root.findViewById(R.id.toLogin);
         toLogButton.setOnClickListener(new View.OnClickListener(){
@@ -62,6 +63,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        //todo 以下控件在非登录态隐藏，登录态可见
         //跳转账户管理
         LinearLayout layout_toAccount = (LinearLayout)root.findViewById(R.id.layout_home_account);
         layout_toAccount.setOnClickListener(new View.OnClickListener(){
@@ -72,6 +74,7 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        //下面这行代码是设置不可见的，设置可见是把INVISIBLE改成VISIBLE就可以
         //layout_toAccount.setVisibility(View.INVISIBLE);
 
         //跳转关注列表

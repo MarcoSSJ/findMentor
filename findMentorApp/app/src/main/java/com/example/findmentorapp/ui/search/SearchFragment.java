@@ -18,9 +18,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.findmentorapp.AccountActivity;
 import com.example.findmentorapp.InfoDetailActivity;
-import com.example.findmentorapp.MainActivity;
 import com.example.findmentorapp.R;
 
 public class SearchFragment extends Fragment {
@@ -38,7 +36,7 @@ public class SearchFragment extends Fragment {
         searchViewModel =
                 ViewModelProviders.of(this).get(SearchViewModel.class);
         View root = inflater.inflate(R.layout.fragment_search, container, false);
-        final TextView textView = root.findViewById(R.id.text_search);
+        final TextView textView = root.findViewById(R.id.textView_search);
         searchViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
@@ -46,6 +44,12 @@ public class SearchFragment extends Fragment {
             }
         });
 
+
+        //todo 以下控件在非登录态可见，登录态隐藏
+        textView.setText("未登录，请登录");
+        textView.setVisibility(View.INVISIBLE);
+
+        //todo 以下控件在非登录态隐藏，登录态可见
         //搜索输入框和搜索按钮
         final EditText searchEditText = root.findViewById(R.id.editText_search_searchByWord);
 

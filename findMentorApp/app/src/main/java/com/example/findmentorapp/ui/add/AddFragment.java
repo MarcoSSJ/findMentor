@@ -27,7 +27,7 @@ public class AddFragment extends Fragment {
         addViewModel =
                 ViewModelProviders.of(this).get(AddViewModel.class);
         View root = inflater.inflate(R.layout.fragment_add, container, false);
-        final TextView textView = root.findViewById(R.id.text_add);
+        final TextView textView = root.findViewById(R.id.textView_add);
         addViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
@@ -35,6 +35,11 @@ public class AddFragment extends Fragment {
             }
         });
 
+        //todo 以下控件在非登录态可见，登录态隐藏
+        textView.setText("未登录，请登录");
+        textView.setVisibility(View.INVISIBLE);
+
+        //todo 以下控件在非登录态隐藏，登录态可见
         //标题与信息输入
         final EditText editText_title = root.findViewById(R.id.editText_add_title);
         final EditText editText_info = root.findViewById(R.id.editText_add_info);
