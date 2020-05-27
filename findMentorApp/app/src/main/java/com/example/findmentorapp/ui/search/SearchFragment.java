@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.findmentorapp.InfoDetailActivity;
+import com.example.findmentorapp.MyApplication;
 import com.example.findmentorapp.R;
 
 public class SearchFragment extends Fragment {
@@ -44,23 +45,31 @@ public class SearchFragment extends Fragment {
             }
         });
 
+        //获取登陆状态
+        MyApplication application = (MyApplication) getActivity().getApplication();
+        String sessionID = application.getSessionID();
 
-        //todo 以下控件在非登录态可见，登录态隐藏
         textView.setText("未登录，请登录");
-        textView.setVisibility(View.INVISIBLE);
-
-        //todo 以下控件在非登录态隐藏，登录态可见
-        //搜索输入框和搜索按钮
         final EditText searchEditText = root.findViewById(R.id.editText_search_searchByWord);
-
         final Button searchButton = root.findViewById(R.id.button_search_searchByText);
-        searchButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick (View v) {
-                //Todo 点击搜索按钮后操作
-                String searchText = searchEditText.getText().toString();
-            }
-        });
+
+        if(sessionID.equals("")) {
+            textView.setVisibility(View.VISIBLE);
+            searchEditText.setVisibility(View.INVISIBLE);
+            searchButton.setVisibility(View.INVISIBLE);
+        }
+        else {
+            textView.setVisibility(View.INVISIBLE);
+            searchEditText.setVisibility(View.VISIBLE);
+            searchButton.setVisibility(View.VISIBLE);
+            searchButton.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick (View v) {
+                    //Todo 点击搜索按钮后操作
+                    String searchText = searchEditText.getText().toString();
+                }
+            });
+        }
 
         //RecyclerView相关函数，暂时放在下面。以后可能需要放入ViewModel
         final RecyclerView recyclerView_search = root.findViewById(R.id.recyclerView_search_forSerach);

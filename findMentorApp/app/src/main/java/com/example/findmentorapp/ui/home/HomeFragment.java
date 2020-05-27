@@ -20,8 +20,11 @@ import com.example.findmentorapp.AccountActivity;
 import com.example.findmentorapp.FavoriteActivity;
 import com.example.findmentorapp.LoginActivity;
 import com.example.findmentorapp.MainActivity;
+import com.example.findmentorapp.MyApplication;
 import com.example.findmentorapp.PersonalDataActivity;
 import com.example.findmentorapp.R;
+
+import java.util.Objects;
 
 public class HomeFragment extends Fragment {
 
@@ -51,29 +54,38 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        //todo 以下控件在非登录态可见，登录态隐藏
+        //获取登陆状态
+        MyApplication application = (MyApplication) getActivity().getApplication();
+        String sessionID = application.getSessionID();
+
         //跳转登录界面
-        Button toLogButton = (Button)root.findViewById(R.id.toLogin);
-        toLogButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick (View v) {
-
-                Intent intent = new Intent(getActivity(),LoginActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        //todo 以下控件在非登录态隐藏，登录态可见
-        //跳转账户管理
+        Button toLogButton = (Button) root.findViewById(R.id.toLogin);
         LinearLayout layout_toAccount = (LinearLayout)root.findViewById(R.id.layout_home_account);
-        layout_toAccount.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick (View v) {
+        if(sessionID.equals("")) {
+            layout_toAccount.setVisibility(View.INVISIBLE);
+            toLogButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                Intent intent = new Intent(getActivity(), AccountActivity.class);
-                startActivity(intent);
-            }
-        });
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }
+        else {
+            layout_toAccount.setVisibility(View.VISIBLE);
+            toLogButton.setVisibility(View.INVISIBLE);
+            layout_toAccount.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick (View v) {
+
+                    Intent intent = new Intent(getActivity(), AccountActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }
+        //跳转账户管理
+
         //下面这行代码是设置不可见的，设置可见是把INVISIBLE改成VISIBLE就可以
         //layout_toAccount.setVisibility(View.INVISIBLE);
 
