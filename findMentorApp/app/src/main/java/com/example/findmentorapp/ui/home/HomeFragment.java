@@ -61,8 +61,12 @@ public class HomeFragment extends Fragment {
         //跳转登录界面
         Button toLogButton = (Button) root.findViewById(R.id.toLogin);
         LinearLayout layout_toAccount = (LinearLayout)root.findViewById(R.id.layout_home_account);
+        LinearLayout layout_toFavorite = (LinearLayout)root.findViewById(R.id.layout_home_favorite);
+
         if(sessionID.equals("")) {
+            toLogButton.setVisibility(View.VISIBLE);
             layout_toAccount.setVisibility(View.INVISIBLE);
+            layout_toFavorite.setVisibility(View.INVISIBLE);
             toLogButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -74,6 +78,7 @@ public class HomeFragment extends Fragment {
         }
         else {
             layout_toAccount.setVisibility(View.VISIBLE);
+            layout_toFavorite.setVisibility(View.VISIBLE);
             toLogButton.setVisibility(View.INVISIBLE);
             layout_toAccount.setOnClickListener(new View.OnClickListener(){
                 @Override
@@ -90,7 +95,6 @@ public class HomeFragment extends Fragment {
         //layout_toAccount.setVisibility(View.INVISIBLE);
 
         //跳转关注列表
-        LinearLayout layout_toFavorite = (LinearLayout)root.findViewById(R.id.layout_home_favorite);
         layout_toFavorite.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick (View v) {

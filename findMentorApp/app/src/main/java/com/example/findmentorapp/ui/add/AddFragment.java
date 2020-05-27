@@ -40,11 +40,9 @@ public class AddFragment extends Fragment {
         MyApplication application = (MyApplication) getActivity().getApplication();
         String sessionID = application.getSessionID();
 
-        //todo 以下控件在非登录态可见，登录态隐藏
         textView.setText("未登录，请登录");
         textView.setVisibility(View.INVISIBLE);
 
-        //todo 以下控件在非登录态隐藏，登录态可见
         //标题与信息输入
         final EditText editText_title = root.findViewById(R.id.editText_add_title);
         final EditText editText_info = root.findViewById(R.id.editText_add_info);
@@ -70,12 +68,6 @@ public class AddFragment extends Fragment {
                 }
             });
         }
-
-
-
-
-
-
         return root;
     }
 }
