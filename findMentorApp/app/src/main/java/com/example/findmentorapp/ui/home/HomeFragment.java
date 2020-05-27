@@ -43,6 +43,8 @@ public class HomeFragment extends Fragment {
             }
         });
 
+
+        //todo 这个也得在非登录态隐藏
         final TextView toPersonalData = (TextView)root.findViewById(R.id.textView_home_data);
         //toPersonalData.setVisibility(View.INVISIBLE);
         toPersonalData.setOnClickListener(new View.OnClickListener(){

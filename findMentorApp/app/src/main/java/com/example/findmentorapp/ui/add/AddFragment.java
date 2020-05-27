@@ -43,6 +43,12 @@ public class AddFragment extends Fragment {
         textView.setText("未登录，请登录");
         textView.setVisibility(View.INVISIBLE);
 
+        //todo 这俩未登录态也得隐藏
+        final TextView textView1 = root.findViewById(R.id.textView_add_1);
+        final TextView textView2 = root.findViewById(R.id.textView_add_2);
+
+
+
         //标题与信息输入
         final EditText editText_title = root.findViewById(R.id.editText_add_title);
         final EditText editText_info = root.findViewById(R.id.editText_add_info);
