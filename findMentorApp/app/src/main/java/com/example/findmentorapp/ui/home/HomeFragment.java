@@ -43,10 +43,29 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        //获取登陆状态
+        MyApplication application = (MyApplication) getActivity().getApplication();
+        String sessionID = application.getSessionID();
 
-        //todo 这个也得在非登录态隐藏
+        //跳转登录界面
+        Button toLogButton = (Button) root.findViewById(R.id.toLogin);
+        LinearLayout layout_toAccount = (LinearLayout)root.findViewById(R.id.layout_home_account);
+        LinearLayout layout_toFavorite = (LinearLayout)root.findViewById(R.id.layout_home_favorite);
         final TextView toPersonalData = (TextView)root.findViewById(R.id.textView_home_data);
-        //toPersonalData.setVisibility(View.INVISIBLE);
+
+        if(sessionID.equals("")) {
+            toLogButton.setVisibility(View.VISIBLE);
+            layout_toAccount.setVisibility(View.INVISIBLE);
+            layout_toFavorite.setVisibility(View.INVISIBLE);
+            toPersonalData.setVisibility(View.INVISIBLE);
+        }
+        else {
+            layout_toAccount.setVisibility(View.VISIBLE);
+            layout_toFavorite.setVisibility(View.VISIBLE);
+            toLogButton.setVisibility(View.INVISIBLE);
+            toPersonalData.setVisibility(View.VISIBLE);
+        }
+
         toPersonalData.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick (View v) {
@@ -56,45 +75,23 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        //获取登陆状态
-        MyApplication application = (MyApplication) getActivity().getApplication();
-        String sessionID = application.getSessionID();
+        toLogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        //跳转登录界面
-        Button toLogButton = (Button) root.findViewById(R.id.toLogin);
-        LinearLayout layout_toAccount = (LinearLayout)root.findViewById(R.id.layout_home_account);
-        LinearLayout layout_toFavorite = (LinearLayout)root.findViewById(R.id.layout_home_favorite);
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                startActivity(intent);
+            }
+        });
 
-        if(sessionID.equals("")) {
-            toLogButton.setVisibility(View.VISIBLE);
-            layout_toAccount.setVisibility(View.INVISIBLE);
-            layout_toFavorite.setVisibility(View.INVISIBLE);
-            toLogButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+        layout_toAccount.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick (View v) {
 
-                    Intent intent = new Intent(getActivity(), LoginActivity.class);
-                    startActivity(intent);
-                }
-            });
-        }
-        else {
-            layout_toAccount.setVisibility(View.VISIBLE);
-            layout_toFavorite.setVisibility(View.VISIBLE);
-            toLogButton.setVisibility(View.INVISIBLE);
-            layout_toAccount.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick (View v) {
-
-                    Intent intent = new Intent(getActivity(), AccountActivity.class);
-                    startActivity(intent);
-                }
-            });
-        }
-        //跳转账户管理
-
-        //下面这行代码是设置不可见的，设置可见是把INVISIBLE改成VISIBLE就可以
-        //layout_toAccount.setVisibility(View.INVISIBLE);
+                Intent intent = new Intent(getActivity(), AccountActivity.class);
+                startActivity(intent);
+            }
+        });
 
         //跳转关注列表
         layout_toFavorite.setOnClickListener(new View.OnClickListener(){

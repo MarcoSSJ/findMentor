@@ -43,11 +43,8 @@ public class AddFragment extends Fragment {
         textView.setText("未登录，请登录");
         textView.setVisibility(View.INVISIBLE);
 
-        //todo 这俩未登录态也得隐藏
         final TextView textView1 = root.findViewById(R.id.textView_add_1);
         final TextView textView2 = root.findViewById(R.id.textView_add_2);
-
-
 
         //标题与信息输入
         final EditText editText_title = root.findViewById(R.id.editText_add_title);
@@ -60,20 +57,26 @@ public class AddFragment extends Fragment {
             editText_title.setVisibility(View.INVISIBLE);
             editText_info.setVisibility(View.INVISIBLE);
             button_submit.setVisibility(View.INVISIBLE);
+            textView1.setVisibility(View.INVISIBLE);
+            textView2.setVisibility(View.INVISIBLE);
         }
         else {
             textView.setVisibility(View.INVISIBLE);
             editText_title.setVisibility(View.VISIBLE);
             editText_info.setVisibility(View.VISIBLE);
             button_submit.setVisibility(View.VISIBLE);
-            button_submit.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick (View v) {
-                    //todo 点击提交按钮后处理，输入框在上面，注意多行输入
-
-                }
-            });
+            textView1.setVisibility(View.VISIBLE);
+            textView2.setVisibility(View.VISIBLE);
         }
+
+        button_submit.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick (View v) {
+                //todo 点击提交按钮后处理，输入框在上面，注意多行输入
+
+            }
+        });
+
         return root;
     }
 }

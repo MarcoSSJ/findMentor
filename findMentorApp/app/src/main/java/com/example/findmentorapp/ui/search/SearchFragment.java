@@ -52,34 +52,35 @@ public class SearchFragment extends Fragment {
         textView.setText("未登录，请登录");
         final EditText searchEditText = root.findViewById(R.id.editText_search_searchByWord);
         final Button searchButton = root.findViewById(R.id.button_search_searchByText);
+        final RecyclerView recyclerView_search = root.findViewById(R.id.recyclerView_search_forSerach);
 
         if(sessionID.equals("")) {
             textView.setVisibility(View.VISIBLE);
             searchEditText.setVisibility(View.INVISIBLE);
             searchButton.setVisibility(View.INVISIBLE);
+            recyclerView_search.setVisibility(View.INVISIBLE);
         }
         else {
             textView.setVisibility(View.INVISIBLE);
             searchEditText.setVisibility(View.VISIBLE);
             searchButton.setVisibility(View.VISIBLE);
-            searchButton.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick (View v) {
-                    //Todo 点击搜索按钮后操作
-                    String searchText = searchEditText.getText().toString();
-                }
-            });
+            recyclerView_search.setVisibility(View.VISIBLE);
         }
 
-        //todo recyclerView_search未登录态也得设置不可见
+        searchButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick (View v) {
+                //Todo 点击搜索按钮后操作
+                String searchText = searchEditText.getText().toString();
+            }
+        });
+
         //RecyclerView相关函数，暂时放在下面。以后可能需要放入ViewModel
-        final RecyclerView recyclerView_search = root.findViewById(R.id.recyclerView_search_forSerach);
+
         recyclerView_search.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         MyAdapter myAdapter = new MyAdapter();
 
         recyclerView_search.setAdapter(myAdapter);
-
-
 
         return root;
     }
