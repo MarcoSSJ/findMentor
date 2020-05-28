@@ -135,10 +135,19 @@ public class PersonalDataChangeActivity extends AppCompatActivity {
                     handler.sendMessage(message);
                 }
             } catch (MalformedURLException e) {
+                Message message = Message.obtain();
+                message.what = 0;
+                handler.sendMessage(message);
                 e.printStackTrace();
             } catch (IOException e) {
+                Message message = Message.obtain();
+                message.what = 0;
+                handler.sendMessage(message);
                 e.printStackTrace();
             } catch (JSONException e) {
+                Message message = Message.obtain();
+                message.what = 0;
+                handler.sendMessage(message);
                 e.printStackTrace();
             }
         }

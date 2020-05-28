@@ -111,15 +111,21 @@ public class AccountActivity extends AppCompatActivity {
                     handler.sendMessage(message);
                 }
             } catch (MalformedURLException e) {
+                Message message = Message.obtain();
+                message.what = 0;
+                handler.sendMessage(message);
                 e.printStackTrace();
             } catch (IOException e) {
+                Message message = Message.obtain();
+                message.what = 0;
+                handler.sendMessage(message);
                 e.printStackTrace();
             } catch (JSONException e) {
+                Message message = Message.obtain();
+                message.what = 0;
+                handler.sendMessage(message);
                 e.printStackTrace();
             }
-            Message message = Message.obtain();
-            message.what = 1;
-            handler.sendMessage(message);
         }
 
     };
@@ -205,15 +211,21 @@ public class AccountActivity extends AppCompatActivity {
                     handler.sendMessage(message);
                 }
             } catch (MalformedURLException e) {
+                Message message = Message.obtain();
+                message.what = 0;
+                handler.sendMessage(message);
                 e.printStackTrace();
             } catch (IOException e) {
+                Message message = Message.obtain();
+                message.what = 0;
+                handler.sendMessage(message);
                 e.printStackTrace();
             } catch (JSONException e) {
+                Message message = Message.obtain();
+                message.what = 0;
+                handler.sendMessage(message);
                 e.printStackTrace();
             }
-            Message message = Message.obtain();
-            message.what = 1;
-            handler.sendMessage(message);
         }
 
     };
@@ -250,10 +262,7 @@ public class AccountActivity extends AppCompatActivity {
         fixPasswordButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick (View v) {
-                //new Thread(fix_pwd).start();
-                //TODO activity已建立
                 Intent intent = new Intent(AccountActivity.this,ChangePasswordActivity.class);
-                //intent.putExtra("fragid",1); //添加Extra
                 startActivity(intent);
             }
         });

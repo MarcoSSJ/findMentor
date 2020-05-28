@@ -51,96 +51,97 @@ public class RegisterActivity extends AppCompatActivity {
                     super.handleMessage(msg);
                     if (msg.what == 0) {
                         //弹窗
-                        Toast toast=Toast.makeText(getApplicationContext(), "注册失败", Toast.LENGTH_SHORT);
+                        Toast toast = Toast.makeText(getApplicationContext(), "注册失败", Toast.LENGTH_SHORT);
                         toast.show();
                     } else if (msg.what == 1) {
                         //以下为注册成功跳转代码
-                        Intent intent = new Intent(RegisterActivity.this,LoginActivity.class);
+                        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                         //intent.putExtra("fragid",1); //添加Extra
                         startActivity(intent);
                         finish();
                     } else if (msg.what == 2) {
                         //弹窗
-                        Toast toast=Toast.makeText(getApplicationContext(), "两次密码不一致！", Toast.LENGTH_SHORT);
+                        Toast toast = Toast.makeText(getApplicationContext(), "两次密码不一致！", Toast.LENGTH_SHORT);
                         toast.show();
                     }
                 }
             };
 
-            if(!password.equals(password2))
-            {
+            if (!password.equals(password2)) {
                 //两次输入的密码不对头
                 Message message = Message.obtain();
                 message.what = 2;
                 handler.sendMessage(message);
-            }
+            } else {
+                try {
+                    URL url = new URL(loginURL);
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setRequestMethod("POST");
+                    conn.setReadTimeout(5000);
+                    conn.setConnectTimeout(5000);
 
-            try {
-                URL url = new URL(loginURL);
-                HttpURLConnection conn = (HttpURLConnection)url.openConnection();
-                conn.setRequestMethod("POST");
-                conn.setReadTimeout(5000);
-                conn.setConnectTimeout(5000);
+                    conn.setRequestProperty("Content-Type",
+                            "application/x-www-form-urlencoded;charset=UTF-8");
 
-                conn.setRequestProperty("Content-Type",
-                        "application/x-www-form-urlencoded;charset=UTF-8");
+                    conn.setDoOutput(true);
+                    conn.setDoInput(true);
+                    conn.setUseCaches(false);
 
-                conn.setDoOutput(true);
-                conn.setDoInput(true);
-                conn.setUseCaches(false);
+                    String data = "username=" + URLEncoder.encode(username, "UTF-8") +
+                            "&password=" + URLEncoder.encode(password, "UTF-8");
 
-                String data = "username="+ URLEncoder.encode(username,"UTF-8")+
-                        "&password="+URLEncoder.encode(password,"UTF-8");
+                    OutputStream out = conn.getOutputStream();
+                    out.write(data.getBytes());
+                    out.flush();
+                    out.close();
 
-                OutputStream out = conn.getOutputStream();
-                out.write(data.getBytes());
-                out.flush();
-                out.close();
+                    InputStream is = conn.getInputStream();
+                    if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                        StringBuilder response = new StringBuilder();
+                        byte[] b = new byte[1024];
+                        int len;
+                        while ((len = is.read(b)) != -1) {
+                            response.append(new String(b, 0, len));
+                        }
+                        is.close();
+                        conn.disconnect();
 
-                InputStream is = conn.getInputStream();
-                if(conn.getResponseCode()==HttpURLConnection.HTTP_OK) {
-                    StringBuilder response = new StringBuilder();
-                    byte[] b = new byte[1024];
-                    int len ;
-                    while((len = is.read(b))!=-1){
-                        response.append(new String(b, 0, len));
-                    }
-                    is.close();
-                    conn.disconnect();
-
-                    String res = new String(response);
-                    System.out.println(res);
-                    JSONObject obj = new JSONObject(res);
-                    String login = obj.getString("result");
-                    if(login.equals("true")) {
-                        Message message = Message.obtain();
-                        message.what = 1;
-                        handler.sendMessage(message);
-                    }
-                    else
-                    {
+                        String res = new String(response);
+                        System.out.println(res);
+                        JSONObject obj = new JSONObject(res);
+                        String login = obj.getString("result");
+                        if (login.equals("true")) {
+                            Message message = Message.obtain();
+                            message.what = 1;
+                            handler.sendMessage(message);
+                        } else {
+                            Message message = Message.obtain();
+                            message.what = 0;
+                            handler.sendMessage(message);
+                        }
+                    } else {
                         Message message = Message.obtain();
                         message.what = 0;
                         handler.sendMessage(message);
                     }
-                }
-                else {
+                } catch (MalformedURLException e) {
                     Message message = Message.obtain();
                     message.what = 0;
                     handler.sendMessage(message);
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    Message message = Message.obtain();
+                    message.what = 0;
+                    handler.sendMessage(message);
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    Message message = Message.obtain();
+                    message.what = 0;
+                    handler.sendMessage(message);
+                    e.printStackTrace();
                 }
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
-            Message message = Message.obtain();
-            message.what = 1;
-            handler.sendMessage(message);
         }
-
     };
 
 
