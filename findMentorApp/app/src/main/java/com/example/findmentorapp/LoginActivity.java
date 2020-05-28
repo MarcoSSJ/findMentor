@@ -45,10 +45,10 @@ public class LoginActivity extends AppCompatActivity {
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
-
+            Urls u = new Urls();
             String username = username_text.getText().toString();
             String password = password_text.getText().toString();
-            String loginURL = "http://www.mocky.io/v2/5eb7a69f3100000d00c8a200";
+            String log_in_url = u.log_in_url;
 
             Handler handler = new Handler(Looper.getMainLooper()) {
                 @Override
@@ -69,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             };
             try {
-                URL url = new URL(loginURL);
+                URL url = new URL(log_in_url);
                 HttpURLConnection conn = (HttpURLConnection)url.openConnection();
                 conn.setRequestMethod("POST");
                 conn.setReadTimeout(5000);

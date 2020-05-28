@@ -44,11 +44,11 @@ public class PersonalDataChangeActivity extends AppCompatActivity {
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
-
+            Urls u = new Urls();
             String name = editText_name.getText().toString();
             String age = editText_age.getText().toString();
             String signature = editText_signature.getText().toString();
-            String loginURL = "http://www.mocky.io/v2/5eb7a69f3100000d00c8a200";
+            String personal_data_change_url = u.personal_data_change_url;
 
             Handler handler = new Handler(Looper.getMainLooper()) {
                 @Override
@@ -67,7 +67,7 @@ public class PersonalDataChangeActivity extends AppCompatActivity {
                 }
             };
             try {
-                URL url = new URL(loginURL);
+                URL url = new URL(personal_data_change_url);
                 HttpURLConnection conn = (HttpURLConnection)url.openConnection();
                 conn.setRequestMethod("POST");
                 conn.setReadTimeout(5000);

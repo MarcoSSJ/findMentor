@@ -38,11 +38,11 @@ public class ChangePasswordActivity extends AppCompatActivity {
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            Urls urls = new Urls();
+            Urls u = new Urls();
             String password1 = password_new1.getText().toString();
             String password2 = password_new2.getText().toString();
             String password = password_old.getText().toString();
-            String fix_pwd_url = urls.fix_pwd_url;
+            String fix_pwd_url = u.fix_pwd_url;
 
             Handler handler = new Handler(Looper.getMainLooper()) {
                 @Override

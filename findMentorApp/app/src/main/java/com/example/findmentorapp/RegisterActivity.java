@@ -39,11 +39,11 @@ public class RegisterActivity extends AppCompatActivity {
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
-
+            Urls u = new Urls();
             String username = username_text.getText().toString();
             String password = password_text1.getText().toString();
             String password2 = password_text2.getText().toString();
-            String loginURL = "http://www.mocky.io/v2/5eb7a69f3100000d00c8a200";
+            String register_url = u.register_url;
 
             Handler handler = new Handler(Looper.getMainLooper()) {
                 @Override
@@ -74,7 +74,7 @@ public class RegisterActivity extends AppCompatActivity {
                 handler.sendMessage(message);
             } else {
                 try {
-                    URL url = new URL(loginURL);
+                    URL url = new URL(register_url);
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("POST");
                     conn.setReadTimeout(5000);
