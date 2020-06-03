@@ -45,10 +45,9 @@ public class LoginActivity extends AppCompatActivity {
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            Urls u = new Urls();
             String username = username_text.getText().toString();
             String password = password_text.getText().toString();
-            String log_in_url = u.log_in_url;
+            String log_in_url = Urls.log_in_url;
 
             Handler handler = new Handler(Looper.getMainLooper()) {
                 @Override

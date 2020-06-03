@@ -33,8 +33,7 @@ public class AccountActivity extends AppCompatActivity {
     Runnable log_out = new Runnable() {
         @Override
         public void run() {
-            Urls u = new Urls();
-            String account_url = u.log_out_url;
+            String account_url = Urls.log_out_url;
 
             Handler handler = new Handler(Looper.getMainLooper()) {
                 @Override
@@ -133,8 +132,7 @@ public class AccountActivity extends AppCompatActivity {
     Runnable log_off = new Runnable() {
         @Override
         public void run() {
-            Urls u = new Urls();
-            String account_url = u.log_off_url;
+            String account_url = Urls.log_off_url;
 
             Handler handler = new Handler(Looper.getMainLooper()) {
                 @Override

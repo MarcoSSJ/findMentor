@@ -39,11 +39,10 @@ public class RegisterActivity extends AppCompatActivity {
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            Urls u = new Urls();
             String username = username_text.getText().toString();
             String password = password_text1.getText().toString();
             String password2 = password_text2.getText().toString();
-            String register_url = u.register_url;
+            String register_url = Urls.register_url;
 
             Handler handler = new Handler(Looper.getMainLooper()) {
                 @Override

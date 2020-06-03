@@ -44,11 +44,10 @@ public class PersonalDataChangeActivity extends AppCompatActivity {
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            Urls u = new Urls();
             String name = editText_name.getText().toString();
             String age = editText_age.getText().toString();
             String signature = editText_signature.getText().toString();
-            String personal_data_change_url = u.personal_data_change_url;
+            String personal_data_change_url = Urls.personal_data_change_url;
 
             Handler handler = new Handler(Looper.getMainLooper()) {
                 @Override
