@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,12 +18,10 @@ import androidx.lifecycle.ViewModelProviders;
 import com.example.findmentorapp.AccountActivity;
 import com.example.findmentorapp.FavoriteActivity;
 import com.example.findmentorapp.LoginActivity;
-import com.example.findmentorapp.MainActivity;
 import com.example.findmentorapp.MyApplication;
-import com.example.findmentorapp.PersonalDataActivity;
+import com.example.findmentorapp.PersonalDataSActivity;
+import com.example.findmentorapp.PersonalDataTActivity;
 import com.example.findmentorapp.R;
-
-import java.util.Objects;
 
 public class HomeFragment extends Fragment {
 
@@ -66,12 +63,19 @@ public class HomeFragment extends Fragment {
             toPersonalData.setVisibility(View.VISIBLE);
         }
 
+        //todo 跳转个人信息界面，处理下学生与老师不同情况
         toPersonalData.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick (View v) {
 
-                Intent intent = new Intent(getActivity(), PersonalDataActivity.class);
+                //老师跳转
+                Intent intent = new Intent(getActivity(), PersonalDataTActivity.class);
                 startActivity(intent);
+
+                //学生跳转
+                //Intent intent = new Intent(getActivity(), PersonalDataSActivity.class);
+                //startActivity(intent);
+
             }
         });
 

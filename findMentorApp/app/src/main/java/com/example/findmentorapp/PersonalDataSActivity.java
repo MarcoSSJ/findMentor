@@ -12,20 +12,23 @@ import android.widget.TextView;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class PersonalDataActivity extends AppCompatActivity {
+public class PersonalDataSActivity extends AppCompatActivity {
 
 
     private TextView textView_name;
     private TextView textView_sex;
     private TextView textView_age;
-    private TextView textView_signature;
+    private TextView textView_intro;
+    private TextView textView_range;
+    private TextView textView_school;
+    private TextView textView_department;
     private Button button;
     private SharedPreferences sharedPreferences;
 
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_personal_data);
+        setContentView(R.layout.activity_personal_data_teacher);
 
         ActionBar actionBar = getSupportActionBar();
         if(actionBar != null){
@@ -33,11 +36,15 @@ public class PersonalDataActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        //姓名、年龄、性别、签名
+        //todo 补充学生的学校、院系、研究兴趣，并把签名换做简介
+        //姓名、年龄、性别、简介、学校、院系、研究方向
         textView_name = (TextView)findViewById(R.id.textView_personalData_name);
         textView_age = (TextView)findViewById(R.id.textView_personalData_age);
         textView_sex = (TextView)findViewById(R.id.textView_personalData_sex);
-        textView_signature = (TextView)findViewById(R.id.textView_personalData_signature);
+        textView_intro = (TextView)findViewById(R.id.textView_personalData_intro);
+        textView_school = (TextView)findViewById(R.id.textView_personalData_school);
+        textView_department = (TextView)findViewById(R.id.textView_personalData_department);
+        textView_range = (TextView)findViewById(R.id.textView_personalData_range);
 
         sharedPreferences = getSharedPreferences("remenberpass", Context.MODE_PRIVATE);
         String name = sharedPreferences.getString("name","");
@@ -53,7 +60,7 @@ public class PersonalDataActivity extends AppCompatActivity {
             textView_name.setText("请登录");
             textView_age.setText("请登录");
             textView_sex.setText("请登录");
-            textView_signature.setText("请登录");
+            textView_intro.setText("请登录");
         }
         //todo:在此处设置显示
         else {
@@ -73,16 +80,16 @@ public class PersonalDataActivity extends AppCompatActivity {
                 textView_sex.setText(sex);
 
             if (signature.equals(""))
-                textView_signature.setText("请输入签名档");
+                textView_intro.setText("请输入简介");
             else
-                textView_signature.setText(signature);
+                textView_intro.setText(signature);
         }
         //todo:修改按钮处理
         button = (Button)findViewById(R.id.button_personalData);
         button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick (View v) {
-                Intent intent = new Intent(PersonalDataActivity.this, PersonalDataChangeActivity.class);
+                Intent intent = new Intent(PersonalDataSActivity.this, PersonalDataChangeActivity.class);
                 //intent.putExtra("fragid",1); //添加Extra
                 startActivity(intent);
             }
