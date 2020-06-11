@@ -2,6 +2,6 @@
     <string name="app_name">findMentorApp</string>
     <string name="title_home">我的</string>
     <string name="title_search">查找</string>
-    <string name="title_add">添加</string>
+    <string name="title_add">动态</string>
     <string name="title_message">消息</string>
 </resources>

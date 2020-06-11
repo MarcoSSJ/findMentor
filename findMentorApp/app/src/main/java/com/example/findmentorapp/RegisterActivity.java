@@ -1,12 +1,10 @@
 package com.example.findmentorapp;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -33,7 +31,15 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText password_text1;
     private EditText password_text2;
 //    private SharedPreferences sharedPreferences;
-    private Button button;
+
+    private EditText emailAddress_text;
+    private EditText name_text;
+    private EditText school_text;
+    private EditText department_text;
+
+
+    private Button button_tearcher;
+    private Button button_student;
 
 
     Runnable runnable = new Runnable() {
@@ -160,12 +166,28 @@ public class RegisterActivity extends AppCompatActivity {
         password_text1 = (EditText)findViewById(R.id.editText_register_password1);
         password_text2 = (EditText)findViewById(R.id.editText_register_password2);
 
-        //注册按钮
-        button = (Button)findViewById(R.id.button_register);
-        button.setOnClickListener(new View.OnClickListener(){
+        //各种信息
+        emailAddress_text = (EditText)findViewById(R.id.editText_register_email);
+        name_text = (EditText)findViewById(R.id.editText_register_name);
+        school_text = (EditText)findViewById(R.id.editText_register_school);
+        department_text = (EditText)findViewById(R.id.editText_register_department);
+
+        //todo 补充注册按钮处理（两种注册身份）
+        //注册为老师
+        button_tearcher = (Button)findViewById(R.id.button_register_teacher);
+        button_tearcher.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick (View v) {
                 new Thread(runnable).start();
+            }
+        });
+
+        //注册为学生
+        button_student = (Button)findViewById(R.id.button_register_student);
+        button_student.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick (View v) {
+
             }
         });
 

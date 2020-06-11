@@ -32,6 +32,7 @@ public class SearchFragment extends Fragment {
     String s_time[] = {"内容1", "内容1", "内容1"};
 
 
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         searchViewModel =
@@ -109,7 +110,6 @@ public class SearchFragment extends Fragment {
             viewHolder.text.setText(s_text[position]);
             viewHolder.name.setText(s_name[position]);
             viewHolder.time.setText(s_time[position]);
-
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

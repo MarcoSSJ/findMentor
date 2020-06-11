@@ -18,10 +18,10 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.372" />
+        app:layout_constraintVertical_bias="0.85" />
 
     <TextView
         android:id="@+id/textView_add_1"
@@ -56,7 +56,7 @@
         android:layout_width="wrap_content"
         android:layout_height="45dp"
         android:gravity="center"
-        android:text="介绍："
+        android:text="详情："
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -71,7 +71,7 @@
         android:layout_height="310dp"
         android:ems="10"
         android:gravity="top"
-        android:hint="请输入介绍"
+        android:hint="请输入详情"
         android:inputType="textMultiLine"
         android:maxLines="3"
         android:minLines="1"
@@ -86,7 +86,7 @@
         android:id="@+id/button_add_submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="提交"
+        android:text="发布"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
