@@ -61,6 +61,9 @@ public class PersonalDataSActivity extends AppCompatActivity {
             textView_age.setText("请登录");
             textView_sex.setText("请登录");
             textView_intro.setText("请登录");
+            textView_school.setText("请登录");
+            textView_department.setText("请登录");
+            textView_range.setText("请登录");
         }
         //todo:在此处设置显示
         else {
