@@ -34,21 +34,22 @@ public class PersonalDataChangeSActivity extends AppCompatActivity {
     private RadioButton radioButton_male;
     private RadioButton radioButton_female;
     private EditText editText_age;
-    private EditText editText_inTro;
+    private EditText editText_intro;
     private EditText editText_range;
     private EditText editText_grade;
     private Button button;
     private String sex1;
     private SharedPreferences sharedPreferences;
 
-    //我是直接复制粘贴过来的
-    //todo 学生个人信息修改，删除了姓名，加入了研究领域（range),签名变作简介，增加了年级
+    //学生个人信息修改，删除了姓名，加入了研究领域（range),签名变作简介，增加了年级
 
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
             String age = editText_age.getText().toString();
-            String signature = editText_inTro.getText().toString();
+            String intro = editText_intro.getText().toString();
+            String range = editText_range.getText().toString();
+            String grade = editText_grade.getText().toString();
             String personal_data_change_url = Urls.personal_data_change_url;
 
             Handler handler = new Handler(Looper.getMainLooper()) {
@@ -61,7 +62,6 @@ public class PersonalDataChangeSActivity extends AppCompatActivity {
                         toast.show();
                     } else if (msg.what == 1) {
                         Intent intent = new Intent(PersonalDataChangeSActivity.this, PersonalDataTActivity.class);
-                        //intent.putExtra("fragid",1); //添加Extra
                         startActivity(intent);
                         finish();
                     }
@@ -85,9 +85,12 @@ public class PersonalDataChangeSActivity extends AppCompatActivity {
                 String sessionID = application.getSessionID();
 
                 String data = "sessionID"+ URLEncoder.encode(sessionID,"UTF-8")+
+                        "&type=" + URLEncoder.encode("student","UTF-8") +
                         "&age="+URLEncoder.encode(age,"UTF-8")+
                         "&sex="+URLEncoder.encode(sex1,"UTF-8")+
-                        "&signature="+URLEncoder.encode(signature,"UTF-8");
+                        "&intro="+URLEncoder.encode(intro,"UTF-8")+
+                        "&range="+URLEncoder.encode(range,"UTF-8")+
+                        "&grade="+URLEncoder.encode(grade,"UTF-8");
 
                 OutputStream out = conn.getOutputStream();
                 out.write(data.getBytes());
@@ -114,7 +117,9 @@ public class PersonalDataChangeSActivity extends AppCompatActivity {
                         {
                             editor.putString("sex",sex1);
                             editor.putString("age",age);
-                            editor.putString("signature",signature);
+                            editor.putString("intro",intro);
+                            editor.putString("range",range);
+                            editor.putString("grade",grade);
                             editor.apply();
                         }
                         Message message = Message.obtain();
@@ -165,22 +170,23 @@ public class PersonalDataChangeSActivity extends AppCompatActivity {
         }
 
         //获取输入的性别等
-        //todo 删除了姓名（我删了能找见的，检查一下），加入了研究领域与年级（这个得加入处理）
+        //加入了研究领域与年级（这个得加入处理）
 
         radioGroup_sex=(RadioGroup)findViewById(R.id.radioGroup_personalDataChange);
         radioButton_male=(RadioButton)findViewById(R.id.radioButton_personalDataChange_male);
         radioButton_female=(RadioButton)findViewById(R.id.radioButton_personalDataChange_female);
         editText_age = (EditText)findViewById(R.id.editText_personalDataChange_age);
-        editText_inTro = (EditText)findViewById(R.id.editText_personalDataChange_inTro);
+        editText_intro = (EditText)findViewById(R.id.editText_personalDataChange_inTro);
         editText_range = (EditText)findViewById(R.id.editText_personalDataChange_range);
         editText_grade = (EditText)findViewById(R.id.editText_personalDataChange_grade);
 
         sharedPreferences = getSharedPreferences("remenberpass", Context.MODE_PRIVATE);
-        String name = sharedPreferences.getString("name","");
+        //String name = sharedPreferences.getString("name","");
         String age = sharedPreferences.getString("age","");
-        final String sex = sharedPreferences.getString("sex","");
-        String signature = sharedPreferences.getString("signature","");
-
+        String sex = sharedPreferences.getString("sex","");
+        String intro = sharedPreferences.getString("intro","");
+        String range = sharedPreferences.getString("range","");
+        String grade = sharedPreferences.getString("grade","");
 
         MyApplication application = (MyApplication) getApplicationContext();
         String sessionID = application.getSessionID();
@@ -189,7 +195,9 @@ public class PersonalDataChangeSActivity extends AppCompatActivity {
         {
             editText_age.setText("请登录");
             radioButton_male.setChecked(true);
-            editText_inTro.setText("请登录");
+            editText_intro.setText("请登录");
+            editText_range.setText("请登录");
+            editText_grade.setText("请登录");
         }
         else {
 
@@ -205,10 +213,20 @@ public class PersonalDataChangeSActivity extends AppCompatActivity {
             else
                 radioButton_female.setChecked(true);
 
-            if (signature.equals(""))
-                editText_inTro.setText("请输入个人信息");
+            if (intro.equals(""))
+                editText_intro.setText("请输入个人信息");
             else
-                editText_inTro.setText(signature);
+                editText_intro.setText(intro);
+
+            if (range.equals(""))
+                editText_range.setText("未设置");
+            else
+                editText_range.setText(range);
+
+            if (grade.equals(""))
+                editText_grade.setText("未设置");
+            else
+                editText_grade.setText(grade);
         }
 
         //以下为sex的获取代码

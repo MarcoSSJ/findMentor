@@ -37,7 +37,6 @@ public class PersonalDataTActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        //todo 补充教师的学校、院系、年级、研究方向，并把签名换做简介
         //姓名、年龄、性别、简介、学校、院系、研究方向
         textView_name = (TextView)findViewById(R.id.textView_personalData_name);
         textView_age = (TextView)findViewById(R.id.textView_personalData_age);
@@ -52,7 +51,11 @@ public class PersonalDataTActivity extends AppCompatActivity {
         String name = sharedPreferences.getString("name","");
         String age = sharedPreferences.getString("age","");
         String sex = sharedPreferences.getString("sex","");
-        String signature = sharedPreferences.getString("signature","");
+        String intro = sharedPreferences.getString("intro","");
+        String school = sharedPreferences.getString("school","");
+        String department = sharedPreferences.getString("department","");
+        String range = sharedPreferences.getString("range","");
+        String grade = sharedPreferences.getString("grade","");
 
         MyApplication application = (MyApplication) getApplicationContext();
         String sessionID = application.getSessionID();
@@ -63,8 +66,11 @@ public class PersonalDataTActivity extends AppCompatActivity {
             textView_age.setText("请登录");
             textView_sex.setText("请登录");
             textView_intro.setText("请登录");
+            textView_school.setText("请登录");
+            textView_department.setText("请登录");
+            textView_range.setText("请登录");
+            textView_grade.setText("请登录");
         }
-        //todo:在此处设置显示
         else {
             if (name.equals(""))
                 textView_name.setText("李四");
@@ -81,18 +87,37 @@ public class PersonalDataTActivity extends AppCompatActivity {
             else
                 textView_sex.setText(sex);
 
-            if (signature.equals(""))
-                textView_intro.setText("请输入简介");
+            if (intro.equals(""))
+                textView_intro.setText("未设置");
             else
-                textView_intro.setText(signature);
+                textView_intro.setText(intro);
+
+            if (school.equals(""))
+                textView_school.setText("未设置");
+            else
+                textView_school.setText(school);
+
+            if (department.equals(""))
+                textView_department.setText("未设置");
+            else
+                textView_department.setText(department);
+
+            if (range.equals(""))
+                textView_range.setText("未设置");
+            else
+                textView_range.setText(range);
+
+            if (grade.equals(""))
+                textView_grade.setText("未设置");
+            else
+                textView_grade.setText(grade);
         }
-        //todo:修改按钮处理
+        //开启修改界面
         button = (Button)findViewById(R.id.button_personalData);
         button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick (View v) {
                 Intent intent = new Intent(PersonalDataTActivity.this, PersonalDataChangeTActivity.class);
-                //intent.putExtra("fragid",1); //添加Extra
                 startActivity(intent);
             }
         });
