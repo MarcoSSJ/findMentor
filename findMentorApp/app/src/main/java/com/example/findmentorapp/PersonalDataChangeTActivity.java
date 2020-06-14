@@ -29,22 +29,25 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 
-public class PersonalDataChangeActivity extends AppCompatActivity {
+public class PersonalDataChangeTActivity extends AppCompatActivity {
 
     private RadioGroup radioGroup_sex;
     private RadioButton radioButton_male;
     private RadioButton radioButton_female;
     private EditText editText_age;
-    private EditText editText_signature;
+    private EditText editText_inTro;
+    private EditText editText_range;
     private Button button;
     private String sex1;
     private SharedPreferences sharedPreferences;
+
+    //todo 教师个人信息修改，删除了姓名，加入了研究领域（range),签名变作简介
 
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
             String age = editText_age.getText().toString();
-            String signature = editText_signature.getText().toString();
+            String signature = editText_inTro.getText().toString();
             String personal_data_change_url = Urls.personal_data_change_url;
 
             Handler handler = new Handler(Looper.getMainLooper()) {
@@ -56,7 +59,7 @@ public class PersonalDataChangeActivity extends AppCompatActivity {
                         Toast toast = Toast.makeText(getApplicationContext(), "修改失败", Toast.LENGTH_SHORT);
                         toast.show();
                     } else if (msg.what == 1) {
-                        Intent intent = new Intent(PersonalDataChangeActivity.this, PersonalDataTActivity.class);
+                        Intent intent = new Intent(PersonalDataChangeTActivity.this, PersonalDataTActivity.class);
                         //intent.putExtra("fragid",1); //添加Extra
                         startActivity(intent);
                         finish();
@@ -152,7 +155,7 @@ public class PersonalDataChangeActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_personal_changedata);
+        setContentView(R.layout.activity_personal_changedata_teacher);
 
         ActionBar actionBar = getSupportActionBar();
         if(actionBar != null){
@@ -161,13 +164,14 @@ public class PersonalDataChangeActivity extends AppCompatActivity {
         }
 
         //获取输入的性别等
-
+        //todo 删除了姓名（我删了能找见的，检查一下），加入了研究领域（这个得加入处理）
 
         radioGroup_sex=(RadioGroup)findViewById(R.id.radioGroup_personalDataChange);
         radioButton_male=(RadioButton)findViewById(R.id.radioButton_personalDataChange_male);
         radioButton_female=(RadioButton)findViewById(R.id.radioButton_personalDataChange_female);
         editText_age = (EditText)findViewById(R.id.editText_personalDataChange_age);
-        editText_signature = (EditText)findViewById(R.id.editText_personalDataChange_signature);
+        editText_inTro = (EditText)findViewById(R.id.editText_personalDataChange_inTro);
+        editText_range = (EditText)findViewById(R.id.editText_personalDataChange_range);
 
         sharedPreferences = getSharedPreferences("remenberpass", Context.MODE_PRIVATE);
         String name = sharedPreferences.getString("name","");
@@ -183,7 +187,7 @@ public class PersonalDataChangeActivity extends AppCompatActivity {
         {
             editText_age.setText("请登录");
             radioButton_male.setChecked(true);
-            editText_signature.setText("请登录");
+            editText_inTro.setText("请登录");
         }
         else {
 
@@ -200,9 +204,9 @@ public class PersonalDataChangeActivity extends AppCompatActivity {
                 radioButton_female.setChecked(true);
 
             if (signature.equals(""))
-                editText_signature.setText("请输入签名档");
+                editText_inTro.setText("请输入个人信息");
             else
-                editText_signature.setText(signature);
+                editText_inTro.setText(signature);
         }
 
         //以下为sex的获取代码

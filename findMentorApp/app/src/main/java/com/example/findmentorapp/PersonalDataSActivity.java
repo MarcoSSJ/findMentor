@@ -92,7 +92,7 @@ public class PersonalDataSActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick (View v) {
-                Intent intent = new Intent(PersonalDataSActivity.this, PersonalDataChangeActivity.class);
+                Intent intent = new Intent(PersonalDataSActivity.this, PersonalDataChangeSActivity.class);
                 //intent.putExtra("fragid",1); //添加Extra
                 startActivity(intent);
             }

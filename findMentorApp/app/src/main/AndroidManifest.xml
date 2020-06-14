@@ -41,7 +41,11 @@
             android:label="用户资料" >
         </activity>
         <activity
-            android:name="com.example.findmentorapp.PersonalDataChangeActivity"
+            android:name="com.example.findmentorapp.PersonalDataChangeTActivity"
+            android:label="资料修改" >
+        </activity>
+        <activity
+            android:name="com.example.findmentorapp.PersonalDataChangeSActivity"
             android:label="资料修改" >
         </activity>
         <activity
