@@ -30,6 +30,8 @@ public class SearchFragment extends Fragment {
     String s_text[] = {"内容二", "内容二", "内容二"};
     String s_name[] = {"内容", "内容", "内容"};
     String s_time[] = {"内容1", "内容1", "内容1"};
+    //存放用户id
+    String s_id[] = {};
 
 
 
@@ -110,6 +112,9 @@ public class SearchFragment extends Fragment {
             viewHolder.text.setText(s_text[position]);
             viewHolder.name.setText(s_name[position]);
             viewHolder.time.setText(s_time[position]);
+            //用户id
+            viewHolder.id = s_id[position];
+            
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -130,7 +135,7 @@ public class SearchFragment extends Fragment {
 
             TextView title, text, name, time;
             //标识号
-            int id;
+            String id;
 
             public MyHolder(View itemView) {
                 super(itemView);
