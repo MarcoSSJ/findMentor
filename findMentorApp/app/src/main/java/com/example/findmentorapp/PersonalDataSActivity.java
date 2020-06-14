@@ -22,6 +22,7 @@ public class PersonalDataSActivity extends AppCompatActivity {
     private TextView textView_range;
     private TextView textView_school;
     private TextView textView_department;
+    private TextView textView_grade;
     private Button button;
     private SharedPreferences sharedPreferences;
 
@@ -36,7 +37,7 @@ public class PersonalDataSActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        //todo 补充学生的学校、院系、研究兴趣，并把签名换做简介
+        //todo 补充学生的学校、院系、年级、研究兴趣，并把签名换做简介
         //姓名、年龄、性别、简介、学校、院系、研究方向
         textView_name = (TextView)findViewById(R.id.textView_personalData_name);
         textView_age = (TextView)findViewById(R.id.textView_personalData_age);
@@ -45,6 +46,7 @@ public class PersonalDataSActivity extends AppCompatActivity {
         textView_school = (TextView)findViewById(R.id.textView_personalData_school);
         textView_department = (TextView)findViewById(R.id.textView_personalData_department);
         textView_range = (TextView)findViewById(R.id.textView_personalData_range);
+        textView_grade = (TextView)findViewById(R.id.textView_personalData_grade);
 
         sharedPreferences = getSharedPreferences("remenberpass", Context.MODE_PRIVATE);
         String name = sharedPreferences.getString("name","");

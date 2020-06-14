@@ -8,6 +8,33 @@
     android:layout_height="match_parent">
 
     <EditText
+        android:id="@+id/editText_personalDataChange_grade"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:ems="10"
+        android:hint="请输入所在年级"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.722"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.419" />
+
+    <TextView
+        android:id="@+id/textView_personalDataChange7"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:text="年级："
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.135"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.419" />
+
+    <EditText
         android:id="@+id/editText_personalDataChange_inTro"
         android:layout_width="210dp"
         android:layout_height="149dp"
@@ -25,41 +52,12 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.774" />
 
-    <RadioGroup
-        android:id="@+id/radioGroup_personalDataChange"
-        android:layout_width="190dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center_horizontal"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.647"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.324"
-        tools:ignore="MissingConstraints">
-
-        <RadioButton
-            android:id="@+id/radioButton_personalDataChange_male"
-            android:layout_width="79dp"
-            android:layout_height="40dp"
-            android:checked="true"
-            android:text="男" />
-
-        <RadioButton
-            android:id="@+id/radioButton_personalDataChange_female"
-            android:layout_width="74dp"
-            android:layout_height="40dp"
-            android:checked="true"
-            android:text="女" />
-    </RadioGroup>
-
     <TextView
         android:id="@+id/textView_personalDataChange5"
         android:layout_width="120dp"
         android:layout_height="40dp"
         android:gravity="center"
-        android:text="研究兴趣："
+        android:text="研究领域："
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -80,7 +78,21 @@
         app:layout_constraintHorizontal_bias="0.722"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.418" />
+        app:layout_constraintVertical_bias="0.347" />
+
+    <TextView
+        android:id="@+id/textView_personalDataChange3"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:text="年龄："
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.135"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.347" />
 
     <TextView
         android:id="@+id/textView_personalDataChange4"
@@ -96,20 +108,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.628" />
 
-    <TextView
-        android:id="@+id/textView_personalDataChange3"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
-        android:gravity="center"
-        android:text="年龄："
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.135"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.418" />
-
     <EditText
         android:id="@+id/editText_personalDataChange_range"
         android:layout_width="210dp"
@@ -117,7 +115,7 @@
         android:background="@null"
         android:ems="10"
         android:gravity="top"
-        android:hint="请输入研究兴趣"
+        android:hint="请输入研究领域"
         android:inputType="textMultiLine"
         android:maxLines="2"
         android:minLines="1"
@@ -140,7 +138,7 @@
         app:layout_constraintHorizontal_bias="0.135"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.324" />
+        app:layout_constraintVertical_bias="0.277" />
 
     <ImageView
         android:id="@+id/imageView_personalDataChange"
@@ -151,9 +149,38 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.098"
+        app:layout_constraintVertical_bias="0.11"
         app:srcCompat="@drawable/ic_account_circle_black_24dp"
         tools:ignore="VectorDrawableCompat" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup_personalDataChange"
+        android:layout_width="190dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.647"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.277"
+        tools:ignore="MissingConstraints">
+
+        <RadioButton
+            android:id="@+id/radioButton_personalDataChange_male"
+            android:layout_width="79dp"
+            android:layout_height="40dp"
+            android:checked="true"
+            android:text="男" />
+
+        <RadioButton
+            android:id="@+id/radioButton_personalDataChange_female"
+            android:layout_width="74dp"
+            android:layout_height="40dp"
+            android:checked="true"
+            android:text="女" />
+    </RadioGroup>
 
 
     <Button

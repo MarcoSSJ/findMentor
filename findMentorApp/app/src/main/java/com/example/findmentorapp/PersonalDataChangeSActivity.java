@@ -36,12 +36,13 @@ public class PersonalDataChangeSActivity extends AppCompatActivity {
     private EditText editText_age;
     private EditText editText_inTro;
     private EditText editText_range;
+    private EditText editText_grade;
     private Button button;
     private String sex1;
     private SharedPreferences sharedPreferences;
 
     //我是直接复制粘贴过来的
-    //todo 学生个人信息修改，删除了姓名，加入了研究领域（range),签名变作简介
+    //todo 学生个人信息修改，删除了姓名，加入了研究领域（range),签名变作简介，增加了年级
 
     Runnable runnable = new Runnable() {
         @Override
@@ -164,7 +165,7 @@ public class PersonalDataChangeSActivity extends AppCompatActivity {
         }
 
         //获取输入的性别等
-        //todo 删除了姓名（我删了能找见的，检查一下），加入了研究领域（这个得加入处理）
+        //todo 删除了姓名（我删了能找见的，检查一下），加入了研究领域与年级（这个得加入处理）
 
         radioGroup_sex=(RadioGroup)findViewById(R.id.radioGroup_personalDataChange);
         radioButton_male=(RadioButton)findViewById(R.id.radioButton_personalDataChange_male);
@@ -172,6 +173,7 @@ public class PersonalDataChangeSActivity extends AppCompatActivity {
         editText_age = (EditText)findViewById(R.id.editText_personalDataChange_age);
         editText_inTro = (EditText)findViewById(R.id.editText_personalDataChange_inTro);
         editText_range = (EditText)findViewById(R.id.editText_personalDataChange_range);
+        editText_grade = (EditText)findViewById(R.id.editText_personalDataChange_grade);
 
         sharedPreferences = getSharedPreferences("remenberpass", Context.MODE_PRIVATE);
         String name = sharedPreferences.getString("name","");

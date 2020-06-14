@@ -8,31 +8,31 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textView_personalData7"
-        android:layout_width="100dp"
+        android:id="@+id/textView_personalData_grade"
+        android:layout_width="200dp"
         android:layout_height="35dp"
-        android:gravity="center"
-        android:text="研究兴趣："
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.041"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.433" />
-
-    <TextView
-        android:id="@+id/textView_personalData_range"
-        android:layout_width="250dp"
-        android:layout_height="80dp"
         android:gravity="center_vertical|left"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.416"
+        app:layout_constraintHorizontal_bias="0.204"
         app:layout_constraintStart_toEndOf="@+id/textView_personalData5"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.463" />
+        app:layout_constraintVertical_bias="0.42" />
+
+    <TextView
+        android:id="@+id/textView_personalData9"
+        android:layout_width="80dp"
+        android:layout_height="35dp"
+        android:gravity="center"
+        android:text="年级："
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.099"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.42" />
 
     <TextView
         android:id="@+id/textView_personalData_department"
@@ -89,20 +89,6 @@
         app:layout_constraintVertical_bias="0.284" />
 
     <TextView
-        android:id="@+id/textView_personalData4"
-        android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:gravity="center"
-        android:text="个人简介："
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.041"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.573" />
-
-    <TextView
         android:id="@+id/textView_personalData_intro"
         android:layout_width="250dp"
         android:layout_height="147dp"
@@ -114,7 +100,48 @@
         app:layout_constraintHorizontal_bias="0.826"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.678" />
+        app:layout_constraintVertical_bias="0.746" />
+
+    <TextView
+        android:id="@+id/textView_personalData4"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:text="个人简介："
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.041"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.63" />
+
+    <TextView
+        android:id="@+id/textView_personalData7"
+        android:layout_width="100dp"
+        android:layout_height="35dp"
+        android:gravity="center"
+        android:text="研究兴趣："
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.041"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.491" />
+
+    <TextView
+        android:id="@+id/textView_personalData_range"
+        android:layout_width="250dp"
+        android:layout_height="80dp"
+        android:gravity="center_vertical|left"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.416"
+        app:layout_constraintStart_toEndOf="@+id/textView_personalData5"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.525" />
 
     <TextView
         android:id="@+id/textView_personalData_sex"
@@ -222,6 +249,6 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.869" />
+        app:layout_constraintVertical_bias="0.888" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
