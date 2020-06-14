@@ -31,7 +31,6 @@ import java.net.URLEncoder;
 
 public class PersonalDataChangeActivity extends AppCompatActivity {
 
-    private EditText editText_name;
     private RadioGroup radioGroup_sex;
     private RadioButton radioButton_male;
     private RadioButton radioButton_female;
@@ -44,7 +43,6 @@ public class PersonalDataChangeActivity extends AppCompatActivity {
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            String name = editText_name.getText().toString();
             String age = editText_age.getText().toString();
             String signature = editText_signature.getText().toString();
             String personal_data_change_url = Urls.personal_data_change_url;
@@ -83,7 +81,6 @@ public class PersonalDataChangeActivity extends AppCompatActivity {
                 String sessionID = application.getSessionID();
 
                 String data = "sessionID"+URLEncoder.encode(sessionID,"UTF-8")+
-                        "&name="+ URLEncoder.encode(name,"UTF-8")+
                         "&age="+URLEncoder.encode(age,"UTF-8")+
                         "&sex="+URLEncoder.encode(sex1,"UTF-8")+
                         "&signature="+URLEncoder.encode(signature,"UTF-8");
@@ -111,7 +108,6 @@ public class PersonalDataChangeActivity extends AppCompatActivity {
                     if(isconnect.equals("true")) {
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         {
-                            editor.putString("name",name);
                             editor.putString("sex",sex1);
                             editor.putString("age",age);
                             editor.putString("signature",signature);
@@ -164,9 +160,9 @@ public class PersonalDataChangeActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        //获取输入的姓名等
+        //获取输入的性别等
 
-        editText_name = (EditText)findViewById(R.id.editText_personalDataChange_name);
+
         radioGroup_sex=(RadioGroup)findViewById(R.id.radioGroup_personalDataChange);
         radioButton_male=(RadioButton)findViewById(R.id.radioButton_personalDataChange_male);
         radioButton_female=(RadioButton)findViewById(R.id.radioButton_personalDataChange_female);
@@ -185,16 +181,11 @@ public class PersonalDataChangeActivity extends AppCompatActivity {
 
         if(sessionID.equals(""))
         {
-            editText_name.setText("请登录");
             editText_age.setText("请登录");
             radioButton_male.setChecked(true);
             editText_signature.setText("请登录");
         }
         else {
-            if (name.equals(""))
-                editText_name.setText("李四");
-            else
-                editText_name.setText(name);
 
             if (age.equals(""))
                 editText_age.setText("0");
