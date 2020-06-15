@@ -26,12 +26,12 @@ public class SearchFragment extends Fragment {
 
     private SearchViewModel searchViewModel;
 
-    String s_tilte[] = {"内容一", "内容一", "内容一"};
+    //todo 搜索界面的recyView中内容修改，分别为姓名、年级（职称）、text（先设为研究方向（兴趣））
+    String s_name[] = {"内容一", "内容一", "内容一"};
     String s_text[] = {"内容二", "内容二", "内容二"};
-    String s_name[] = {"内容", "内容", "内容"};
-    String s_time[] = {"内容1", "内容1", "内容1"};
+    String s_grade[] = {"内容", "内容", "内容"};
     //存放用户id
-    String s_id[] = {};
+    String s_id[] = {"1","2","3"};
 
 
 
@@ -108,10 +108,9 @@ public class SearchFragment extends Fragment {
             MyHolder viewHolder = (MyHolder) holder;
 
             //将数据映射到控件中
-            viewHolder.title.setText(s_tilte[position]);
             viewHolder.text.setText(s_text[position]);
             viewHolder.name.setText(s_name[position]);
-            viewHolder.time.setText(s_time[position]);
+            viewHolder.grade.setText(s_grade[position]);
             //用户id
             viewHolder.id = s_id[position];
             
@@ -128,12 +127,12 @@ public class SearchFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            return s_tilte.length;
+            return s_name.length;
         }
 
         class MyHolder extends RecyclerView.ViewHolder {
 
-            TextView title, text, name, time;
+            TextView text, name, grade;
             //标识号
             String id;
 
@@ -141,10 +140,9 @@ public class SearchFragment extends Fragment {
                 super(itemView);
 
                 //实例化子对象，把对象和列表项布局文件中的id绑定
-                title = itemView.findViewById(R.id.textView_item_forSearch_title);
                 text = itemView.findViewById(R.id.textView_item_forSearch_text);
                 name = itemView.findViewById(R.id.textView_item_forSearch_name);
-                time = itemView.findViewById(R.id.textView_item_forSearch_time);
+                grade = itemView.findViewById(R.id.textView_item_forSearch_grade);
 
             }
 
