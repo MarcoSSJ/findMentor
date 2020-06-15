@@ -94,7 +94,7 @@ public class OthersDataActivity extends AppCompatActivity {
         button_favorite.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick (View v) {
-                //todo 关注与取关,一开始可能也得处理一下文字便于复用
+                button_favorite.setText("关注");
                 new Thread(runnable2).start();
             }
         });
