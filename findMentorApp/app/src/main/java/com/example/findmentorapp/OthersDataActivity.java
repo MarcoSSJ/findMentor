@@ -179,7 +179,7 @@ public class OthersDataActivity extends AppCompatActivity {
                 MyApplication application = MyApplication.getInstance();
                 String sessionID = application.getSessionID();
 
-                String data = "sessionID"+ URLEncoder.encode(sessionID,"UTF-8")+
+                String data = "sessionID="+ URLEncoder.encode(sessionID,"UTF-8")+
                         "&id=" + URLEncoder.encode(id,"UTF-8");
 
                 OutputStream out = conn.getOutputStream();

@@ -86,7 +86,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
                     MyApplication application = (MyApplication) getApplicationContext();
                     String sessionID = application.getSessionID();
 
-                    String data = "sessionID" + URLEncoder.encode(sessionID, "UTF-8") +
+                    String data = "sessionID=" + URLEncoder.encode(sessionID, "UTF-8") +
                             "&password=" + URLEncoder.encode(password1, "UTF-8") +
                             "&password_old=" + URLEncoder.encode(password, "UTF-8");
 
