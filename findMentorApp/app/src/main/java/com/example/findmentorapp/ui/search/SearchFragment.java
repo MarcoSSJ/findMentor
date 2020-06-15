@@ -209,7 +209,7 @@ public class SearchFragment extends Fragment {
                 MyApplication application = MyApplication.getInstance();
                 String sessionID = application.getSessionID();
 
-                String data = "sessionID"+ URLEncoder.encode(sessionID,"UTF-8")+
+                String data = "sessionID="+ URLEncoder.encode(sessionID,"UTF-8")+
                         "&searchText=" + URLEncoder.encode(searchText,"UTF-8");
 
                 OutputStream out = conn.getOutputStream();
