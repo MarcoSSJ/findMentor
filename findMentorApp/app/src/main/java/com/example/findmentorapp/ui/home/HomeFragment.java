@@ -21,6 +21,7 @@ import com.example.findmentorapp.LoginActivity;
 import com.example.findmentorapp.MyApplication;
 import com.example.findmentorapp.PersonalDataSActivity;
 import com.example.findmentorapp.PersonalDataTActivity;
+import com.example.findmentorapp.PublishActivity;
 import com.example.findmentorapp.R;
 
 public class HomeFragment extends Fragment {
@@ -48,17 +49,20 @@ public class HomeFragment extends Fragment {
         Button toLogButton = (Button) root.findViewById(R.id.toLogin);
         LinearLayout layout_toAccount = (LinearLayout)root.findViewById(R.id.layout_home_account);
         LinearLayout layout_toFavorite = (LinearLayout)root.findViewById(R.id.layout_home_favorite);
+        LinearLayout layout_toPublish = (LinearLayout)root.findViewById(R.id.layout_home_publish);
         final TextView toPersonalData = (TextView)root.findViewById(R.id.textView_home_data);
 
         if(sessionID.equals("")) {
             toLogButton.setVisibility(View.VISIBLE);
             layout_toAccount.setVisibility(View.INVISIBLE);
             layout_toFavorite.setVisibility(View.INVISIBLE);
+            layout_toPublish.setVisibility(View.INVISIBLE);
             toPersonalData.setVisibility(View.INVISIBLE);
         }
         else {
             layout_toAccount.setVisibility(View.VISIBLE);
             layout_toFavorite.setVisibility(View.VISIBLE);
+            layout_toPublish.setVisibility(View.VISIBLE);
             toLogButton.setVisibility(View.INVISIBLE);
             toPersonalData.setVisibility(View.VISIBLE);
         }
@@ -106,7 +110,16 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        //layout_toAccount.setVisibility(View.INVISIBLE);
+
+        //跳转动态页面
+        layout_toPublish.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick (View v) {
+                //todo 向页面发送正确id便于页面处理
+                Intent intent = new Intent(getActivity(), PublishActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
 
