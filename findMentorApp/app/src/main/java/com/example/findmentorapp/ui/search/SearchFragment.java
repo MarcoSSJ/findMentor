@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.findmentorapp.InfoDetailActivity;
 import com.example.findmentorapp.MyApplication;
+import com.example.findmentorapp.OthersDataActivity;
 import com.example.findmentorapp.PersonalDataChangeSActivity;
 import com.example.findmentorapp.PersonalDataTActivity;
 import com.example.findmentorapp.R;
@@ -162,7 +163,7 @@ public class SearchFragment extends Fragment {
                                         Toast toast = Toast.makeText(MyApplication.getContext(), "修改失败", Toast.LENGTH_SHORT);
                                         toast.show();
                                     } else if (msg.what == 1) {
-                                        Intent intent = new Intent(getActivity(), InfoDetailActivity.class);
+                                        Intent intent = new Intent(getActivity(), OthersDataActivity.class);
                                         startActivity(intent);
                                     }
                                 }
