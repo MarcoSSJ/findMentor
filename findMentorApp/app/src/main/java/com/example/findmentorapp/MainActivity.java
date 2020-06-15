@@ -38,5 +38,13 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // 只要发生onSaveInstanceState就remove all Fragment
+        if(outState!=null){
+            outState.remove("android:support:fragments");
+        }
+    }
 
 }
