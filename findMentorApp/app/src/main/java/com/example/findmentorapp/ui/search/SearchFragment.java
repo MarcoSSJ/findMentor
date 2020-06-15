@@ -151,7 +151,7 @@ public class SearchFragment extends Fragment {
                         }
                         @Override
                         public void run() {
-                            String personal_data_change_url = Urls.personal_data_change_url;
+                            String personal_data_change_url = Urls.personal_data_url;
 
                             Handler handler = new Handler(Looper.getMainLooper()) {
                                 @Override

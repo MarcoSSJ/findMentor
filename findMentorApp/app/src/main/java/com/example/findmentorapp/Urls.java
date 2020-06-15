@@ -7,5 +7,6 @@ public class Urls {
     public static String fix_pwd_url = "";
     public static String register_url = "";
     public static String personal_data_change_url = "";
-    public static String search_url;
+    public static String search_url = "";
+    public static String personal_data_url = "";
 }
