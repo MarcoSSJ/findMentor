@@ -8,5 +8,6 @@ public class Urls {
     public static String register_url = "";
     public static String personal_data_change_url = "";
     public static String search_url = "";
-    public static String personal_data_url = "";
+    public static String others_data_url = "";
+    public static String follow_url = "";
 }

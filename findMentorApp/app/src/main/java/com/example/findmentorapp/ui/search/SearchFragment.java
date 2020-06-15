@@ -143,110 +143,9 @@ public class SearchFragment extends Fragment {
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    new Thread(new Runnable() {
-                        private String id;
-                        Runnable acceptID(String id)
-                        {
-                            this.id = id;
-                            return this;
-                        }
-                        @Override
-                        public void run() {
-                            String personal_data_change_url = Urls.personal_data_url;
-
-                            Handler handler = new Handler(Looper.getMainLooper()) {
-                                @Override
-                                public void handleMessage(Message msg) {
-                                    super.handleMessage(msg);
-                                    if (msg.what == 0) {
-                                        //不成功，弹窗
-                                        Toast toast = Toast.makeText(MyApplication.getContext(), "修改失败", Toast.LENGTH_SHORT);
-                                        toast.show();
-                                    } else if (msg.what == 1) {
-                                        Intent intent = new Intent(getActivity(), OthersDataActivity.class);
-                                        startActivity(intent);
-                                    }
-                                }
-                            };
-                            try {
-                                URL url = new URL(personal_data_change_url);
-                                HttpURLConnection conn = (HttpURLConnection)url.openConnection();
-                                conn.setRequestMethod("POST");
-                                conn.setReadTimeout(5000);
-                                conn.setConnectTimeout(5000);
-
-                                conn.setRequestProperty("Content-Type",
-                                        "application/x-www-form-urlencoded;charset=UTF-8");
-
-                                conn.setDoOutput(true);
-                                conn.setDoInput(true);
-                                conn.setUseCaches(false);
-
-                                MyApplication application = MyApplication.getInstance();
-                                String sessionID = application.getSessionID();
-
-                                String data = "sessionID"+ URLEncoder.encode(sessionID,"UTF-8")+
-                                        "&type=" + URLEncoder.encode("student","UTF-8")+
-                                        "&id=" + URLEncoder.encode(id,"UTF-8");
-
-                                OutputStream out = conn.getOutputStream();
-                                out.write(data.getBytes());
-                                out.flush();
-                                out.close();
-
-                                InputStream is = conn.getInputStream();
-                                if(conn.getResponseCode()==HttpURLConnection.HTTP_OK) {
-                                    StringBuilder response = new StringBuilder();
-                                    byte[] b = new byte[1024];
-                                    int len ;
-                                    while((len = is.read(b))!=-1){
-                                        response.append(new String(b, 0, len));
-                                    }
-                                    is.close();
-                                    conn.disconnect();
-
-                                    String res = new String(response);
-                                    System.out.println(res);
-                                    JSONObject obj = new JSONObject(res);
-                                    String isconnect = obj.getString("result");
-                                    if(isconnect.equals("true")) {
-                                        //TODO：这里需要传回个人详情界面的参数
-                                        System.out.println("succeed");
-                                        Message message = Message.obtain();
-                                        message.what = 1;
-                                        handler.sendMessage(message);
-                                    }
-                                    else
-                                    {
-                                        Message message = Message.obtain();
-                                        message.what = 0;
-                                        handler.sendMessage(message);
-                                    }
-                                }
-                                else {
-                                    Message message = Message.obtain();
-                                    message.what = 0;
-                                    handler.sendMessage(message);
-                                }
-                            } catch (MalformedURLException e) {
-                                Message message = Message.obtain();
-                                message.what = 0;
-                                handler.sendMessage(message);
-                                e.printStackTrace();
-                            } catch (IOException e) {
-                                Message message = Message.obtain();
-                                message.what = 0;
-                                handler.sendMessage(message);
-                                e.printStackTrace();
-                            } catch (JSONException e) {
-                                Message message = Message.obtain();
-                                message.what = 0;
-                                handler.sendMessage(message);
-                                e.printStackTrace();
-                            }
-                        }
-
-                    }.acceptID(viewHolder.id)).start();
+                    Intent intent = new Intent(getActivity(), OthersDataActivity.class);
+                    intent.putExtra("id",viewHolder.id);
+                    startActivity(intent);
                 }
             });
 
@@ -311,7 +210,7 @@ public class SearchFragment extends Fragment {
                 String sessionID = application.getSessionID();
 
                 String data = "sessionID"+ URLEncoder.encode(sessionID,"UTF-8")+
-                        "&searchText=" + URLEncoder.encode("searchText","UTF-8");
+                        "&searchText=" + URLEncoder.encode(searchText,"UTF-8");
 
                 OutputStream out = conn.getOutputStream();
                 out.write(data.getBytes());
