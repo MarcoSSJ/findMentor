@@ -68,6 +68,10 @@
             android:name="com.example.findmentorapp.ChangePasswordActivity"
             android:label="修改密码" >
         </activity>
+        <activity
+            android:name="com.example.findmentorapp.PublishActivity"
+            android:label="动态列表" >
+        </activity>
     </application>
 
 </manifest>

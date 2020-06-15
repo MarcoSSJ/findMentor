@@ -78,15 +78,18 @@ public class OthersDataActivity extends AppCompatActivity {
         new Thread(runnable).start();
 
         //按钮处理
+        //查看他人动态
         button_publish = (Button)findViewById(R.id.button_othersData_publish);
         button_publish.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick (View v) {
-                //todo 查看他人发布（先暂时搁置，页面还没写）
-
+                //todo 查看他人发布，给跳转活动正确id便于那边处理
+                Intent intent = new Intent(OthersDataActivity.this, PublishActivity.class);
+                startActivity(intent);
             }
         });
 
+        //关注与取关
         button_favorite = (Button)findViewById(R.id.button_othersData_favorite);
         button_favorite.setOnClickListener(new View.OnClickListener(){
             @Override
