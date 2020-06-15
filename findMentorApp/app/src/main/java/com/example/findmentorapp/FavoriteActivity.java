@@ -19,8 +19,10 @@ import com.example.findmentorapp.ui.search.SearchFragment;
 
 public class FavoriteActivity extends AppCompatActivity {
 
+    //todo 关注界面的recyView中内容修改，分别为姓名、年级（职称）、text（先设为研究方向（兴趣））
     String s_name[] = {"内容一", "内容一", "内容一"};
     String s_text[] = {"内容二", "内容二", "内容二"};
+    String s_grade[] = {"内容", "内容", "内容"};
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +67,7 @@ public class FavoriteActivity extends AppCompatActivity {
             //将数据映射到控件中
             viewHolder.text.setText(s_text[position]);
             viewHolder.name.setText(s_name[position]);
+            viewHolder.grade.setText(s_grade[position]);
 
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -84,7 +87,7 @@ public class FavoriteActivity extends AppCompatActivity {
 
         class MyHolder extends RecyclerView.ViewHolder {
 
-            TextView text, name;
+            TextView text, name, grade;
             //标识号
             int id;
 
@@ -93,9 +96,9 @@ public class FavoriteActivity extends AppCompatActivity {
 
                 //实例化子对象，把对象和列表项布局文件中的id绑定
 
-                text = itemView.findViewById(R.id.textView_item_favorite_info);
+                text = itemView.findViewById(R.id.textView_item_favorite_text);
                 name = itemView.findViewById(R.id.textView_item_favorite_name);
-
+                grade = itemView.findViewById(R.id.textView_item_favorite_grade);
 
             }
 

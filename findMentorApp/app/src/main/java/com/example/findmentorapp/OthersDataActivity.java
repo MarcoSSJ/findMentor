@@ -16,7 +16,11 @@ public class OthersDataActivity extends AppCompatActivity {
     private TextView textView_name;
     private TextView textView_sex;
     private TextView textView_age;
-    private TextView textView_signature;
+    private TextView textView_intro;
+    private TextView textView_range;
+    private TextView textView_school;
+    private TextView textView_department;
+    private TextView textView_grade;
     private Button button_publish;
     private Button button_favorite;
 
@@ -32,11 +36,22 @@ public class OthersDataActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        //姓名、年龄、性别、简介
+        //todo 对老师、学生设置不同标题
+        //初始的是学生，若为老师设置如下：（被注释的代码）
+//        TextView textView6 = findViewById(R.id.textView_othersData6);
+//        TextView textView7 = findViewById(R.id.textView_othersData7);
+//        textView6.setText("职称：");
+//        textView7.setText("研究领域：");
+
+        //姓名、年龄、性别、简介、学校、院系、研究方向、年级
         textView_name = (TextView)findViewById(R.id.textView_othersData_name);
         textView_age = (TextView)findViewById(R.id.textView_othersData_age);
         textView_sex = (TextView)findViewById(R.id.textView_othersData_sex);
-        textView_signature = (TextView)findViewById(R.id.textView_othersData_signature);
+        textView_intro = (TextView)findViewById(R.id.textView_othersData_intro);
+        textView_school = (TextView)findViewById(R.id.textView_othersData_school);
+        textView_department = (TextView)findViewById(R.id.textView_othersData_department);
+        textView_range = (TextView)findViewById(R.id.textView_othersData_range);
+        textView_grade = (TextView)findViewById(R.id.textView_othersData_grade);
 
         //todo 设置姓名等要素
 
