@@ -51,7 +51,6 @@ public class SearchFragment extends Fragment {
 
     private SearchViewModel searchViewModel;
 
-    //todo 搜索界面的recyView中内容修改，分别为姓名、年级（职称）、text（先设为研究方向（兴趣））
     String s_name[] = {};
     String s_text[] = {};
     String s_grade[] = {};

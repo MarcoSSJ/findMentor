@@ -3,11 +3,15 @@ package com.example.findmentorapp;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -17,12 +21,26 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.findmentorapp.ui.search.SearchFragment;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class FavoriteActivity extends AppCompatActivity {
 
-    //todo 关注界面的recyView中内容修改，分别为姓名、年级（职称）、text（先设为研究方向（兴趣））
-    String s_name[] = {"内容一", "内容一", "内容一"};
-    String s_text[] = {"内容二", "内容二", "内容二"};
-    String s_grade[] = {"内容", "内容", "内容"};
+    String s_name[] = {};
+    String s_text[] = {};
+    String s_grade[] = {};
+    String s_id[] = {};
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +52,8 @@ public class FavoriteActivity extends AppCompatActivity {
             actionBar.setHomeButtonEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
+        new Thread(runnable).start();
 
         //RecyclerView相关函数
         final RecyclerView recyclerView_search = findViewById(R.id.recyclerView_favorite_mine);
@@ -62,18 +82,20 @@ public class FavoriteActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
-            MyHolder viewHolder = (MyHolder) holder;
+            final MyHolder viewHolder = (MyHolder) holder;
 
             //将数据映射到控件中
             viewHolder.text.setText(s_text[position]);
             viewHolder.name.setText(s_name[position]);
             viewHolder.grade.setText(s_grade[position]);
+            //用户id
+            viewHolder.id = s_id[position];
 
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    // todo 点击item事件,以后需要从这里跳到详情页，需要传去参数（position表示所在位置‘下面类中加了个id可以用来存id用于跳转）
                     Intent intent = new Intent(FavoriteActivity.this, OthersDataActivity.class);
+                    intent.putExtra("id",viewHolder.id);
                     startActivity(intent);
                 }
             });
@@ -89,7 +111,7 @@ public class FavoriteActivity extends AppCompatActivity {
 
             TextView text, name, grade;
             //标识号
-            int id;
+            String id;
 
             public MyHolder(View itemView) {
                 super(itemView);
@@ -116,4 +138,127 @@ public class FavoriteActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+        String favorite_url = Urls.favorite_url;
+        Handler handler = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                if (msg.what == 0) {
+                    //不成功，弹窗
+                    Toast toast = Toast.makeText(MyApplication.getContext(), "加载失败", Toast.LENGTH_SHORT);
+                    toast.show();
+                } else if (msg.what == 1) {
+                }
+            }
+        };
+        try {
+            URL url = new URL(favorite_url);
+            HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setReadTimeout(5000);
+            conn.setConnectTimeout(5000);
+
+            conn.setRequestProperty("Content-Type",
+                    "application/x-www-form-urlencoded;charset=UTF-8");
+
+            conn.setDoOutput(true);
+            conn.setDoInput(true);
+            conn.setUseCaches(false);
+
+            //MyApplication application = (MyApplication) getActivity().getApplicationContext();
+            MyApplication application = MyApplication.getInstance();
+            String sessionID = application.getSessionID();
+
+            String data = "sessionID="+ URLEncoder.encode(sessionID,"UTF-8");
+
+            OutputStream out = conn.getOutputStream();
+            out.write(data.getBytes());
+            out.flush();
+            out.close();
+
+            InputStream is = conn.getInputStream();
+            if(conn.getResponseCode()==HttpURLConnection.HTTP_OK) {
+                StringBuilder response = new StringBuilder();
+                byte[] b = new byte[1024];
+                int len ;
+                while((len = is.read(b))!=-1){
+                    response.append(new String(b, 0, len));
+                }
+                is.close();
+                conn.disconnect();
+
+                String res = new String(response);
+                System.out.println(res);
+                JSONObject obj = new JSONObject(res);
+                String isconnect = obj.getString("result");
+                if(isconnect.equals("true")) {
+
+                    JSONArray dataArray = obj.getJSONArray("data");
+                    for (int i = 0;i<dataArray.length();i++)
+                    {
+                        JSONObject personData = dataArray.getJSONObject(i);
+                        String text = personData.getString("text");
+                        String name = personData.getString("name");
+                        String grade = personData.getString("grade");
+                        String id = personData.getString("id");
+
+                        ArrayList<String> textList = new ArrayList<String>(s_text.length);
+                        Collections.addAll(textList, s_text);
+                        textList.add(text);
+                        s_text = textList.toArray(new String[0]);
+
+                        ArrayList<String> nameList = new ArrayList<String>(s_name.length);
+                        Collections.addAll(nameList, s_name);
+                        nameList.add(name);
+                        s_name = nameList.toArray(new String[0]);
+
+                        ArrayList<String> gradeList = new ArrayList<String>(s_grade.length);
+                        Collections.addAll(gradeList, s_grade);
+                        gradeList.add(id);
+                        s_grade = gradeList.toArray(new String[0]);
+
+                        ArrayList<String> idList = new ArrayList<String>(s_id.length);
+                        Collections.addAll(idList, s_id);
+                        idList.add(id);
+                        s_id = idList.toArray(new String[0]);
+                    }
+
+                    Message message = Message.obtain();
+                    message.what = 1;
+                    handler.sendMessage(message);
+                }
+                else
+                {
+                    Message message = Message.obtain();
+                    message.what = 0;
+                    handler.sendMessage(message);
+                }
+            }
+            else {
+                Message message = Message.obtain();
+                message.what = 0;
+                handler.sendMessage(message);
+            }
+        } catch (MalformedURLException e) {
+            Message message = Message.obtain();
+            message.what = 0;
+            handler.sendMessage(message);
+            e.printStackTrace();
+        } catch (IOException e) {
+            Message message = Message.obtain();
+            message.what = 0;
+            handler.sendMessage(message);
+            e.printStackTrace();
+        } catch (JSONException e) {
+            Message message = Message.obtain();
+            message.what = 0;
+            handler.sendMessage(message);
+            e.printStackTrace();
+        }
+        }
+
+    };
 }

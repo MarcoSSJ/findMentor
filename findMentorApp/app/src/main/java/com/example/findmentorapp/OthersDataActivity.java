@@ -75,6 +75,7 @@ public class OthersDataActivity extends AppCompatActivity {
         textView_range = (TextView)findViewById(R.id.textView_othersData_range);
         textView_grade = (TextView)findViewById(R.id.textView_othersData_grade);
 
+        //在这里进行网络访问取信息
         new Thread(runnable).start();
 
         //按钮处理
@@ -83,8 +84,9 @@ public class OthersDataActivity extends AppCompatActivity {
         button_publish.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick (View v) {
-                //todo 查看他人发布，给跳转活动正确id便于那边处理
                 Intent intent = new Intent(OthersDataActivity.this, PublishActivity.class);
+                //这里的id是别人的id
+                intent.putExtra("id",id);
                 startActivity(intent);
             }
         });
@@ -122,7 +124,7 @@ public class OthersDataActivity extends AppCompatActivity {
         private String range = "";
         @Override
         public void run() {
-            String personal_data_change_url = Urls.others_data_url;
+            String others_data_url = Urls.others_data_url;
             Handler handler = new Handler(Looper.getMainLooper()) {
                 @Override
                 public void handleMessage(Message msg) {
@@ -160,9 +162,7 @@ public class OthersDataActivity extends AppCompatActivity {
                 }
             };
             try {
-
-
-                URL url = new URL(personal_data_change_url);
+                URL url = new URL(others_data_url);
                 HttpURLConnection conn = (HttpURLConnection)url.openConnection();
                 conn.setRequestMethod("POST");
                 conn.setReadTimeout(5000);
@@ -252,7 +252,7 @@ public class OthersDataActivity extends AppCompatActivity {
     private Runnable runnable2 = new Runnable() {
         @Override
         public void run() {
-            String personal_data_change_url = Urls.follow_url;
+            String follow_url = Urls.follow_url;
             Handler handler = new Handler(Looper.getMainLooper()) {
                 @Override
                 public void handleMessage(Message msg) {
@@ -271,7 +271,7 @@ public class OthersDataActivity extends AppCompatActivity {
             try {
 
 
-                URL url = new URL(personal_data_change_url);
+                URL url = new URL(follow_url);
                 HttpURLConnection conn = (HttpURLConnection)url.openConnection();
                 conn.setRequestMethod("POST");
                 conn.setReadTimeout(5000);

@@ -10,4 +10,6 @@ public class Urls {
     public static String search_url = "";
     public static String others_data_url = "";
     public static String follow_url = "";
+    public static String publish_url = "";
+    public static String favorite_url = "";
 }

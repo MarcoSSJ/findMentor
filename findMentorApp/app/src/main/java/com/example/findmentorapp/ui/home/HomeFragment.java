@@ -1,6 +1,8 @@
 package com.example.findmentorapp.ui.home;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +29,7 @@ import com.example.findmentorapp.R;
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
+    private SharedPreferences sharedPreferences;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -42,8 +45,11 @@ public class HomeFragment extends Fragment {
         });
 
         //获取登陆状态
-        MyApplication application = (MyApplication) getActivity().getApplication();
+        //MyApplication application = (MyApplication) getActivity().getApplication();
+        MyApplication application = MyApplication.getInstance();
         String sessionID = application.getSessionID();
+
+        sharedPreferences = getActivity().getSharedPreferences("remenberpass", Context.MODE_PRIVATE);
 
         //跳转登录界面
         Button toLogButton = (Button) root.findViewById(R.id.toLogin);
@@ -67,19 +73,20 @@ public class HomeFragment extends Fragment {
             toPersonalData.setVisibility(View.VISIBLE);
         }
 
-        //todo 跳转个人信息界面，处理下学生与老师不同情况
         toPersonalData.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick (View v) {
-
-                //老师跳转
-                Intent intent = new Intent(getActivity(), PersonalDataTActivity.class);
-                startActivity(intent);
-
-                //学生跳转
-                //Intent intent = new Intent(getActivity(), PersonalDataSActivity.class);
-                //startActivity(intent);
-
+                String type =  sharedPreferences.getString("type","");
+                if(type.equals("teacher")) {
+                    //老师跳转
+                    Intent intent = new Intent(getActivity(), PersonalDataTActivity.class);
+                    startActivity(intent);
+                }
+                else {
+                    //学生跳转
+                    Intent intent = new Intent(getActivity(), PersonalDataSActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -115,8 +122,10 @@ public class HomeFragment extends Fragment {
         layout_toPublish.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick (View v) {
-                //todo 向页面发送正确id便于页面处理
+                String id =  sharedPreferences.getString("id","");
                 Intent intent = new Intent(getActivity(), PublishActivity.class);
+                //这里的id是自己的id
+                intent.putExtra("id",id);
                 startActivity(intent);
             }
         });

@@ -154,8 +154,7 @@ public class RegisterActivity extends AppCompatActivity {
                             "&email=" + URLEncoder.encode(email, "UTF-8") +
                             "&name=" + URLEncoder.encode(name, "UTF-8") +
                             "&school=" + URLEncoder.encode(school, "UTF-8") +
-                            "&department=" + URLEncoder.encode(department, "UTF-8")
-                            ;
+                            "&department=" + URLEncoder.encode(department, "UTF-8");
 
                     OutputStream out = conn.getOutputStream();
                     out.write(data.getBytes());

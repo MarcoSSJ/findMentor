@@ -105,7 +105,11 @@ public class LoginActivity extends AppCompatActivity {
                     JSONObject obj = new JSONObject(res);
                     String login = obj.getString("result");
                     if(login.equals("true")) {
+
                         String sessionID = obj.getString("sessionID");
+                        String type = obj.getString("type");
+                        String id = obj.getString("id");
+
                         MyApplication application = (MyApplication) getApplicationContext();
                         application.setSessionID(sessionID);
                         //登录成功后在sharedpreference存入用户名和密码
@@ -114,6 +118,8 @@ public class LoginActivity extends AppCompatActivity {
                             editor.putBoolean("remenberpass",true);
                             editor.putString("username",username);
                             editor.putString("password",password);
+                            editor.putString("type",type);
+                            editor.putString("id",id);
                             editor.apply();
                         }
                         Message message = Message.obtain();
