@@ -238,7 +238,7 @@ public class PersonalDataChangeTActivity extends AppCompatActivity {
                 if(radioButton_male.getId()==checkedId){
                     temp="male";
                 }
-                else if(radioButton_female.getId()==checkedId){
+                if(radioButton_female.getId()==checkedId){
                     temp="female";
                 }
                 sex1 = temp;

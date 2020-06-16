@@ -12,8 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,7 +58,6 @@ public class SearchFragment extends Fragment {
     String s_id[] = {};
 
     String searchText;
-    String searchSelect; //标识搜索选项，换成int也无所谓
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -84,45 +81,19 @@ public class SearchFragment extends Fragment {
         final EditText searchEditText = root.findViewById(R.id.editText_search_searchByWord);
         final Button searchButton = root.findViewById(R.id.button_search_searchByText);
         final RecyclerView recyclerView_search = root.findViewById(R.id.recyclerView_search_forSerach);
-        final RadioGroup radioGroup_search=root.findViewById(R.id.radioGroup_search);
-        final RadioButton radioButton_byname=root.findViewById(R.id.radioButton_search_byname);
-        final RadioButton radioButton_byschool=root.findViewById(R.id.radioButton_search_byschool);
-        final RadioButton radioButton_byrange=root.findViewById(R.id.radioButton_search_byrange);
-        searchSelect = "name";
 
         if(sessionID.equals("")) {
             textView.setVisibility(View.VISIBLE);
             searchEditText.setVisibility(View.INVISIBLE);
             searchButton.setVisibility(View.INVISIBLE);
             recyclerView_search.setVisibility(View.INVISIBLE);
-            radioGroup_search.setVisibility(View.INVISIBLE);
         }
         else {
             textView.setVisibility(View.INVISIBLE);
             searchEditText.setVisibility(View.VISIBLE);
             searchButton.setVisibility(View.VISIBLE);
             recyclerView_search.setVisibility(View.VISIBLE);
-            radioGroup_search.setVisibility(View.VISIBLE);
         }
-
-        //todo 以下为搜索选项的获取代码，最终结果存在searchSelect变量里,分别对应name、school、range
-        radioGroup_search.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                String temp="name";
-                if(radioButton_byname.getId()==checkedId){
-                    temp="name";
-                }
-                if(radioButton_byschool.getId()==checkedId){
-                    temp="school";
-                }
-                if(radioButton_byrange.getId()==checkedId){
-                    temp="range";
-                }
-                searchSelect = temp;
-            }
-        });
 
         searchButton.setOnClickListener(new View.OnClickListener(){
             @Override
