@@ -105,7 +105,6 @@ public class SearchFragment extends Fragment {
             radioGroup_search.setVisibility(View.VISIBLE);
         }
 
-        //todo 以下为搜索选项的获取代码，最终结果存在searchSelect变量里,分别对应name、school、range
         radioGroup_search.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 
             @Override
@@ -238,7 +237,8 @@ public class SearchFragment extends Fragment {
             String sessionID = application.getSessionID();
 
             String data = "sessionID="+ URLEncoder.encode(sessionID,"UTF-8")+
-                    "&searchText=" + URLEncoder.encode(searchText,"UTF-8");
+                    "&searchText=" + URLEncoder.encode(searchText,"UTF-8")+
+                    "&searchSelect=" + URLEncoder.encode(searchSelect,"UTF-8");
 
             OutputStream out = conn.getOutputStream();
             out.write(data.getBytes());
