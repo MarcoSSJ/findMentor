@@ -104,7 +104,7 @@ public class RegisterActivity extends AppCompatActivity {
             String name = name_text.getText().toString();
             String school = school_text.getText().toString();
             String department = department_text.getText().toString();
-            String register_url = Urls.api_url;
+            String register_url = Urls.register_url;
 
             Handler handler = new Handler(Looper.getMainLooper()) {
                 @Override
@@ -148,7 +148,7 @@ public class RegisterActivity extends AppCompatActivity {
                     conn.setDoInput(true);
                     conn.setUseCaches(false);
 
-                    String data = "action=Register"+"&type=" + URLEncoder.encode("teacher","UTF-8") +
+                    String data = "type=" + URLEncoder.encode("teacher","UTF-8") +
                             "&username=" + URLEncoder.encode(username, "UTF-8") +
                             "&password=" + URLEncoder.encode(password, "UTF-8") +
                             "&email=" + URLEncoder.encode(email, "UTF-8") +
@@ -221,7 +221,7 @@ public class RegisterActivity extends AppCompatActivity {
             String name = name_text.getText().toString();
             String school = school_text.getText().toString();
             String department = department_text.getText().toString();
-            String register_url = Urls.api_url;
+            String register_url = Urls.register_url;
 
             Handler handler = new Handler(Looper.getMainLooper()) {
                 @Override
@@ -265,7 +265,7 @@ public class RegisterActivity extends AppCompatActivity {
                     conn.setDoInput(true);
                     conn.setUseCaches(false);
 
-                    String data = "action=\"Register\""+"type=" + URLEncoder.encode("student","UTF-8")+
+                    String data = "type=" + URLEncoder.encode("student","UTF-8")+
                             "&username=" + URLEncoder.encode(username, "UTF-8") +
                             "&password=" + URLEncoder.encode(password, "UTF-8") +
                             "&email=" + URLEncoder.encode(email, "UTF-8") +

@@ -51,7 +51,7 @@ public class PersonalDataChangeTActivity extends AppCompatActivity {
             String intro = editText_intro.getText().toString();
             String range = editText_range.getText().toString();
             String grade = editText_grade.getText().toString();
-            String personal_data_change_url = Urls.api_url;
+            String personal_data_change_url = Urls.personal_data_change_url;
 
             Handler handler = new Handler(Looper.getMainLooper()) {
                 @Override
@@ -86,8 +86,7 @@ public class PersonalDataChangeTActivity extends AppCompatActivity {
                 MyApplication application = (MyApplication) getApplicationContext();
                 String sessionID = application.getSessionID();
 
-                String data = "action=ChangePersonalData"+
-                        "&sessionID="+ URLEncoder.encode(sessionID,"UTF-8")+
+                String data = "sessionID="+ URLEncoder.encode(sessionID,"UTF-8")+
                         "&type=" + URLEncoder.encode("teacher","UTF-8") +
                         "&age="+URLEncoder.encode(age,"UTF-8")+
                         "&sex="+URLEncoder.encode(sex1,"UTF-8")+
@@ -234,7 +233,7 @@ public class PersonalDataChangeTActivity extends AppCompatActivity {
 
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                String temp="male";
+                String temp=null;
                 if(radioButton_male.getId()==checkedId){
                     temp="male";
                 }
