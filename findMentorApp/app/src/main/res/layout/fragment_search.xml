@@ -31,10 +31,10 @@
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.072"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.101"
+        app:layout_constraintVertical_bias="0.099"
         tools:ignore="MissingConstraints">
 
         <RadioButton
@@ -75,7 +75,7 @@
 
     <EditText
         android:id="@+id/editText_search_searchByWord"
-        android:layout_width="330dp"
+        android:layout_width="300dp"
         android:layout_height="35dp"
         android:background="@drawable/rounded_corner_search_box"
         android:drawableLeft="@drawable/ic_search_black_24dp"
@@ -95,14 +95,18 @@
 
     <Button
         android:id="@+id/button_search_searchByText"
-        android:layout_width="61dp"
-        android:layout_height="35dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_drawable_small"
+        android:gravity="center"
         android:text="搜索"
+        android:textColor="#ffffff"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.977"
+        app:layout_constraintHorizontal_bias="0.95"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.05" />
+        app:layout_constraintVertical_bias="0.061" />
     　　
 </androidx.constraintlayout.widget.ConstraintLayout>
