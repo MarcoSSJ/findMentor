@@ -196,6 +196,11 @@ public class FavoriteActivity extends AppCompatActivity {
                 String isconnect = obj.getString("result");
                 if(isconnect.equals("true")) {
 
+                    s_name = new String[]{};
+                    s_text = new String[]{};
+                    s_grade = new String[]{};
+                    s_id = new String[]{};
+
                     JSONArray dataArray = obj.getJSONArray("data");
                     for (int i = 0;i<dataArray.length();i++)
                     {

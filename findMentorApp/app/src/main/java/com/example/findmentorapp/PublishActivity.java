@@ -200,7 +200,11 @@ public class PublishActivity extends AppCompatActivity {
                 JSONObject obj = new JSONObject(res);
                 String isconnect = obj.getString("result");
                 if(isconnect.equals("true")) {
-
+                    s_title = new String[]{};
+                    s_name = new String[]{};
+                    s_text = new String[]{};
+                    s_time = new String[]{};
+                    s_infoID = new String[]{};
                     JSONArray dataArray = obj.getJSONArray("data");
                     for (int i = 0;i<dataArray.length();i++)
                     {

@@ -109,6 +109,9 @@ public class LoginActivity extends AppCompatActivity {
                         String sessionID = obj.getString("sessionID");
                         String type = obj.getString("type");
                         String id = obj.getString("id");
+                        String name = obj.getString("name");
+                        String school = obj.getString("school");
+                        String department = obj.getString("department");
 
                         MyApplication application = (MyApplication) getApplicationContext();
                         application.setSessionID(sessionID);
@@ -120,6 +123,9 @@ public class LoginActivity extends AppCompatActivity {
                             editor.putString("password",password);
                             editor.putString("type",type);
                             editor.putString("id",id);
+                            editor.putString("name",name);
+                            editor.putString("school",school);
+                            editor.putString("department",department);
                             editor.apply();
                         }
                         Message message = Message.obtain();
