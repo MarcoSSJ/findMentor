@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
         public void run() {
             String username = username_text.getText().toString();
             String password = password_text.getText().toString();
-            String log_in_url = Urls.log_in_url;
+            String log_in_url = Urls.api_url;
 
             Handler handler = new Handler(Looper.getMainLooper()) {
                 @Override
@@ -81,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
                 conn.setDoInput(true);
                 conn.setUseCaches(false);
 
-                String data = "username="+ URLEncoder.encode(username,"UTF-8")+
+                String data = "action=Login"+"&username="+ URLEncoder.encode(username,"UTF-8")+
                         "&password="+URLEncoder.encode(password,"UTF-8");
 
                 OutputStream out = conn.getOutputStream();
