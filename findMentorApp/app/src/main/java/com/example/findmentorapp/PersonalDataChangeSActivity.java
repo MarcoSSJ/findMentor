@@ -234,11 +234,11 @@ public class PersonalDataChangeSActivity extends AppCompatActivity {
 
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                String temp=null;
+                String temp="male";
                 if(radioButton_male.getId()==checkedId){
                     temp="male";
                 }
-                if(radioButton_female.getId()==checkedId){
+                else if(radioButton_female.getId()==checkedId){
                     temp="female";
                 }
                 sex1 = temp;
