@@ -1,5 +1,7 @@
 package com.example.findmentorapp;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -252,7 +254,33 @@ public class AccountActivity extends AppCompatActivity {
         deleteButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick (View v) {
-                new Thread(log_off).start();
+
+                //todo 底下为弹窗操作，确认一下
+                AlertDialog.Builder dialog = new AlertDialog.Builder(AccountActivity.this);
+                dialog.setTitle("确认注销？");
+                dialog.setIcon(android.R.drawable.ic_dialog_info);
+                dialog.setPositiveButton("确定", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        //点击确定后的动作
+                        new Thread(log_off).start();
+                    }
+                });
+
+                dialog.setNegativeButton("取消", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        // 点击“返回”后的操作,这里不设置没有任何操作
+                    }
+                });
+
+                dialog.show();
+
+
             }
         });
 
