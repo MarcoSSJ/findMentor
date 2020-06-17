@@ -53,6 +53,7 @@ import java.util.List;
 public class SearchFragment extends Fragment {
 
     private SearchViewModel searchViewModel;
+    private MyAdapter myAdapter;
 
     String s_name[] = {};
     String s_text[] = {};
@@ -132,7 +133,7 @@ public class SearchFragment extends Fragment {
         //RecyclerView相关函数，暂时放在下面。以后可能需要放入ViewModel
 
         recyclerView_search.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        MyAdapter myAdapter = new MyAdapter();
+        myAdapter = new MyAdapter();
 
         recyclerView_search.setAdapter(myAdapter);
 
@@ -213,6 +214,8 @@ public class SearchFragment extends Fragment {
                     Toast toast = Toast.makeText(MyApplication.getContext(), "搜索失败", Toast.LENGTH_SHORT);
                     toast.show();
                 } else if (msg.what == 1) {
+                    //成功
+                    myAdapter.notifyDataSetChanged();
                 }
             }
         };
@@ -288,6 +291,7 @@ public class SearchFragment extends Fragment {
                     s_text = textList.toArray(new String[0]);
                     s_grade = gradeList.toArray(new String[0]);
                     s_id = idList.toArray(new String[0]);
+
                     Message message = Message.obtain();
                     message.what = 1;
                     handler.sendMessage(message);
