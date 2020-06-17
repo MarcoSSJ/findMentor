@@ -8,61 +8,37 @@
 
     <EditText
         android:id="@+id/editText_log_password"
-        android:layout_width="230dp"
-        android:layout_height="44dp"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:background="@drawable/rounded_corner_search_box_gray"
         android:ems="10"
+        android:gravity="center"
         android:hint="请输入密码"
         android:inputType="textPassword"
+        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.706"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.475" />
-
-    <TextView
-        android:id="@+id/textView_log1"
-        android:layout_width="85dp"
-        android:layout_height="44dp"
-        android:gravity="center"
-        android:text="用户名："
-        android:textAppearance="@style/AppTheme"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.162"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.364" />
+        app:layout_constraintVertical_bias="0.464" />
 
     <EditText
         android:id="@+id/editText_log_username"
-        android:layout_width="228dp"
-        android:layout_height="42dp"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:background="@drawable/rounded_corner_search_box_gray"
         android:ems="10"
+        android:gravity="center"
         android:hint="请输入用户名"
         android:inputType="textPersonName"
+        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.704"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.366" />
-
-    <TextView
-        android:id="@+id/textView_log2"
-        android:layout_width="96dp"
-        android:layout_height="47dp"
-        android:gravity="center"
-        android:text="密码："
-        android:textAppearance="@style/AppTheme"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.138"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.473" />
+        app:layout_constraintVertical_bias="0.346" />
 
     <Button
         android:id="@+id/button_login"
@@ -116,6 +92,7 @@
         android:layout_height="116dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.138"
