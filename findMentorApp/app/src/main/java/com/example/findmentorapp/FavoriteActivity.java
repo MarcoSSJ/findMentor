@@ -42,6 +42,7 @@ public class FavoriteActivity extends AppCompatActivity {
     String s_grade[] = {};
     String s_id[] = {};
 
+    private MyAdapter myAdapter;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +60,7 @@ public class FavoriteActivity extends AppCompatActivity {
         final RecyclerView recyclerView_search = findViewById(R.id.recyclerView_favorite_mine);
         recyclerView_search.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-        MyAdapter myAdapter = new MyAdapter();
+        myAdapter = new MyAdapter();
 
         recyclerView_search.setAdapter(myAdapter);
 
@@ -151,6 +152,8 @@ public class FavoriteActivity extends AppCompatActivity {
                     Toast toast = Toast.makeText(MyApplication.getContext(), "加载失败", Toast.LENGTH_SHORT);
                     toast.show();
                 } else if (msg.what == 1) {
+                    //成功
+                    myAdapter.notifyDataSetChanged();
                 }
             }
         };

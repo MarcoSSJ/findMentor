@@ -42,6 +42,8 @@ public class PublishActivity extends AppCompatActivity {
     String s_infoID[] = {};
     String id;//用户id
 
+    private MyAdapter myAdapter;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_publish);
@@ -61,7 +63,7 @@ public class PublishActivity extends AppCompatActivity {
         final RecyclerView recyclerView_search = findViewById(R.id.recyclerView_publish);
         recyclerView_search.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-        PublishActivity.MyAdapter myAdapter = new PublishActivity.MyAdapter();
+        myAdapter = new PublishActivity.MyAdapter();
 
         recyclerView_search.setAdapter(myAdapter);
 
@@ -155,6 +157,8 @@ public class PublishActivity extends AppCompatActivity {
                     Toast toast = Toast.makeText(MyApplication.getContext(), "加载失败", Toast.LENGTH_SHORT);
                     toast.show();
                 } else if (msg.what == 1) {
+                    //成功
+                    myAdapter.notifyDataSetChanged();
                 }
             }
         };
