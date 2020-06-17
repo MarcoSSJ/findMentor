@@ -1,16 +1,23 @@
 package com.example.findmentorapp;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -21,6 +28,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -40,7 +48,13 @@ public class PersonalDataChangeTActivity extends AppCompatActivity {
     private EditText editText_grade;
     private Button button;
     private String sex1;
+    private ImageView imageView;
     private SharedPreferences sharedPreferences;
+
+    protected static final int CHOOSE_PICTURE = 0;
+    protected static final int TAKE_PICTURE = 1;
+    private static final int CROP_SMALL_PICTURE = 2;
+    protected static Uri tempUri;
 
     Runnable runnable = new Runnable() {
         @Override
@@ -177,6 +191,7 @@ public class PersonalDataChangeTActivity extends AppCompatActivity {
         editText_intro = (EditText)findViewById(R.id.editText_personalDataChange_inTro);
         editText_range = (EditText)findViewById(R.id.editText_personalDataChange_range);
         editText_grade = (EditText)findViewById(R.id.editText_personalDataChange_grade);
+        imageView = (ImageView)findViewById(R.id.imageView_personalDataChange);
 
         sharedPreferences = getSharedPreferences("remenberpass", Context.MODE_PRIVATE);
         String age = sharedPreferences.getString("age","");
@@ -252,7 +267,101 @@ public class PersonalDataChangeTActivity extends AppCompatActivity {
                 new Thread(runnable).start();
             }
         });
+
+        imageView.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick (View v) {
+                showChoosePicDialog();
+            }
+        });
     }
+
+    //以下为头像修改代码
+    //todo 完成头像上传等操作（目前只使用本地图片，只剩下上传操作了），参考https://blog.csdn.net/ydxlt/article/details/48024017#t1
+    //其他地方也可以开始着手头像设置了
+    //设置图片如imageView.setImageBitmap(photo);
+    protected void showChoosePicDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("设置头像");
+        String[] items = { "选择本地照片"};
+        builder.setNegativeButton("取消", null);
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case CHOOSE_PICTURE: // 选择本地照片
+                        Intent openAlbumIntent = new Intent(
+                                Intent.ACTION_PICK);
+                        openAlbumIntent.setType("image/*");
+                        startActivityForResult(openAlbumIntent, CHOOSE_PICTURE);
+                        break;
+                }
+            }
+        });
+        builder.create().show();
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) { // 如果返回码是可以用的
+            switch (requestCode) {
+                case TAKE_PICTURE:
+                    startPhotoZoom(tempUri); // 开始对图片进行裁剪处理
+                    break;
+                case CHOOSE_PICTURE:
+                    startPhotoZoom(data.getData()); // 开始对图片进行裁剪处理
+                    break;
+                case CROP_SMALL_PICTURE:
+                    if (data != null) {
+                        setImageToView(data); // 让刚才选择裁剪得到的图片显示在界面上
+                    }
+                    break;
+            }
+        }
+    }
+
+    /**
+     * 裁剪图片方法实现
+     *
+     * @param uri
+     */
+    protected void startPhotoZoom(Uri uri) {
+//        if (uri == null) {
+//            Log.i("tag", "The uri is not exist.");
+//        }
+        tempUri = uri;
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(uri, "image/*");
+        // 设置裁剪
+        intent.putExtra("crop", "true");
+        // aspectX aspectY 是宽高的比例
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+        // outputX outputY 是裁剪图片宽高
+        intent.putExtra("outputX", 150);
+        intent.putExtra("outputY", 150);
+        intent.putExtra("return-data", true);
+        startActivityForResult(intent, CROP_SMALL_PICTURE);
+    }
+
+    /**
+     * 保存裁剪之后的图片数据
+     *
+     * @param
+     *
+     */
+    protected void setImageToView(Intent data) {
+        Bundle extras = data.getExtras();
+        if (extras != null) {
+            Bitmap photo = extras.getParcelable("data");
+            photo = ImageUtils.toRoundBitmap(photo); // 这个时候的图片已经被处理成圆形的了
+            imageView.setImageBitmap(photo);
+        }
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

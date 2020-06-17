@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
@@ -32,6 +33,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
     private EditText password_old;
     private EditText password_new1;
     private EditText password_new2;
+    private ImageView imageView_data;
     private SharedPreferences sharedPreferences;
     private Button button;
 
@@ -175,6 +177,9 @@ public class ChangePasswordActivity extends AppCompatActivity {
         password_new1 = (EditText)findViewById(R.id.editText_changePassword_newpassword1);
         password_new2 = (EditText)findViewById(R.id.editText_changePassword_newpassword2);
 
+        imageView_data = (ImageView) findViewById(R.id.imageView_changePassword);
+        //todo 设置头像
+        //设置图片如imageView.setImageBitmap(photo)，photo为bitmap格式
 
         button = (Button)findViewById(R.id.button_changePassword);
         button.setOnClickListener(new View.OnClickListener(){

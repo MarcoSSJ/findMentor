@@ -10,6 +10,7 @@ import android.os.Message;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +40,7 @@ public class PersonalDataTActivity extends AppCompatActivity {
     private TextView textView_department;
     private TextView textView_grade;
     private Button button;
+    private ImageView imageView_data;
     private SharedPreferences sharedPreferences;
 
     String name = "";
@@ -70,6 +72,9 @@ public class PersonalDataTActivity extends AppCompatActivity {
         textView_range = (TextView)findViewById(R.id.textView_personalData_range);
         textView_grade = (TextView)findViewById(R.id.textView_personalData_grade);
 
+        imageView_data = (ImageView) findViewById(R.id.imageView_personalData);
+        //todo 设置头像
+        //设置图片如imageView.setImageBitmap(photo)，photo为bitmap格式
 
         MyApplication application = (MyApplication) getApplicationContext();
         String sessionID = application.getSessionID();

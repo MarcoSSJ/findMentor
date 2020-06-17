@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -58,8 +59,13 @@ public class HomeFragment extends Fragment {
         LinearLayout layout_toPublish = (LinearLayout)root.findViewById(R.id.layout_home_publish);
         final TextView toPersonalData = (TextView)root.findViewById(R.id.textView_home_data);
 
+        final ImageView imageView_user = (ImageView)root.findViewById(R.id.imageView_home_user);
+        //todo 设置头像
+        //设置图片如imageView.setImageBitmap(photo)，photo为bitmap格式
+
         if(sessionID.equals("")) {
             toLogButton.setVisibility(View.VISIBLE);
+            textView.setVisibility(View.VISIBLE);
             layout_toAccount.setVisibility(View.INVISIBLE);
             layout_toFavorite.setVisibility(View.INVISIBLE);
             layout_toPublish.setVisibility(View.INVISIBLE);
@@ -70,6 +76,7 @@ public class HomeFragment extends Fragment {
             layout_toFavorite.setVisibility(View.VISIBLE);
             layout_toPublish.setVisibility(View.VISIBLE);
             toLogButton.setVisibility(View.INVISIBLE);
+            textView.setVisibility(View.INVISIBLE);
             toPersonalData.setVisibility(View.VISIBLE);
         }
 
@@ -134,4 +141,6 @@ public class HomeFragment extends Fragment {
 
         return root;
     }
+
+
 }

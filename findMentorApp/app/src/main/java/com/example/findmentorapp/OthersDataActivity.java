@@ -9,6 +9,7 @@ import android.os.Message;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,7 +46,7 @@ public class OthersDataActivity extends AppCompatActivity {
     private TextView textView7;
     private Button button_publish;
     private Button button_favorite;
-
+    private ImageView imageView_data;
     private String id;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +78,10 @@ public class OthersDataActivity extends AppCompatActivity {
 
         //在这里进行网络访问取信息
         new Thread(runnable).start();
+
+        imageView_data = (ImageView) findViewById(R.id.imageView_othersData);
+        //todo 设置头像
+        //设置图片如imageView.setImageBitmap(photo)，photo为bitmap格式
 
         //按钮处理
         //查看他人动态

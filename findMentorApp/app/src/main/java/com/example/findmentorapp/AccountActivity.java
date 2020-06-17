@@ -10,6 +10,7 @@ import android.os.Message;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
@@ -31,6 +32,7 @@ public class AccountActivity extends AppCompatActivity {
     private Button logoutButton;
     private Button deleteButton;
     private Button fixPasswordButton;
+    private ImageView imageView_account;
 
     Runnable log_out = new Runnable() {
         @Override
@@ -241,6 +243,10 @@ public class AccountActivity extends AppCompatActivity {
             actionBar.setHomeButtonEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
+        imageView_account = (ImageView) findViewById(R.id.imageView_account);
+        //todo 设置头像
+        //设置图片如imageView.setImageBitmap(photo)，photo为bitmap格式
 
         logoutButton = (Button)findViewById(R.id.button_account_logout);
         logoutButton.setOnClickListener(new View.OnClickListener(){
