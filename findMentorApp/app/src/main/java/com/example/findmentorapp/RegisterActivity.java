@@ -265,7 +265,7 @@ public class RegisterActivity extends AppCompatActivity {
                     conn.setDoInput(true);
                     conn.setUseCaches(false);
 
-                    String data = "action=\"Register\""+"type=" + URLEncoder.encode("student","UTF-8")+
+                    String data = "action=Register"+"&type=" + URLEncoder.encode("student","UTF-8")+
                             "&username=" + URLEncoder.encode(username, "UTF-8") +
                             "&password=" + URLEncoder.encode(password, "UTF-8") +
                             "&email=" + URLEncoder.encode(email, "UTF-8") +

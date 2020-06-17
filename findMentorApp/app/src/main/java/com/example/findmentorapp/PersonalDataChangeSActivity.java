@@ -50,7 +50,7 @@ public class PersonalDataChangeSActivity extends AppCompatActivity {
         String intro = editText_intro.getText().toString();
         String range = editText_range.getText().toString();
         String grade = editText_grade.getText().toString();
-        String personal_data_change_url = Urls.personal_data_change_url;
+        String personal_data_change_url = Urls.api_url;
 
         Handler handler = new Handler(Looper.getMainLooper()) {
             @Override

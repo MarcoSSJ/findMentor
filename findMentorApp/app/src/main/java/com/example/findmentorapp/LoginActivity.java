@@ -121,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
                             editor.putBoolean("remenberpass",true);
                             editor.putString("username",username);
                             editor.putString("password",password);
-//                            editor.putString("type",type);
+                            editor.putString("type",type);
 //                            editor.putString("id",id);
 //                            editor.putString("name",name);
 //                            editor.putString("school",school);

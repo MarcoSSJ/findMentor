@@ -240,7 +240,8 @@ public class SearchFragment extends Fragment {
             MyApplication application = MyApplication.getInstance();
             String sessionID = application.getSessionID();
 
-            String data = "sessionID="+ URLEncoder.encode(sessionID,"UTF-8")+
+            String data = "action=Search"+
+                    "&sessionID="+ URLEncoder.encode(sessionID,"UTF-8")+
                     "&searchText=" + URLEncoder.encode(searchText,"UTF-8")+
                     "&searchSelect=" + URLEncoder.encode(searchSelect,"UTF-8");
 
