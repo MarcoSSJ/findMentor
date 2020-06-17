@@ -206,6 +206,12 @@ public class PublishActivity extends AppCompatActivity {
                     s_time = new String[]{};
                     s_infoID = new String[]{};
                     JSONArray dataArray = obj.getJSONArray("data");
+                    ArrayList<String> titleList = new ArrayList<String>(s_title.length);
+                    ArrayList<String> textList = new ArrayList<String>(s_text.length);
+                    ArrayList<String> nameList = new ArrayList<String>(s_name.length);
+                    ArrayList<String> timeList = new ArrayList<String>(s_time.length);
+                    ArrayList<String> infoIDList = new ArrayList<String>(s_infoID.length);
+
                     for (int i = 0;i<dataArray.length();i++)
                     {
                         JSONObject personData = dataArray.getJSONObject(i);
@@ -215,31 +221,17 @@ public class PublishActivity extends AppCompatActivity {
                         String time = personData.getString("time");
                         String infoID = personData.getString("infoID");
 
-                        ArrayList<String> titleList = new ArrayList<String>(s_title.length);
-                        Collections.addAll(titleList, s_name);
                         titleList.add(title);
-                        s_title = titleList.toArray(new String[0]);
-
-                        ArrayList<String> textList = new ArrayList<String>(s_text.length);
-                        Collections.addAll(textList, s_text);
                         textList.add(text);
-                        s_text = textList.toArray(new String[0]);
-
-                        ArrayList<String> nameList = new ArrayList<String>(s_name.length);
-                        Collections.addAll(nameList, s_name);
                         nameList.add(name);
-                        s_name = nameList.toArray(new String[0]);
-
-                        ArrayList<String> timeList = new ArrayList<String>(s_time.length);
-                        Collections.addAll(timeList, s_time);
                         timeList.add(time);
-                        s_time = timeList.toArray(new String[0]);
-
-                        ArrayList<String> infoIDList = new ArrayList<String>(s_infoID.length);
-                        Collections.addAll(infoIDList, s_infoID);
                         infoIDList.add(infoID);
-                        s_infoID = infoIDList.toArray(new String[0]);
                     }
+                    s_title = titleList.toArray(new String[0]);
+                    s_text = textList.toArray(new String[0]);
+                    s_name = nameList.toArray(new String[0]);
+                    s_time = timeList.toArray(new String[0]);
+                    s_infoID = infoIDList.toArray(new String[0]);
 
                     Message message = Message.obtain();
                     message.what = 1;
