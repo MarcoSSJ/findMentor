@@ -61,8 +61,8 @@ public class PersonalDataChangeSActivity extends AppCompatActivity {
                     Toast toast = Toast.makeText(getApplicationContext(), "修改失败", Toast.LENGTH_SHORT);
                     toast.show();
                 } else if (msg.what == 1) {
-                    Intent intent = new Intent(PersonalDataChangeSActivity.this, PersonalDataTActivity.class);
-                    startActivity(intent);
+//                    Intent intent = new Intent(PersonalDataChangeSActivity.this, PersonalDataTActivity.class);
+//                    startActivity(intent);
                     finish();
                 }
             }
