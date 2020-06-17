@@ -60,9 +60,8 @@ public class PersonalDataChangeTActivity extends AppCompatActivity {
                     Toast toast = Toast.makeText(getApplicationContext(), "修改失败", Toast.LENGTH_SHORT);
                     toast.show();
                 } else if (msg.what == 1) {
-                    Intent intent = new Intent(PersonalDataChangeTActivity.this, PersonalDataTActivity.class);
-                    //intent.putExtra("fragid",1); //添加Extra
-                    startActivity(intent);
+//                    Intent intent = new Intent(PersonalDataChangeTActivity.this, PersonalDataTActivity.class);
+//                    startActivity(intent);
                     finish();
                 }
             }

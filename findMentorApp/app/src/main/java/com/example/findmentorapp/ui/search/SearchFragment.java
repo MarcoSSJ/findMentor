@@ -86,28 +86,22 @@ public class SearchFragment extends Fragment {
         final Button searchButton = root.findViewById(R.id.button_search_searchByText);
         final RecyclerView recyclerView_search = root.findViewById(R.id.recyclerView_search_forSerach);
         final RadioGroup radioGroup_search=root.findViewById(R.id.radioGroup_search);
-        final RadioButton radioButton_byname=root.findViewById(R.id.radioButton_search_byname);
-        final RadioButton radioButton_byschool=root.findViewById(R.id.radioButton_search_byschool);
-        final RadioButton radioButton_byrange=root.findViewById(R.id.radioButton_search_byrange);
+        final RadioButton radioButton_byname=root.findViewById(R.id.radioButton_search_name);
+        final RadioButton radioButton_byschool=root.findViewById(R.id.radioButton_search_school);
+        final RadioButton radioButton_byrange=root.findViewById(R.id.radioButton_search_range);
         final ConstraintLayout search_layout = root.findViewById(R.id.searchLayout);
         searchSelect = "name";
 
         if(sessionID.equals("")) {
             textView.setVisibility(View.VISIBLE);
-            searchEditText.setVisibility(View.INVISIBLE);
-            searchButton.setVisibility(View.INVISIBLE);
-            recyclerView_search.setVisibility(View.INVISIBLE);
-            radioGroup_search.setVisibility(View.INVISIBLE);
             search_layout.setVisibility(View.INVISIBLE);
         }
         else {
             textView.setVisibility(View.INVISIBLE);
-            searchEditText.setVisibility(View.VISIBLE);
-            searchButton.setVisibility(View.VISIBLE);
-            recyclerView_search.setVisibility(View.VISIBLE);
-            radioGroup_search.setVisibility(View.VISIBLE);
             search_layout.setVisibility(View.VISIBLE);
         }
+
+
 
         radioGroup_search.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 
@@ -209,7 +203,7 @@ public class SearchFragment extends Fragment {
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
-        String personal_data_change_url = Urls.search_url;
+        String personal_data_change_url = Urls.api_url;
         Handler handler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(Message msg) {
@@ -240,7 +234,8 @@ public class SearchFragment extends Fragment {
             MyApplication application = MyApplication.getInstance();
             String sessionID = application.getSessionID();
 
-            String data = "sessionID="+ URLEncoder.encode(sessionID,"UTF-8")+
+            String data = "action=Search"+
+                    "&sessionID="+ URLEncoder.encode(sessionID,"UTF-8")+
                     "&searchText=" + URLEncoder.encode(searchText,"UTF-8")+
                     "&searchSelect=" + URLEncoder.encode(searchSelect,"UTF-8");
 
