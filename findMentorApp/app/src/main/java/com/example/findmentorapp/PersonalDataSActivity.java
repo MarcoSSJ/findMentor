@@ -193,7 +193,7 @@ public class PersonalDataSActivity extends AppCompatActivity {
                 MyApplication application = (MyApplication) getApplicationContext();
                 String sessionID = application.getSessionID();
 
-                String data = "action=getInformation" +
+                String data = "action=GetPersonalData" +
                         "&sessionID=" + URLEncoder.encode(sessionID, "UTF-8");
 
                 OutputStream out = conn.getOutputStream();

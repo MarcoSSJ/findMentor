@@ -145,7 +145,7 @@ public class PublishActivity extends AppCompatActivity {
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
-        String publish_url = Urls.publish_url;
+        String publish_url = Urls.api_url;
         Handler handler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(Message msg) {

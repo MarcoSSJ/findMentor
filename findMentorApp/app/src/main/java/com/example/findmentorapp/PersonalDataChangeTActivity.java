@@ -185,7 +185,9 @@ public class PersonalDataChangeTActivity extends AppCompatActivity {
         String intro = sharedPreferences.getString("intro","");
         String range = sharedPreferences.getString("range","");
         String grade = sharedPreferences.getString("grade","");
-
+        sex1 = sex;
+        if(sex1 == "")
+            sex1 = "male";
         MyApplication application = (MyApplication) getApplicationContext();
         String sessionID = application.getSessionID();
 

@@ -1,7 +1,8 @@
 package com.example.findmentorapp;
 
 public class Urls {
-    public static String api_url = "http://169.254.72.5:8000/api";
+    //public static String api_url = "http://169.254.72.5:8000/api";
+    public static String api_url = "http://112.124.12.137/api";
     public static String log_in_url = "";
     public static String log_out_url = "";
     public static String log_off_url = "";

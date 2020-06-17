@@ -84,7 +84,8 @@ public class PersonalDataChangeSActivity extends AppCompatActivity {
             MyApplication application = (MyApplication) getApplicationContext();
             String sessionID = application.getSessionID();
 
-            String data = "sessionID="+ URLEncoder.encode(sessionID,"UTF-8")+
+            String data = "action=ChangePersonalData"+
+                    "&sessionID="+ URLEncoder.encode(sessionID,"UTF-8")+
                     "&type=" + URLEncoder.encode("student","UTF-8") +
                     "&age="+URLEncoder.encode(age,"UTF-8")+
                     "&sex="+URLEncoder.encode(sex1,"UTF-8")+
@@ -187,7 +188,9 @@ public class PersonalDataChangeSActivity extends AppCompatActivity {
         String intro = sharedPreferences.getString("intro","");
         String range = sharedPreferences.getString("range","");
         String grade = sharedPreferences.getString("grade","");
-
+        sex1 = sex;
+        if(sex1 == "")
+            sex1 = "male";
         MyApplication application = (MyApplication) getApplicationContext();
         String sessionID = application.getSessionID();
 
