@@ -205,6 +205,11 @@ public class FavoriteActivity extends AppCompatActivity {
                     s_id = new String[]{};
 
                     JSONArray dataArray = obj.getJSONArray("data");
+                    ArrayList<String> textList = new ArrayList<String>(s_text.length);
+                    ArrayList<String> nameList = new ArrayList<String>(s_name.length);
+                    ArrayList<String> gradeList = new ArrayList<String>(s_grade.length);
+                    ArrayList<String> idList = new ArrayList<String>(s_id.length);
+
                     for (int i = 0;i<dataArray.length();i++)
                     {
                         JSONObject personData = dataArray.getJSONObject(i);
@@ -213,26 +218,15 @@ public class FavoriteActivity extends AppCompatActivity {
                         String grade = personData.getString("grade");
                         String id = personData.getString("id");
 
-                        ArrayList<String> textList = new ArrayList<String>(s_text.length);
-                        Collections.addAll(textList, s_text);
                         textList.add(text);
-                        s_text = textList.toArray(new String[0]);
-
-                        ArrayList<String> nameList = new ArrayList<String>(s_name.length);
-                        Collections.addAll(nameList, s_name);
                         nameList.add(name);
-                        s_name = nameList.toArray(new String[0]);
-
-                        ArrayList<String> gradeList = new ArrayList<String>(s_grade.length);
-                        Collections.addAll(gradeList, s_grade);
-                        gradeList.add(id);
-                        s_grade = gradeList.toArray(new String[0]);
-
-                        ArrayList<String> idList = new ArrayList<String>(s_id.length);
-                        Collections.addAll(idList, s_id);
+                        gradeList.add(grade);
                         idList.add(id);
-                        s_id = idList.toArray(new String[0]);
                     }
+                    s_text = textList.toArray(new String[0]);
+                    s_name = nameList.toArray(new String[0]);
+                    s_grade = gradeList.toArray(new String[0]);
+                    s_id = idList.toArray(new String[0]);
 
                     Message message = Message.obtain();
                     message.what = 1;
