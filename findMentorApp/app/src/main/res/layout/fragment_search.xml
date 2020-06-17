@@ -6,6 +6,97 @@
     android:layout_height="match_parent"
     tools:context=".ui.search.SearchFragment">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/searchLayout"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="#B09EEC"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <Button
+            android:id="@+id/button_search_searchByText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_drawable_small"
+            android:gravity="center"
+            android:text="搜  索"
+            android:textColor="#ffffff"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.95"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.673" />
+
+        <EditText
+            android:id="@+id/editText_search_searchByWord"
+            android:layout_width="300dp"
+            android:layout_height="35dp"
+            android:background="@drawable/rounded_corner_search_box"
+            android:drawableLeft="@drawable/ic_search_black_24dp"
+            android:gravity="center_vertical"
+            android:hint="输入关键字"
+            android:padding="5dp"
+            android:singleLine="true"
+            android:textColor="#4B25EA"
+            android:textColorHint="#7457ED"
+            android:textSize="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/button_search_searchByText"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.288" />
+
+        <RadioGroup
+            android:id="@+id/radioGroup_search"
+            android:layout_width="300dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.971"
+            tools:ignore="MissingConstraints">
+
+            <RadioButton
+                android:id="@+id/radioButton_search_byname"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:checked="true"
+                android:textColor="#340AE6"
+                android:textStyle="bold"
+                android:text="按姓名" />
+
+            <RadioButton
+                android:id="@+id/radioButton_search_byschool"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:checked="true"
+                android:textColor="#340AE6"
+                android:textStyle="bold"
+                android:text="按学校" />
+
+            <RadioButton
+                android:id="@+id/radioButton_search_byrange"
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:checked="true"
+                android:textColor="#340AE6"
+                android:textStyle="bold"
+                android:text="按研究方向" />
+        </RadioGroup>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <TextView
         android:id="@+id/textView_search"
         android:layout_width="match_parent"
@@ -23,90 +114,18 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.41" />
 
-    <RadioGroup
-        android:id="@+id/radioGroup_search"
-        android:layout_width="300dp"
-        android:layout_height="30dp"
-        android:layout_gravity="center_horizontal"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.099"
-        tools:ignore="MissingConstraints">
-
-        <RadioButton
-            android:id="@+id/radioButton_search_byname"
-            android:layout_width="80dp"
-            android:layout_height="match_parent"
-            android:checked="true"
-            android:text="按姓名" />
-
-        <RadioButton
-            android:id="@+id/radioButton_search_byschool"
-            android:layout_width="80dp"
-            android:layout_height="match_parent"
-            android:checked="true"
-            android:text="按学校" />
-
-        <RadioButton
-            android:id="@+id/radioButton_search_byrange"
-            android:layout_width="120dp"
-            android:layout_height="match_parent"
-            android:checked="true"
-            android:text="按研究方向" />
-    </RadioGroup>
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_search_forSerach"
         android:layout_width="match_parent"
         android:layout_height="500dp"
-        android:layout_marginTop="25dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_search_searchByWord"
-        app:layout_constraintVertical_bias="0.227" />
-
-    <EditText
-        android:id="@+id/editText_search_searchByWord"
-        android:layout_width="300dp"
-        android:layout_height="35dp"
-        android:background="@drawable/rounded_corner_search_box"
-        android:drawableLeft="@drawable/ic_search_black_24dp"
-        android:gravity="center_vertical"
-        android:hint="输入关键字"
-        android:padding="5dp"
-        android:singleLine="true"
-        android:textColor="#ffd46c"
-        android:textColorHint="#EF6F61"
-        android:textSize="12dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.05" />
+        app:layout_constraintVertical_bias="0.497" />
 
-    <Button
-        android:id="@+id/button_search_searchByText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/button_drawable_small"
-        android:gravity="center"
-        android:text="搜索"
-        android:textColor="#ffffff"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.95"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.061" />
     　　
 </androidx.constraintlayout.widget.ConstraintLayout>

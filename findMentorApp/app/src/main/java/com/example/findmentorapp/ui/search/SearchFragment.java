@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -88,6 +89,7 @@ public class SearchFragment extends Fragment {
         final RadioButton radioButton_byname=root.findViewById(R.id.radioButton_search_byname);
         final RadioButton radioButton_byschool=root.findViewById(R.id.radioButton_search_byschool);
         final RadioButton radioButton_byrange=root.findViewById(R.id.radioButton_search_byrange);
+        final ConstraintLayout search_layout = root.findViewById(R.id.searchLayout);
         searchSelect = "name";
 
         if(sessionID.equals("")) {
@@ -96,6 +98,7 @@ public class SearchFragment extends Fragment {
             searchButton.setVisibility(View.INVISIBLE);
             recyclerView_search.setVisibility(View.INVISIBLE);
             radioGroup_search.setVisibility(View.INVISIBLE);
+            search_layout.setVisibility(View.INVISIBLE);
         }
         else {
             textView.setVisibility(View.INVISIBLE);
@@ -103,6 +106,7 @@ public class SearchFragment extends Fragment {
             searchButton.setVisibility(View.VISIBLE);
             recyclerView_search.setVisibility(View.VISIBLE);
             radioGroup_search.setVisibility(View.VISIBLE);
+            search_layout.setVisibility(View.VISIBLE);
         }
 
         radioGroup_search.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
