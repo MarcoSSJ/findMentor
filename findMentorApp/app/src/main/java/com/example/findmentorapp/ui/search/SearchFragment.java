@@ -203,7 +203,7 @@ public class SearchFragment extends Fragment {
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
-        String personal_data_change_url = Urls.search_url;
+        String personal_data_change_url = Urls.api_url;
         Handler handler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(Message msg) {
