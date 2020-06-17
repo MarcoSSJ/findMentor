@@ -265,8 +265,11 @@ public class SearchFragment extends Fragment {
                     s_text = new String[]{};
                     s_grade = new String[]{};
                     s_id = new String[]{};
-
                     JSONArray dataArray = obj.getJSONArray("data");
+                    ArrayList<String> nameList = new ArrayList<String>();
+                    ArrayList<String> textList = new ArrayList<String>();
+                    ArrayList<String> gradeList = new ArrayList<String>();
+                    ArrayList<String> idList = new ArrayList<String>();
                     for (int i = 0;i<dataArray.length();i++)
                     {
                         JSONObject personData = dataArray.getJSONObject(i);
@@ -275,27 +278,16 @@ public class SearchFragment extends Fragment {
                         String grade = personData.getString("grade");
                         String id = personData.getString("id");
 
-                        ArrayList<String> nameList = new ArrayList<String>(s_name.length);
-                        Collections.addAll(nameList, s_name);
                         nameList.add(name);
-                        s_name = nameList.toArray(new String[0]);
-
-                        ArrayList<String> textList = new ArrayList<String>(s_text.length);
-                        Collections.addAll(textList, s_text);
                         textList.add(text);
-                        s_text = textList.toArray(new String[0]);
-
-                        ArrayList<String> gradeList = new ArrayList<String>(s_grade.length);
-                        Collections.addAll(gradeList, s_grade);
                         gradeList.add(grade);
-                        s_grade = gradeList.toArray(new String[0]);
-
-                        ArrayList<String> idList = new ArrayList<String>(s_id.length);
-                        Collections.addAll(idList, s_id);
                         idList.add(id);
-                        s_id = idList.toArray(new String[0]);
-                    }
 
+                    }
+                    s_name = nameList.toArray(new String[0]);
+                    s_text = textList.toArray(new String[0]);
+                    s_grade = gradeList.toArray(new String[0]);
+                    s_id = idList.toArray(new String[0]);
                     Message message = Message.obtain();
                     message.what = 1;
                     handler.sendMessage(message);
