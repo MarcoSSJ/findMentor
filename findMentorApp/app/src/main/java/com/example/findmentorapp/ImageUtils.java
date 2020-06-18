@@ -35,6 +35,11 @@ public class ImageUtils {
 			}
 
 			File photoFile = new File(path, photoName + ".png");
+			if(photoFile.exists())
+			{
+				photoFile.delete();
+			}
+			photoFile = new File(path, photoName + ".png");
 			FileOutputStream fileOutputStream = null;
 			try {
 				fileOutputStream = new FileOutputStream(photoFile);

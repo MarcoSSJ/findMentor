@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -13,6 +14,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -28,7 +30,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -49,6 +55,8 @@ public class PersonalDataChangeSActivity extends AppCompatActivity {
     private String sex1;
     private ImageView imageView;
     private SharedPreferences sharedPreferences;
+
+    private String imagePath;
 
     protected static final int CHOOSE_PICTURE = 0;
     protected static final int TAKE_PICTURE = 1;
@@ -363,11 +371,9 @@ public class PersonalDataChangeSActivity extends AppCompatActivity {
             Bitmap photo = extras.getParcelable("data");
             photo = ImageUtils.toRoundBitmap(photo); // 这个时候的图片已经被处理成圆形的了
             imageView.setImageBitmap(photo);
+            uploadPic(photo);
         }
     }
-
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -378,4 +384,123 @@ public class PersonalDataChangeSActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private void uploadPic(Bitmap bitmap) {
+        // 上传至服务器
+        // ... 可以在这里把Bitmap转换成file，然后得到file的url，做文件上传操作
+        // 注意这里得到的图片已经是圆形图片了
+        // bitmap是没有做个圆形处理的，但已经被裁剪了
+        String filepath = getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString();
+        imagePath = ImageUtils.savePhoto(bitmap, filepath, "myhead");
+        if(imagePath != null){
+            new Thread(runUpload).start();
+        }
+    }
+
+    Runnable runUpload = new Runnable() {
+        @Override
+        public void run() {
+            String personal_data_change_url = Urls.api_url;
+
+            Handler handler = new Handler(Looper.getMainLooper()) {
+                @Override
+                public void handleMessage(Message msg) {
+                    super.handleMessage(msg);
+                    if (msg.what == 0) {
+                        //不成功，弹窗
+                        Toast toast = Toast.makeText(getApplicationContext(), "修改失败", Toast.LENGTH_SHORT);
+                        toast.show();
+                    } else if (msg.what == 1) {
+                        Toast toast = Toast.makeText(getApplicationContext(), "设置成功", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+                }
+            };
+            try {
+                URL url = new URL(personal_data_change_url);
+                HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+                conn.setRequestMethod("POST");
+                conn.setReadTimeout(5000);
+                conn.setConnectTimeout(5000);
+
+                conn.setRequestProperty("Content-Type",
+                        "application/x-www-form-urlencoded;charset=UTF-8");
+
+                conn.setDoOutput(true);
+                conn.setDoInput(true);
+                conn.setUseCaches(false);
+
+                MyApplication application = (MyApplication) getApplicationContext();
+                String sessionID = application.getSessionID();
+
+                BufferedInputStream bis = new BufferedInputStream(new FileInputStream(imagePath));
+                Bitmap bitmap = BitmapFactory.decodeStream(bis);
+                bis.close();
+
+                ByteArrayOutputStream bos=new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 80, bos);//参数100表示不压缩
+                byte[] bytes=bos.toByteArray();
+                String pic = Base64.encodeToString(bytes, Base64.DEFAULT);
+
+                String data = "action=UploadPic"+
+                        "&sessionID="+ URLEncoder.encode(sessionID,"UTF-8")+
+                        "&picture="+ URLEncoder.encode(pic,"UTF-8");
+
+                OutputStream out = conn.getOutputStream();
+                out.write(data.getBytes());
+                out.flush();
+                out.close();
+
+                InputStream is = conn.getInputStream();
+                if(conn.getResponseCode()==HttpURLConnection.HTTP_OK) {
+                    StringBuilder response = new StringBuilder();
+                    byte[] b = new byte[1024];
+                    int len ;
+                    while((len = is.read(b))!=-1){
+                        response.append(new String(b, 0, len));
+                    }
+                    is.close();
+                    conn.disconnect();
+
+                    String res = new String(response);
+                    System.out.println(res);
+                    JSONObject obj = new JSONObject(res);
+                    String isconnect = obj.getString("result");
+                    if(isconnect.equals("true")) {
+
+                        Message message = Message.obtain();
+                        message.what = 1;
+                        handler.sendMessage(message);
+                    }
+                    else
+                    {
+                        Message message = Message.obtain();
+                        message.what = 0;
+                        handler.sendMessage(message);
+                    }
+                }
+                else {
+                    Message message = Message.obtain();
+                    message.what = 0;
+                    handler.sendMessage(message);
+                }
+            } catch (MalformedURLException e) {
+                Message message = Message.obtain();
+                message.what = 0;
+                handler.sendMessage(message);
+                e.printStackTrace();
+            } catch (IOException e) {
+                Message message = Message.obtain();
+                message.what = 0;
+                handler.sendMessage(message);
+                e.printStackTrace();
+            } catch (JSONException e) {
+                Message message = Message.obtain();
+                message.what = 0;
+                handler.sendMessage(message);
+                e.printStackTrace();
+            }
+        }
+
+    };
 }
