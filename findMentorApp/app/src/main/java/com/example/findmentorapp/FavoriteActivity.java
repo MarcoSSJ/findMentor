@@ -160,6 +160,7 @@ public class FavoriteActivity extends AppCompatActivity {
         try {
             URL url = new URL(favorite_url);
             HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+            conn.setChunkedStreamingMode(0);
             conn.setRequestMethod("POST");
             conn.setReadTimeout(5000);
             conn.setConnectTimeout(5000);

@@ -228,6 +228,7 @@ public class SearchFragment extends Fragment {
         try {
             URL url = new URL(personal_data_change_url);
             HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+            conn.setChunkedStreamingMode(0);
             conn.setRequestMethod("POST");
             conn.setReadTimeout(5000);
             conn.setConnectTimeout(5000);
