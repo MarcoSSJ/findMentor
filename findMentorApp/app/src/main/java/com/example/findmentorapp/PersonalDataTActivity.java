@@ -3,7 +3,10 @@ package com.example.findmentorapp;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -21,6 +24,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -76,8 +82,16 @@ public class PersonalDataTActivity extends AppCompatActivity {
         textView_range.setMovementMethod(ScrollingMovementMethod.getInstance());
 
         imageView_data = (ImageView) findViewById(R.id.imageView_personalData);
-        //todo 设置头像
         //设置图片如imageView.setImageBitmap(photo)，photo为bitmap格式
+        String filepath = getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString();
+        filepath += "/myhead.png";
+        try {
+            BufferedInputStream bis = new BufferedInputStream(new FileInputStream(filepath));
+            Bitmap bitmap = BitmapFactory.decodeStream(bis);
+            imageView_data.setImageBitmap(bitmap);
+        } catch (FileNotFoundException e) {
+            System.out.println("目前未设置头像");
+        }
 
         MyApplication application = (MyApplication) getApplicationContext();
         String sessionID = application.getSessionID();

@@ -11,6 +11,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         //setSessionID("");
+        mInstance = this;
         mContext = getApplicationContext();
     }
     public static MyApplication getInstance(){
