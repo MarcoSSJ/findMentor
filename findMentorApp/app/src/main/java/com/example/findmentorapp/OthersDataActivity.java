@@ -215,7 +215,7 @@ public class OthersDataActivity extends AppCompatActivity {
                         sex = obj.getString("sex");
                         intro = obj.getString("text");
                         grade = obj.getString("grade");
-                        school = obj.getString("id");
+                        school = obj.getString("school");
                         department = obj.getString("department");
                         range = obj.getString("range");
 

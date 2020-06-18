@@ -37,7 +37,7 @@ public class AccountActivity extends AppCompatActivity {
     Runnable log_out = new Runnable() {
         @Override
         public void run() {
-            String account_url = Urls.log_out_url;
+            String account_url = Urls.api_url;
 
             Handler handler = new Handler(Looper.getMainLooper()) {
                 @Override
@@ -73,7 +73,8 @@ public class AccountActivity extends AppCompatActivity {
                 MyApplication application = (MyApplication) getApplicationContext();
                 String sessionID = application.getSessionID();
 
-                String data = "sessionID="+ URLEncoder.encode(sessionID,"UTF-8")+
+                String data = "action=Logout"+
+                        "&sessionID="+ URLEncoder.encode(sessionID,"UTF-8")+
                         "&order="+URLEncoder.encode("log_out","UTF-8");
 
                 OutputStream out = conn.getOutputStream();
