@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.text.method.ScrollingMovementMethod;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -71,6 +72,8 @@ public class PersonalDataTActivity extends AppCompatActivity {
         textView_department = (TextView)findViewById(R.id.textView_personalData_department);
         textView_range = (TextView)findViewById(R.id.textView_personalData_range);
         textView_grade = (TextView)findViewById(R.id.textView_personalData_grade);
+        textView_intro.setMovementMethod(ScrollingMovementMethod.getInstance());
+        textView_range.setMovementMethod(ScrollingMovementMethod.getInstance());
 
         imageView_data = (ImageView) findViewById(R.id.imageView_personalData);
         //todo 设置头像

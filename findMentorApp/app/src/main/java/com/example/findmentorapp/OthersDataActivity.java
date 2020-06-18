@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.text.method.ScrollingMovementMethod;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -75,6 +76,8 @@ public class OthersDataActivity extends AppCompatActivity {
         textView_department = (TextView)findViewById(R.id.textView_othersData_department);
         textView_range = (TextView)findViewById(R.id.textView_othersData_range);
         textView_grade = (TextView)findViewById(R.id.textView_othersData_grade);
+        textView_intro.setMovementMethod(ScrollingMovementMethod.getInstance());
+        textView_range.setMovementMethod(ScrollingMovementMethod.getInstance());
 
         //在这里进行网络访问取信息
         new Thread(runnable).start();
