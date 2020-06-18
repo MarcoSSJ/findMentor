@@ -2,11 +2,14 @@ package com.example.findmentorapp;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Base64;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -78,11 +81,11 @@ public class OthersDataActivity extends AppCompatActivity {
         textView_grade = (TextView)findViewById(R.id.textView_othersData_grade);
         textView_intro.setMovementMethod(ScrollingMovementMethod.getInstance());
         textView_range.setMovementMethod(ScrollingMovementMethod.getInstance());
+        imageView_data = (ImageView) findViewById(R.id.imageView_othersData);
 
         //在这里进行网络访问取信息
         new Thread(runnable).start();
-
-        imageView_data = (ImageView) findViewById(R.id.imageView_othersData);
+        new Thread(sethead).start();
         //todo 设置头像
         //设置图片如imageView.setImageBitmap(photo)，photo为bitmap格式
 
@@ -261,7 +264,123 @@ public class OthersDataActivity extends AppCompatActivity {
     private Runnable runnable2 = new Runnable() {
         @Override
         public void run() {
-            String follow_url = Urls.api_url;
+        String follow_url = Urls.api_url;
+        Handler handler = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                if (msg.what == 0) {
+                    //不成功，弹窗
+                    Toast toast = Toast.makeText(MyApplication.getContext(), "查看失败", Toast.LENGTH_SHORT);
+                    toast.show();
+                } else if (msg.what == 1) {
+                    button_favorite.setText("取消关注");
+                } else if (msg.what == 2) {
+                    button_favorite.setText("关注");
+                }
+            }
+        };
+        try {
+
+
+            URL url = new URL(follow_url);
+            HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setReadTimeout(5000);
+            conn.setConnectTimeout(5000);
+
+            conn.setRequestProperty("Content-Type",
+                    "application/x-www-form-urlencoded;charset=UTF-8");
+
+            conn.setDoOutput(true);
+            conn.setDoInput(true);
+            conn.setUseCaches(false);
+
+            //MyApplication application = (MyApplication) getActivity().getApplicationContext();
+            MyApplication application = MyApplication.getInstance();
+            String sessionID = application.getSessionID();
+
+            String data = "action=Follow"+
+                    "&sessionID="+ URLEncoder.encode(sessionID,"UTF-8")+
+                    "&id=" + URLEncoder.encode(id,"UTF-8");
+
+            OutputStream out = conn.getOutputStream();
+            out.write(data.getBytes());
+            out.flush();
+            out.close();
+
+            InputStream is = conn.getInputStream();
+            if(conn.getResponseCode()==HttpURLConnection.HTTP_OK) {
+                StringBuilder response = new StringBuilder();
+                byte[] b = new byte[1024];
+                int len ;
+                while((len = is.read(b))!=-1){
+                    response.append(new String(b, 0, len));
+                }
+                is.close();
+                conn.disconnect();
+
+                String res = new String(response);
+                System.out.println(res);
+                JSONObject obj = new JSONObject(res);
+                String isconnect = obj.getString("result");
+                if(isconnect.equals("true")) {
+                    String condition = obj.getString("condition");
+                    if(condition.equals("follow"))
+                    {
+                        Message message = Message.obtain();
+                        message.what = 1;
+                        handler.sendMessage(message);
+                    }
+                    else if(condition.equals("unfollow"))
+                    {
+                        Message message = Message.obtain();
+                        message.what = 2;
+                        handler.sendMessage(message);
+                    }
+                    else {
+                        Message message = Message.obtain();
+                        message.what = 0;
+                        handler.sendMessage(message);
+                    }
+                }
+                else
+                {
+                    Message message = Message.obtain();
+                    message.what = 0;
+                    handler.sendMessage(message);
+                }
+            }
+            else {
+                Message message = Message.obtain();
+                message.what = 0;
+                handler.sendMessage(message);
+            }
+        } catch (MalformedURLException e) {
+            Message message = Message.obtain();
+            message.what = 0;
+            handler.sendMessage(message);
+            e.printStackTrace();
+        } catch (IOException e) {
+            Message message = Message.obtain();
+            message.what = 0;
+            handler.sendMessage(message);
+            e.printStackTrace();
+        } catch (JSONException e) {
+            Message message = Message.obtain();
+            message.what = 0;
+            handler.sendMessage(message);
+            e.printStackTrace();
+        }
+        }
+
+    };
+
+    private Runnable sethead = new Runnable() {
+        Bitmap bitmap = null;
+        @Override
+        public void run() {
+            String others_data_url = Urls.api_url;
             Handler handler = new Handler(Looper.getMainLooper()) {
                 @Override
                 public void handleMessage(Message msg) {
@@ -271,16 +390,12 @@ public class OthersDataActivity extends AppCompatActivity {
                         Toast toast = Toast.makeText(MyApplication.getContext(), "查看失败", Toast.LENGTH_SHORT);
                         toast.show();
                     } else if (msg.what == 1) {
-                        button_favorite.setText("取消关注");
-                    } else if (msg.what == 2) {
-                        button_favorite.setText("关注");
+                        imageView_data.setImageBitmap(bitmap);
                     }
                 }
             };
             try {
-
-
-                URL url = new URL(follow_url);
+                URL url = new URL(others_data_url);
                 HttpURLConnection conn = (HttpURLConnection)url.openConnection();
                 conn.setRequestMethod("POST");
                 conn.setReadTimeout(5000);
@@ -297,7 +412,7 @@ public class OthersDataActivity extends AppCompatActivity {
                 MyApplication application = MyApplication.getInstance();
                 String sessionID = application.getSessionID();
 
-                String data = "action=Follow"+
+                String data = "action=GetOthersHead"+
                         "&sessionID="+ URLEncoder.encode(sessionID,"UTF-8")+
                         "&id=" + URLEncoder.encode(id,"UTF-8");
 
@@ -322,24 +437,12 @@ public class OthersDataActivity extends AppCompatActivity {
                     JSONObject obj = new JSONObject(res);
                     String isconnect = obj.getString("result");
                     if(isconnect.equals("true")) {
-                        String condition = obj.getString("condition");
-                        if(condition.equals("follow"))
-                        {
-                            Message message = Message.obtain();
-                            message.what = 1;
-                            handler.sendMessage(message);
-                        }
-                        else if(condition.equals("unfollow"))
-                        {
-                            Message message = Message.obtain();
-                            message.what = 2;
-                            handler.sendMessage(message);
-                        }
-                        else {
-                            Message message = Message.obtain();
-                            message.what = 0;
-                            handler.sendMessage(message);
-                        }
+                        String imgStr = obj.getString("picture");
+                        byte[] bytes = Base64.decode(imgStr, Base64.DEFAULT);
+                        bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                        Message message = Message.obtain();
+                        message.what = 1;
+                        handler.sendMessage(message);
                     }
                     else
                     {
@@ -370,6 +473,5 @@ public class OthersDataActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-
     };
 }
