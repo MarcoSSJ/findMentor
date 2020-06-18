@@ -55,7 +55,7 @@ public class PersonalDataSActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_personal_data_teacher);
+        setContentView(R.layout.activity_personal_data_student);
 
         ActionBar actionBar = getSupportActionBar();
         if(actionBar != null){
