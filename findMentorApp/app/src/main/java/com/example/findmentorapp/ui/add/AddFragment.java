@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,7 +63,7 @@ public class AddFragment extends Fragment {
 
         final TextView textView1 = root.findViewById(R.id.textView_add_1);
         final TextView textView2 = root.findViewById(R.id.textView_add_2);
-
+        final ImageView imageView_lock = (ImageView)root.findViewById(R.id.imageView_lock);
         //标题与信息输入
         final EditText editText_title = root.findViewById(R.id.editText_add_title);
         final EditText editText_info = root.findViewById(R.id.editText_add_info);
@@ -71,6 +72,7 @@ public class AddFragment extends Fragment {
 
         if(sessionID.equals("")) {
             textView.setVisibility(View.VISIBLE);
+            imageView_lock.setVisibility(View.VISIBLE);
             editText_title.setVisibility(View.INVISIBLE);
             editText_info.setVisibility(View.INVISIBLE);
             button_submit.setVisibility(View.INVISIBLE);
@@ -79,6 +81,7 @@ public class AddFragment extends Fragment {
         }
         else {
             textView.setVisibility(View.INVISIBLE);
+            imageView_lock.setVisibility(View.INVISIBLE);
             editText_title.setVisibility(View.VISIBLE);
             editText_info.setVisibility(View.VISIBLE);
             button_submit.setVisibility(View.VISIBLE);

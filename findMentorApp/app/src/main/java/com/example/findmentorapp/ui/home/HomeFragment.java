@@ -3,6 +3,7 @@ package com.example.findmentorapp.ui.home;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -58,6 +60,8 @@ public class HomeFragment extends Fragment {
         LinearLayout layout_toFavorite = (LinearLayout)root.findViewById(R.id.layout_home_favorite);
         LinearLayout layout_toPublish = (LinearLayout)root.findViewById(R.id.layout_home_publish);
         final TextView toPersonalData = (TextView)root.findViewById(R.id.textView_home_data);
+        final ConstraintLayout layout1 = (ConstraintLayout)root.findViewById(R.id.layout_home1);
+        final ImageView imageView_lock = (ImageView)root.findViewById(R.id.imageView_lock);
 
         final ImageView imageView_user = (ImageView)root.findViewById(R.id.imageView_home_user);
         //todo 设置头像
@@ -66,10 +70,12 @@ public class HomeFragment extends Fragment {
         if(sessionID.equals("")) {
             toLogButton.setVisibility(View.VISIBLE);
             textView.setVisibility(View.VISIBLE);
+            imageView_lock.setVisibility(View.VISIBLE);
             layout_toAccount.setVisibility(View.INVISIBLE);
             layout_toFavorite.setVisibility(View.INVISIBLE);
             layout_toPublish.setVisibility(View.INVISIBLE);
             toPersonalData.setVisibility(View.INVISIBLE);
+            layout1.setBackgroundColor(Color.parseColor("#FFFFFF"));
         }
         else {
             layout_toAccount.setVisibility(View.VISIBLE);
@@ -78,6 +84,8 @@ public class HomeFragment extends Fragment {
             toLogButton.setVisibility(View.INVISIBLE);
             textView.setVisibility(View.INVISIBLE);
             toPersonalData.setVisibility(View.VISIBLE);
+            imageView_lock.setVisibility(View.INVISIBLE);
+            layout1.setBackgroundColor(Color.parseColor("#6200EE"));
         }
 
         toPersonalData.setOnClickListener(new View.OnClickListener(){

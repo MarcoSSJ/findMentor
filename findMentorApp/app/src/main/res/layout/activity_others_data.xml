@@ -11,14 +11,12 @@
         android:id="@+id/textView_othersData_grade"
         android:layout_width="200dp"
         android:layout_height="35dp"
-        android:layout_marginEnd="76dp"
-        android:layout_marginRight="76dp"
         android:gravity="center_vertical|left"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.204"
-        app:layout_constraintStart_toEndOf="@+id/textView_personalData5"
+        app:layout_constraintHorizontal_bias="0.224"
+        app:layout_constraintStart_toEndOf="@+id/textView_othersData6"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.42" />
 
@@ -26,14 +24,12 @@
         android:id="@+id/textView_othersData_school"
         android:layout_width="200dp"
         android:layout_height="35dp"
-        android:layout_marginEnd="76dp"
-        android:layout_marginRight="76dp"
         android:gravity="center_vertical|left"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.204"
-        app:layout_constraintStart_toEndOf="@+id/textView_personalData5"
+        app:layout_constraintHorizontal_bias="0.224"
+        app:layout_constraintStart_toEndOf="@+id/textView_othersData4"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.284" />
 
@@ -41,14 +37,12 @@
         android:id="@+id/textView_othersData_department"
         android:layout_width="200dp"
         android:layout_height="35dp"
-        android:layout_marginEnd="76dp"
-        android:layout_marginRight="76dp"
         android:gravity="center_vertical|left"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.204"
-        app:layout_constraintStart_toEndOf="@+id/textView_personalData5"
+        app:layout_constraintHorizontal_bias="0.224"
+        app:layout_constraintStart_toEndOf="@+id/textView_othersData5"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.353" />
 
@@ -103,10 +97,10 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.826"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.416"
+        app:layout_constraintStart_toEndOf="@+id/textView_othersData8"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.746" />
+        app:layout_constraintVertical_bias="0.744" />
 
     <TextView
         android:id="@+id/textView_othersData8"
@@ -120,7 +114,7 @@
         app:layout_constraintHorizontal_bias="0.041"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.63" />
+        app:layout_constraintVertical_bias="0.61" />
 
     <TextView
         android:id="@+id/textView_othersData7"
@@ -140,14 +134,12 @@
         android:id="@+id/textView_othersData_range"
         android:layout_width="250dp"
         android:layout_height="80dp"
-        android:layout_marginEnd="28dp"
-        android:layout_marginRight="28dp"
         android:gravity="top"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.416"
-        app:layout_constraintStart_toEndOf="@+id/textView_personalData5"
+        app:layout_constraintHorizontal_bias="0.458"
+        app:layout_constraintStart_toEndOf="@+id/textView_othersData7"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.525" />
 

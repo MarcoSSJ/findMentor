@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -91,15 +92,20 @@ public class SearchFragment extends Fragment {
         final RadioButton radioButton_byschool=root.findViewById(R.id.radioButton_search_school);
         final RadioButton radioButton_byrange=root.findViewById(R.id.radioButton_search_range);
         final ConstraintLayout search_layout = root.findViewById(R.id.searchLayout);
+        final ImageView imageView_lock = (ImageView)root.findViewById(R.id.imageView_lock);
         searchSelect = "name";
 
         if(sessionID.equals("")) {
             textView.setVisibility(View.VISIBLE);
+            imageView_lock.setVisibility(View.VISIBLE);
             search_layout.setVisibility(View.INVISIBLE);
+            recyclerView_search.setVisibility(View.INVISIBLE);
         }
         else {
             textView.setVisibility(View.INVISIBLE);
+            imageView_lock.setVisibility(View.INVISIBLE);
             search_layout.setVisibility(View.VISIBLE);
+            recyclerView_search.setVisibility(View.VISIBLE);
         }
 
 
