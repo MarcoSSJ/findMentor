@@ -258,7 +258,7 @@ public class OthersDataActivity extends AppCompatActivity {
     private Runnable runnable2 = new Runnable() {
         @Override
         public void run() {
-            String follow_url = Urls.follow_url;
+            String follow_url = Urls.api_url;
             Handler handler = new Handler(Looper.getMainLooper()) {
                 @Override
                 public void handleMessage(Message msg) {
@@ -294,7 +294,8 @@ public class OthersDataActivity extends AppCompatActivity {
                 MyApplication application = MyApplication.getInstance();
                 String sessionID = application.getSessionID();
 
-                String data = "sessionID"+ URLEncoder.encode(sessionID,"UTF-8")+
+                String data = "action=Follow"+
+                        "&sessionID="+ URLEncoder.encode(sessionID,"UTF-8")+
                         "&id=" + URLEncoder.encode(id,"UTF-8");
 
                 OutputStream out = conn.getOutputStream();

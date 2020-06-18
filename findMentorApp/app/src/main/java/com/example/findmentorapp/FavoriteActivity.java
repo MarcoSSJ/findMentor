@@ -142,7 +142,7 @@ public class FavoriteActivity extends AppCompatActivity {
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
-        String favorite_url = Urls.favorite_url;
+        String favorite_url = Urls.api_url;
         Handler handler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(Message msg) {
@@ -175,7 +175,8 @@ public class FavoriteActivity extends AppCompatActivity {
             MyApplication application = MyApplication.getInstance();
             String sessionID = application.getSessionID();
 
-            String data = "sessionID="+ URLEncoder.encode(sessionID,"UTF-8");
+            String data = "action=FollowList"+
+                    "&sessionID="+ URLEncoder.encode(sessionID,"UTF-8");
 
             OutputStream out = conn.getOutputStream();
             out.write(data.getBytes());
