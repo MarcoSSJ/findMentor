@@ -438,9 +438,10 @@ public class PersonalDataChangeSActivity extends AppCompatActivity {
                 bis.close();
 
                 ByteArrayOutputStream bos=new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 80, bos);//参数100表示不压缩
+                bitmap.compress(Bitmap.CompressFormat.PNG, 80, bos);//参数100表示不压缩
                 byte[] bytes=bos.toByteArray();
-                String pic = Base64.encodeToString(bytes, Base64.DEFAULT);
+                String pic = Base64.encodeToString(bytes, Base64.URL_SAFE);
+                pic = pic.replaceAll("\n", "").replaceAll("\r", "");
 
                 String data = "action=UploadPic"+
                         "&sessionID="+ URLEncoder.encode(sessionID,"UTF-8")+
