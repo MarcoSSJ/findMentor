@@ -81,7 +81,6 @@ public class OthersDataActivity extends AppCompatActivity {
         //在这里进行网络访问取信息
         new Thread(runnable).start();
         new Thread(setHead).start();
-        //todo 设置头像
         //设置图片如imageView.setImageBitmap(photo)，photo为bitmap格式
 
         //按钮处理

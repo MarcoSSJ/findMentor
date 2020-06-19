@@ -83,7 +83,7 @@ public class SearchFragment extends Fragment {
         });
 
         //获取登陆状态
-        MyApplication application = (MyApplication) getActivity().getApplication();
+        MyApplication application = MyApplication.getInstance();
         String sessionID = application.getSessionID();
 
         textView.setText("未登录，请登录");

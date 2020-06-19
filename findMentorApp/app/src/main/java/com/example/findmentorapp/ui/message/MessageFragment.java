@@ -3,6 +3,9 @@ package com.example.findmentorapp.ui.message;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -13,6 +16,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,8 +31,20 @@ import com.example.findmentorapp.ChatActivity;
 import com.example.findmentorapp.MyApplication;
 import com.example.findmentorapp.OthersDataActivity;
 import com.example.findmentorapp.R;
+import com.example.findmentorapp.Urls;
 import com.example.findmentorapp.ui.search.SearchFragment;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,7 +76,7 @@ public class MessageFragment extends Fragment {
         });
 
         //获取登陆状态
-        MyApplication application = (MyApplication) getActivity().getApplication();
+        MyApplication application = MyApplication.getInstance();
         String sessionID = application.getSessionID();
 
         textView.setText("未登录，请登录");
@@ -87,13 +103,8 @@ public class MessageFragment extends Fragment {
             constraintLayout.setVisibility(View.VISIBLE);
         }
 
-        //todo arrayList赋值
-        s_message.add(new MessageBrief("test1","test1","test1","1"));
-        s_message.add(new MessageBrief("test2","test2","test2","2"));
-        s_message.add(new MessageBrief("test12","test12","test12","3"));
-        s_message.add(new MessageBrief("test11","test11","test11","4"));
+        new Thread(runnable).start();
 
-        mFilterList = s_message;
 
         recyclerView_message.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         myAdapter = new MyAdapter();
@@ -119,7 +130,6 @@ public class MessageFragment extends Fragment {
 
 
         return root;
-
 
     }
 
@@ -152,9 +162,8 @@ public class MessageFragment extends Fragment {
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //todo 设置聊天跳转
                     Intent intent = new Intent(getActivity(), ChatActivity.class);
-                    //intent.putExtra("id",viewHolder.id);
+                    intent.putExtra("id",viewHolder.id);
                     startActivity(intent);
                 }
             });
@@ -238,6 +247,112 @@ public class MessageFragment extends Fragment {
         }
     }
 
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            String api_url = Urls.api_url;
+            Handler handler = new Handler(Looper.getMainLooper()) {
+                @Override
+                public void handleMessage(Message msg) {
+                    super.handleMessage(msg);
+                    if (msg.what == 0) {
+                        //不成功，弹窗
+                        Toast toast = Toast.makeText(MyApplication.getContext(), "加载失败", Toast.LENGTH_SHORT);
+                        toast.show();
+                    } else if (msg.what == 1) {
+                        //成功
+                        mFilterList = s_message;
+                        myAdapter.notifyDataSetChanged();
+                    }
+                }
+            };
+            try {
+                URL url = new URL(api_url);
+                HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+                conn.setChunkedStreamingMode(0);
+                conn.setRequestMethod("POST");
+                conn.setReadTimeout(5000);
+                conn.setConnectTimeout(5000);
 
+                conn.setRequestProperty("Content-Type",
+                        "application/x-www-form-urlencoded;charset=UTF-8");
+
+                conn.setDoOutput(true);
+                conn.setDoInput(true);
+                conn.setUseCaches(false);
+
+                MyApplication application = MyApplication.getInstance();
+                String sessionID = application.getSessionID();
+
+                String data = "action=messageList"+
+                        "&sessionID="+ URLEncoder.encode(sessionID,"UTF-8");
+
+                OutputStream out = conn.getOutputStream();
+                out.write(data.getBytes());
+                out.flush();
+                out.close();
+
+                InputStream is = conn.getInputStream();
+                if(conn.getResponseCode()==HttpURLConnection.HTTP_OK) {
+                    StringBuilder response = new StringBuilder();
+                    byte[] b = new byte[1024];
+                    int len ;
+                    while((len = is.read(b))!=-1){
+                        response.append(new String(b, 0, len));
+                    }
+                    is.close();
+                    conn.disconnect();
+
+                    String res = new String(response);
+                    System.out.println(res);
+                    JSONObject obj = new JSONObject(res);
+                    String isconnect = obj.getString("result");
+                    if(isconnect.equals("true")) {
+                        s_message.clear();
+                        JSONArray dataArray = obj.getJSONArray("data");
+                        for (int i = 0;i<dataArray.length();i++)
+                        {
+                            JSONObject personData = dataArray.getJSONObject(i);
+                            String name = personData.getString("name");
+                            String text = personData.getString("text");
+                            String time = personData.getString("time");
+                            String id = personData.getString("id");
+                            s_message.add(new MessageBrief(name,text,time,id));
+                        }
+                        Message message = Message.obtain();
+                        message.what = 1;
+                        handler.sendMessage(message);
+                    }
+                    else
+                    {
+                        Message message = Message.obtain();
+                        message.what = 0;
+                        handler.sendMessage(message);
+                    }
+                }
+                else {
+                    Message message = Message.obtain();
+                    message.what = 0;
+                    handler.sendMessage(message);
+                }
+            } catch (MalformedURLException e) {
+                Message message = Message.obtain();
+                message.what = 0;
+                handler.sendMessage(message);
+                e.printStackTrace();
+            } catch (IOException e) {
+                Message message = Message.obtain();
+                message.what = 0;
+                handler.sendMessage(message);
+                e.printStackTrace();
+            } catch (JSONException e) {
+                Message message = Message.obtain();
+                message.what = 0;
+                handler.sendMessage(message);
+                e.printStackTrace();
+            }
+        }
+
+    };
 
 }
