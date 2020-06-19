@@ -2,14 +2,18 @@ package com.example.findmentorapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -81,7 +85,7 @@ public class FavoriteActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
 
             final MyHolder viewHolder = (MyHolder) holder;
 
@@ -91,6 +95,103 @@ public class FavoriteActivity extends AppCompatActivity {
             viewHolder.grade.setText(s_grade[position]);
             //用户id
             viewHolder.id = s_id[position];
+            Runnable runnable1 = new Runnable() {
+                Bitmap bitmap = null;
+                @Override
+                public void run() {
+                    String personal_data_change_url = Urls.api_url;
+                    Handler handler = new Handler(Looper.getMainLooper()) {
+                        @Override
+                        public void handleMessage(Message msg) {
+                            super.handleMessage(msg);
+                            if (msg.what == 0) {
+
+                            } else if (msg.what == 1) {
+                                //成功
+                                viewHolder.img.setImageBitmap(bitmap);
+                            }
+                        }
+                    };
+                    try {
+                        URL url = new URL(personal_data_change_url);
+                        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                        conn.setChunkedStreamingMode(0);
+                        conn.setRequestMethod("POST");
+                        conn.setReadTimeout(5000);
+                        conn.setConnectTimeout(5000);
+
+                        conn.setRequestProperty("Content-Type",
+                                "application/x-www-form-urlencoded;charset=UTF-8");
+
+                        conn.setDoOutput(true);
+                        conn.setDoInput(true);
+                        conn.setUseCaches(false);
+
+                        //MyApplication application = (MyApplication) getActivity().getApplicationContext();
+                        MyApplication application = MyApplication.getInstance();
+                        String sessionID = application.getSessionID();
+
+                        String data = "action=DownloadPic" +
+                                "&sessionID=" + URLEncoder.encode(sessionID, "UTF-8")+
+                                "&id=" + URLEncoder.encode(s_id[position], "UTF-8");
+                        OutputStream out = conn.getOutputStream();
+                        out.write(data.getBytes());
+                        out.flush();
+                        out.close();
+
+                        InputStream is = conn.getInputStream();
+                        if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                            StringBuilder response = new StringBuilder();
+                            byte[] b = new byte[1024];
+                            int len;
+                            while ((len = is.read(b)) != -1) {
+                                response.append(new String(b, 0, len));
+                            }
+                            is.close();
+                            conn.disconnect();
+
+                            String res = new String(response);
+                            System.out.println(res);
+                            JSONObject obj = new JSONObject(res);
+                            String isconnect = obj.getString("result");
+                            if (isconnect.equals("true")) {
+
+                                String imgStr = obj.getString("picture");
+                                byte[] bytes = Base64.decode(imgStr, Base64.DEFAULT);
+                                bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                //s_pic.add(bitmap);
+                                Message message = Message.obtain();
+                                message.what = 1;
+                                handler.sendMessage(message);
+                            }else {
+                                Message message = Message.obtain();
+                                message.what = 0;
+                                handler.sendMessage(message);
+                            }
+                        } else {
+                            Message message = Message.obtain();
+                            message.what = 0;
+                            handler.sendMessage(message);
+                        }
+                    } catch (MalformedURLException e) {
+                        Message message = Message.obtain();
+                        message.what = 0;
+                        handler.sendMessage(message);
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        Message message = Message.obtain();
+                        message.what = 0;
+                        handler.sendMessage(message);
+                        e.printStackTrace();
+                    } catch (JSONException e) {
+                        Message message = Message.obtain();
+                        message.what = 0;
+                        handler.sendMessage(message);
+                        e.printStackTrace();
+                    }
+                }
+            };
+            new Thread(runnable1).start();
 
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -113,6 +214,7 @@ public class FavoriteActivity extends AppCompatActivity {
             TextView text, name, grade;
             //标识号
             String id;
+            ImageView img;
 
             public MyHolder(View itemView) {
                 super(itemView);
@@ -122,6 +224,7 @@ public class FavoriteActivity extends AppCompatActivity {
                 text = itemView.findViewById(R.id.textView_item_favorite_text);
                 name = itemView.findViewById(R.id.textView_item_favorite_name);
                 grade = itemView.findViewById(R.id.textView_item_favorite_grade);
+                img = itemView.findViewById(R.id.imageView_item_favorite);
 
             }
 
@@ -142,127 +245,125 @@ public class FavoriteActivity extends AppCompatActivity {
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
-        String favorite_url = Urls.api_url;
-        Handler handler = new Handler(Looper.getMainLooper()) {
-            @Override
-            public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-                if (msg.what == 0) {
-                    //不成功，弹窗
-                    Toast toast = Toast.makeText(MyApplication.getContext(), "加载失败", Toast.LENGTH_SHORT);
-                    toast.show();
-                } else if (msg.what == 1) {
-                    //成功
-                    myAdapter.notifyDataSetChanged();
-                }
-            }
-        };
-        try {
-            URL url = new URL(favorite_url);
-            HttpURLConnection conn = (HttpURLConnection)url.openConnection();
-            conn.setChunkedStreamingMode(0);
-            conn.setRequestMethod("POST");
-            conn.setReadTimeout(5000);
-            conn.setConnectTimeout(5000);
+            String favorite_url = Urls.api_url;
 
-            conn.setRequestProperty("Content-Type",
-                    "application/x-www-form-urlencoded;charset=UTF-8");
-
-            conn.setDoOutput(true);
-            conn.setDoInput(true);
-            conn.setUseCaches(false);
-
-            //MyApplication application = (MyApplication) getActivity().getApplicationContext();
-            MyApplication application = MyApplication.getInstance();
-            String sessionID = application.getSessionID();
-
-            String data = "action=FollowList"+
-                    "&sessionID="+ URLEncoder.encode(sessionID,"UTF-8");
-
-            OutputStream out = conn.getOutputStream();
-            out.write(data.getBytes());
-            out.flush();
-            out.close();
-
-            InputStream is = conn.getInputStream();
-            if(conn.getResponseCode()==HttpURLConnection.HTTP_OK) {
-                StringBuilder response = new StringBuilder();
-                byte[] b = new byte[1024];
-                int len ;
-                while((len = is.read(b))!=-1){
-                    response.append(new String(b, 0, len));
-                }
-                is.close();
-                conn.disconnect();
-
-                String res = new String(response);
-                System.out.println(res);
-                JSONObject obj = new JSONObject(res);
-                String isconnect = obj.getString("result");
-                if(isconnect.equals("true")) {
-
-                    s_name = new String[]{};
-                    s_text = new String[]{};
-                    s_grade = new String[]{};
-                    s_id = new String[]{};
-
-                    JSONArray dataArray = obj.getJSONArray("data");
-                    ArrayList<String> textList = new ArrayList<String>(s_text.length);
-                    ArrayList<String> nameList = new ArrayList<String>(s_name.length);
-                    ArrayList<String> gradeList = new ArrayList<String>(s_grade.length);
-                    ArrayList<String> idList = new ArrayList<String>(s_id.length);
-
-                    for (int i = 0;i<dataArray.length();i++)
-                    {
-                        JSONObject personData = dataArray.getJSONObject(i);
-                        String text = personData.getString("text");
-                        String name = personData.getString("name");
-                        String grade = personData.getString("grade");
-                        String id = personData.getString("id");
-
-                        textList.add(text);
-                        nameList.add(name);
-                        gradeList.add(grade);
-                        idList.add(id);
+            Handler handler = new Handler(Looper.getMainLooper()) {
+                @Override
+                public void handleMessage(Message msg) {
+                    super.handleMessage(msg);
+                    if (msg.what == 0) {
+                        //不成功，弹窗
+                        Toast toast = Toast.makeText(MyApplication.getContext(), "加载失败", Toast.LENGTH_SHORT);
+                        toast.show();
+                    } else if (msg.what == 1) {
+                        //成功
+                        myAdapter.notifyDataSetChanged();
                     }
-                    s_text = textList.toArray(new String[0]);
-                    s_name = nameList.toArray(new String[0]);
-                    s_grade = gradeList.toArray(new String[0]);
-                    s_id = idList.toArray(new String[0]);
-
-                    Message message = Message.obtain();
-                    message.what = 1;
-                    handler.sendMessage(message);
                 }
-                else
-                {
+            };
+
+            try {
+                URL url = new URL(favorite_url);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setChunkedStreamingMode(0);
+                conn.setRequestMethod("POST");
+                conn.setReadTimeout(5000);
+                conn.setConnectTimeout(5000);
+
+                conn.setRequestProperty("Content-Type",
+                        "application/x-www-form-urlencoded;charset=UTF-8");
+
+                conn.setDoOutput(true);
+                conn.setDoInput(true);
+                conn.setUseCaches(false);
+
+                //MyApplication application = (MyApplication) getActivity().getApplicationContext();
+                MyApplication application = MyApplication.getInstance();
+                String sessionID = application.getSessionID();
+
+                String data = "action=FollowList" +
+                        "&sessionID=" + URLEncoder.encode(sessionID, "UTF-8");
+
+                OutputStream out = conn.getOutputStream();
+                out.write(data.getBytes());
+                out.flush();
+                out.close();
+
+                InputStream is = conn.getInputStream();
+                if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                    StringBuilder response = new StringBuilder();
+                    byte[] b = new byte[1024];
+                    int len;
+                    while ((len = is.read(b)) != -1) {
+                        response.append(new String(b, 0, len));
+                    }
+                    is.close();
+                    conn.disconnect();
+
+                    String res = new String(response);
+                    System.out.println(res);
+                    JSONObject obj = new JSONObject(res);
+                    String isconnect = obj.getString("result");
+                    if (isconnect.equals("true")) {
+
+                        s_name = new String[]{};
+                        s_text = new String[]{};
+                        s_grade = new String[]{};
+                        s_id = new String[]{};
+
+                        JSONArray dataArray = obj.getJSONArray("data");
+                        ArrayList<String> textList = new ArrayList<String>(s_text.length);
+                        ArrayList<String> nameList = new ArrayList<String>(s_name.length);
+                        ArrayList<String> gradeList = new ArrayList<String>(s_grade.length);
+                        ArrayList<String> idList = new ArrayList<String>(s_id.length);
+
+                        for (int i = 0; i < dataArray.length(); i++) {
+                            JSONObject personData = dataArray.getJSONObject(i);
+                            String text = personData.getString("text");
+                            String name = personData.getString("name");
+                            String grade = personData.getString("grade");
+                            String id = personData.getString("id");
+
+                            textList.add(text);
+                            nameList.add(name);
+                            gradeList.add(grade);
+                            idList.add(id);
+                        }
+                        s_text = textList.toArray(new String[0]);
+                        s_name = nameList.toArray(new String[0]);
+                        s_grade = gradeList.toArray(new String[0]);
+                        s_id = idList.toArray(new String[0]);
+
+                        Message message = Message.obtain();
+                        message.what = 1;
+                        handler.sendMessage(message);
+                    } else {
+                        Message message = Message.obtain();
+                        message.what = 0;
+                        handler.sendMessage(message);
+                    }
+                } else {
                     Message message = Message.obtain();
                     message.what = 0;
                     handler.sendMessage(message);
                 }
-            }
-            else {
+            } catch (MalformedURLException e) {
                 Message message = Message.obtain();
                 message.what = 0;
                 handler.sendMessage(message);
+                e.printStackTrace();
+            } catch (IOException e) {
+                Message message = Message.obtain();
+                message.what = 0;
+                handler.sendMessage(message);
+                e.printStackTrace();
+            } catch (JSONException e) {
+                Message message = Message.obtain();
+                message.what = 0;
+                handler.sendMessage(message);
+                e.printStackTrace();
             }
-        } catch (MalformedURLException e) {
-            Message message = Message.obtain();
-            message.what = 0;
-            handler.sendMessage(message);
-            e.printStackTrace();
-        } catch (IOException e) {
-            Message message = Message.obtain();
-            message.what = 0;
-            handler.sendMessage(message);
-            e.printStackTrace();
-        } catch (JSONException e) {
-            Message message = Message.obtain();
-            message.what = 0;
-            handler.sendMessage(message);
-            e.printStackTrace();
         }
-        }
-
     };
+
 }
