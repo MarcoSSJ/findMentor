@@ -1,12 +1,10 @@
 package com.example.findmentorapp;
 
 import android.app.AlertDialog;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -17,7 +15,6 @@ import android.os.Looper;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.util.Base64;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -62,6 +59,7 @@ public class PersonalDataChangeSActivity extends AppCompatActivity {
     private String imagePath;
 
     protected static final int CHOOSE_PICTURE = 0;
+    protected static final int TAKE_PICTURE = 1;
     private static final int CROP_SMALL_PICTURE = 2;
     protected static Uri tempUri;
 
@@ -322,21 +320,11 @@ public class PersonalDataChangeSActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) { // 如果返回码是可以用的
             switch (requestCode) {
+                case TAKE_PICTURE:
+                    startPhotoZoom(tempUri); // 开始对图片进行裁剪处理
+                    break;
                 case CHOOSE_PICTURE:
-                    Uri uri = data.getData();
-                    uri = geturi(data);//解决方案
-                    String[] proj = {MediaStore.Images.Media.DATA};
-                    Cursor cursor = getContentResolver().query(uri, proj, null, null, null);
-                    if (cursor != null) {
-                        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-                        cursor.moveToFirst();
-                        String path = cursor.getString(column_index);// 图片的路径
-                        Log.i("tag", path);
-                        Log.i("tag",uri.toString());
-                        //Uri test = pathToMediaUri(path);
-                        // Log.i("tag",test.toString());
-                        startPhotoZoom(uri); // 开始对图片进行裁剪处理
-                    }
+                    startPhotoZoom(data.getData()); // 开始对图片进行裁剪处理
                     break;
                 case CROP_SMALL_PICTURE:
                     if (data != null) {
@@ -385,40 +373,6 @@ public class PersonalDataChangeSActivity extends AppCompatActivity {
             imageView.setImageBitmap(photo);
             uploadPic(photo);
         }
-    }
-
-    //小米手机尝试解决
-    public Uri geturi(android.content.Intent intent) {
-        Uri uri = intent.getData();
-        String type = intent.getType();
-        if (uri.getScheme().equals("file") && (type.contains("image/*"))) {
-            String path = uri.getEncodedPath();
-            if (path != null) {
-                path = Uri.decode(path);
-                ContentResolver cr = this.getContentResolver();
-                StringBuffer buff = new StringBuffer();
-                buff.append("(").append(MediaStore.Images.ImageColumns.DATA).append("=")
-                        .append("'" + path + "'").append(")");
-                Cursor cur = cr.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                        new String[] { MediaStore.Images.ImageColumns._ID },
-                        buff.toString(), null, null);
-                int index = 0;
-                for (cur.moveToFirst(); !cur.isAfterLast(); cur.moveToNext()) {
-                    index = cur.getColumnIndex(MediaStore.Images.ImageColumns._ID);
-                    // set _id value
-                    index = cur.getInt(index);
-                }
-                if (index == 0) {
-                    // do nothing
-                } else {
-                    Uri uri_temp = Uri.parse("content://media/external/images/media/" + index);
-                    if (uri_temp != null) {
-                        uri = uri_temp;
-                    }
-                }
-            }
-        }
-        return uri;
     }
 
     @Override

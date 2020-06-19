@@ -1,13 +1,10 @@
 package com.example.findmentorapp;
 
 import android.app.AlertDialog;
-import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -18,7 +15,6 @@ import android.os.Looper;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.util.Base64;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -319,21 +315,11 @@ public class PersonalDataChangeTActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) { // 如果返回码是可以用的
             switch (requestCode) {
+                case TAKE_PICTURE:
+                    startPhotoZoom(tempUri); // 开始对图片进行裁剪处理
+                    break;
                 case CHOOSE_PICTURE:
-                    Uri uri = data.getData();
-                    uri = geturi(data);//解决方案
-                    String[] proj = {MediaStore.Images.Media.DATA};
-                    Cursor cursor = getContentResolver().query(uri, proj, null, null, null);
-                    if (cursor != null) {
-                        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-                        cursor.moveToFirst();
-                        String path = cursor.getString(column_index);// 图片的路径
-                        Log.i("tag", path);
-                        Log.i("tag",uri.toString());
-                        //Uri test = pathToMediaUri(path);
-                        // Log.i("tag",test.toString());
-                        startPhotoZoom(uri); // 开始对图片进行裁剪处理
-                    }
+                    startPhotoZoom(data.getData()); // 开始对图片进行裁剪处理
                     break;
                 case CROP_SMALL_PICTURE:
                     if (data != null) {
@@ -350,9 +336,9 @@ public class PersonalDataChangeTActivity extends AppCompatActivity {
      * @param uri
      */
     protected void startPhotoZoom(Uri uri) {
-        if (uri == null) {
-            Log.i("tag", "The uri is not exist.");
-        }
+//        if (uri == null) {
+//            Log.i("tag", "The uri is not exist.");
+//        }
         tempUri = uri;
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/*");
@@ -382,52 +368,6 @@ public class PersonalDataChangeTActivity extends AppCompatActivity {
             imageView.setImageBitmap(photo);
             uploadPic(photo);
         }
-    }
-
-    //小米手机尝试解决
-    public Uri geturi(android.content.Intent intent) {
-        Uri uri = intent.getData();
-        String type = intent.getType();
-        if (uri.getScheme().equals("file") && (type.contains("image/*"))) {
-            String path = uri.getEncodedPath();
-            if (path != null) {
-                path = Uri.decode(path);
-                ContentResolver cr = this.getContentResolver();
-                StringBuffer buff = new StringBuffer();
-                buff.append("(").append(MediaStore.Images.ImageColumns.DATA).append("=")
-                        .append("'" + path + "'").append(")");
-                Cursor cur = cr.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                        new String[] { MediaStore.Images.ImageColumns._ID },
-                        buff.toString(), null, null);
-                int index = 0;
-                for (cur.moveToFirst(); !cur.isAfterLast(); cur.moveToNext()) {
-                    index = cur.getColumnIndex(MediaStore.Images.ImageColumns._ID);
-                    // set _id value
-                    index = cur.getInt(index);
-                }
-                if (index == 0) {
-                    // do nothing
-                } else {
-                    Uri uri_temp = Uri.parse("content://media/external/images/media/" + index);
-                    if (uri_temp != null) {
-                        uri = uri_temp;
-                    }
-                }
-            }
-        }
-        return uri;
-    }
-
-    private Uri pathToMediaUri(String path) {
-        Uri mediaUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-        Cursor cursor = getContentResolver().query(mediaUri,
-                null,
-                MediaStore.Images.Media.DISPLAY_NAME + "=" + path.substring(path.lastIndexOf("/") + 1),
-                null,
-                null);
-        cursor.moveToFirst();
-        Uri uri = ContentUris.withAppendedId(mediaUri, cursor.getLong(0));
-        return uri;
     }
 
     @Override
