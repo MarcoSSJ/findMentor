@@ -1,7 +1,6 @@
 package com.example.findmentorapp;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -20,7 +19,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -31,9 +29,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class OthersDataActivity extends AppCompatActivity {
 
@@ -85,7 +80,7 @@ public class OthersDataActivity extends AppCompatActivity {
 
         //在这里进行网络访问取信息
         new Thread(runnable).start();
-        new Thread(sethead).start();
+        new Thread(setHead).start();
         //todo 设置头像
         //设置图片如imageView.setImageBitmap(photo)，photo为bitmap格式
 
@@ -108,7 +103,7 @@ public class OthersDataActivity extends AppCompatActivity {
             @Override
             public void onClick (View v) {
                 button_favorite.setText("关注");
-                new Thread(runnable2).start();
+                new Thread(runFollow).start();
             }
         });
     }
@@ -261,7 +256,7 @@ public class OthersDataActivity extends AppCompatActivity {
         }
     };
 
-    private Runnable runnable2 = new Runnable() {
+    private Runnable runFollow = new Runnable() {
         @Override
         public void run() {
         String follow_url = Urls.api_url;
@@ -376,7 +371,7 @@ public class OthersDataActivity extends AppCompatActivity {
 
     };
 
-    private Runnable sethead = new Runnable() {
+    private Runnable setHead = new Runnable() {
         Bitmap bitmap = null;
         @Override
         public void run() {
@@ -412,7 +407,7 @@ public class OthersDataActivity extends AppCompatActivity {
                 MyApplication application = MyApplication.getInstance();
                 String sessionID = application.getSessionID();
 
-                String data = "action=GetOthersHead"+
+                String data = "action=DownloadPic"+
                         "&sessionID="+ URLEncoder.encode(sessionID,"UTF-8")+
                         "&id=" + URLEncoder.encode(id,"UTF-8");
 
