@@ -17,6 +17,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -324,15 +325,18 @@ public class PersonalDataChangeSActivity extends AppCompatActivity {
                 case CHOOSE_PICTURE:
                     Uri uri = data.getData();
                     uri = geturi(data);//解决方案
-//                    String[] proj = {MediaStore.Images.Media.DATA};
-//                    Cursor cursor = getContentResolver().query(uri, proj, null, null, null);
-//                    if (cursor != null) {
-//                        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-//                        cursor.moveToFirst();
-//                        String path = cursor.getString(column_index);// 图片的路径
-//                        uri = Uri.parse(path);
+                    String[] proj = {MediaStore.Images.Media.DATA};
+                    Cursor cursor = getContentResolver().query(uri, proj, null, null, null);
+                    if (cursor != null) {
+                        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                        cursor.moveToFirst();
+                        String path = cursor.getString(column_index);// 图片的路径
+                        Log.i("tag", path);
+                        Log.i("tag",uri.toString());
+                        //Uri test = pathToMediaUri(path);
+                        // Log.i("tag",test.toString());
                         startPhotoZoom(uri); // 开始对图片进行裁剪处理
-                    //}
+                    }
                     break;
                 case CROP_SMALL_PICTURE:
                     if (data != null) {

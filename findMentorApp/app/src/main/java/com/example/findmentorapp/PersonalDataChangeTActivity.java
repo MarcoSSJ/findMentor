@@ -2,6 +2,7 @@ package com.example.findmentorapp;
 
 import android.app.AlertDialog;
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -321,18 +322,18 @@ public class PersonalDataChangeTActivity extends AppCompatActivity {
                 case CHOOSE_PICTURE:
                     Uri uri = data.getData();
                     uri = geturi(data);//解决方案
-//                    String[] proj = {MediaStore.Images.Media.DATA};
-//                    Cursor cursor = getContentResolver().query(uri, proj, null, null, null);
-//                    if (cursor != null) {
-//                        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-//                        cursor.moveToFirst();
-//                        String path = cursor.getString(column_index);// 图片的路径
-//                        Log.i("tag", path);
-//                        Log.i("tag",uri.toString());
-//                        Uri test = Uri.fromFile(new File(path));
-//                        Log.i("tag",test.toString());
+                    String[] proj = {MediaStore.Images.Media.DATA};
+                    Cursor cursor = getContentResolver().query(uri, proj, null, null, null);
+                    if (cursor != null) {
+                        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                        cursor.moveToFirst();
+                        String path = cursor.getString(column_index);// 图片的路径
+                        Log.i("tag", path);
+                        Log.i("tag",uri.toString());
+                        //Uri test = pathToMediaUri(path);
+                        // Log.i("tag",test.toString());
                         startPhotoZoom(uri); // 开始对图片进行裁剪处理
-                    //}
+                    }
                     break;
                 case CROP_SMALL_PICTURE:
                     if (data != null) {
@@ -414,6 +415,18 @@ public class PersonalDataChangeTActivity extends AppCompatActivity {
                 }
             }
         }
+        return uri;
+    }
+
+    private Uri pathToMediaUri(String path) {
+        Uri mediaUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+        Cursor cursor = getContentResolver().query(mediaUri,
+                null,
+                MediaStore.Images.Media.DISPLAY_NAME + "=" + path.substring(path.lastIndexOf("/") + 1),
+                null,
+                null);
+        cursor.moveToFirst();
+        Uri uri = ContentUris.withAppendedId(mediaUri, cursor.getLong(0));
         return uri;
     }
 
