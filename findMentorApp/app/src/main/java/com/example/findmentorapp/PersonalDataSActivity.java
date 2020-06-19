@@ -176,110 +176,109 @@ public class PersonalDataSActivity extends AppCompatActivity {
     final Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            String personal_data_change_url = Urls.api_url;
+        String personal_data_change_url = Urls.api_url;
 
-            Handler handler = new Handler(Looper.getMainLooper()) {
-                @Override
-                public void handleMessage(Message msg) {
-                    super.handleMessage(msg);
-                    if (msg.what == 0) {
-                        //不成功，弹窗
-                        Toast toast = Toast.makeText(getApplicationContext(), "修改失败", Toast.LENGTH_SHORT);
-                        toast.show();
-                    } else if (msg.what == 1) {
-                        textView_name.setText(name);
-                        textView_age.setText(age);
-                        textView_sex.setText(sex);
-                        textView_intro.setText(intro);
-                        textView_school.setText(school);
-                        textView_department.setText(department);
-                        textView_range.setText(range);
-                        textView_grade.setText(grade);
-                    }
+        Handler handler = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                if (msg.what == 0) {
+                    //不成功，弹窗
+                    Toast toast = Toast.makeText(getApplicationContext(), "修改失败", Toast.LENGTH_SHORT);
+                    toast.show();
+                } else if (msg.what == 1) {
+                    textView_name.setText(name);
+                    textView_age.setText(age);
+                    textView_sex.setText(sex);
+                    textView_intro.setText(intro);
+                    textView_school.setText(school);
+                    textView_department.setText(department);
+                    textView_range.setText(range);
+                    textView_grade.setText(grade);
                 }
-            };
-            try {
+            }
+        };
+        try {
 
-                URL url = new URL(personal_data_change_url);
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setRequestMethod("POST");
-                conn.setReadTimeout(5000);
-                conn.setConnectTimeout(5000);
+            URL url = new URL(personal_data_change_url);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setReadTimeout(5000);
+            conn.setConnectTimeout(5000);
 
-                conn.setRequestProperty("Content-Type",
-                        "application/x-www-form-urlencoded;charset=UTF-8");
+            conn.setRequestProperty("Content-Type",
+                    "application/x-www-form-urlencoded;charset=UTF-8");
 
-                conn.setDoOutput(true);
-                conn.setDoInput(true);
-                conn.setUseCaches(false);
+            conn.setDoOutput(true);
+            conn.setDoInput(true);
+            conn.setUseCaches(false);
 
-                MyApplication application = (MyApplication) getApplicationContext();
-                String sessionID = application.getSessionID();
+            MyApplication application = (MyApplication) getApplicationContext();
+            String sessionID = application.getSessionID();
 
-                String data = "action=GetPersonalData" +
-                        "&sessionID=" + URLEncoder.encode(sessionID, "UTF-8");
+            String data = "action=GetPersonalData" +
+                    "&sessionID=" + URLEncoder.encode(sessionID, "UTF-8");
 
-                OutputStream out = conn.getOutputStream();
-                out.write(data.getBytes());
-                out.flush();
-                out.close();
+            OutputStream out = conn.getOutputStream();
+            out.write(data.getBytes());
+            out.flush();
+            out.close();
 
-                InputStream is = conn.getInputStream();
-                if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                    StringBuilder response = new StringBuilder();
-                    byte[] b = new byte[1024];
-                    int len;
-                    while ((len = is.read(b)) != -1) {
-                        response.append(new String(b, 0, len));
-                    }
-                    is.close();
-                    conn.disconnect();
+            InputStream is = conn.getInputStream();
+            if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                StringBuilder response = new StringBuilder();
+                byte[] b = new byte[1024];
+                int len;
+                while ((len = is.read(b)) != -1) {
+                    response.append(new String(b, 0, len));
+                }
+                is.close();
+                conn.disconnect();
 
-                    String res = new String(response);
-                    System.out.println(res);
-                    JSONObject obj = new JSONObject(res);
-                    String isconnect = obj.getString("result");
-                    if (isconnect.equals("true")) {
-                        name = obj.getString("name");
-                        age = obj.getString("age");
-                        sex = obj.getString("sex");
-                        intro = obj.getString("intro");
-                        school = obj.getString("school");
-                        department = obj.getString("department");
-                        range = obj.getString("range");
-                        grade = obj.getString("grade");
+                String res = new String(response);
+                System.out.println(res);
+                JSONObject obj = new JSONObject(res);
+                String isconnect = obj.getString("result");
+                if (isconnect.equals("true")) {
+                    name = obj.getString("name");
+                    age = obj.getString("age");
+                    sex = obj.getString("sex");
+                    intro = obj.getString("intro");
+                    school = obj.getString("school");
+                    department = obj.getString("department");
+                    range = obj.getString("range");
+                    grade = obj.getString("grade");
 
-                        Message message = Message.obtain();
-                        message.what = 1;
-                        handler.sendMessage(message);
-                    } else {
-                        Message message = Message.obtain();
-                        message.what = 0;
-                        handler.sendMessage(message);
-                    }
+                    Message message = Message.obtain();
+                    message.what = 1;
+                    handler.sendMessage(message);
                 } else {
                     Message message = Message.obtain();
                     message.what = 0;
                     handler.sendMessage(message);
                 }
-            } catch (MalformedURLException e) {
+            } else {
                 Message message = Message.obtain();
                 message.what = 0;
                 handler.sendMessage(message);
-                e.printStackTrace();
-            } catch (IOException e) {
-                Message message = Message.obtain();
-                message.what = 0;
-                handler.sendMessage(message);
-                e.printStackTrace();
-            } catch (JSONException e) {
-                Message message = Message.obtain();
-                message.what = 0;
-                handler.sendMessage(message);
-                e.printStackTrace();
             }
+        } catch (MalformedURLException e) {
+            Message message = Message.obtain();
+            message.what = 0;
+            handler.sendMessage(message);
+            e.printStackTrace();
+        } catch (IOException e) {
+            Message message = Message.obtain();
+            message.what = 0;
+            handler.sendMessage(message);
+            e.printStackTrace();
+        } catch (JSONException e) {
+            Message message = Message.obtain();
+            message.what = 0;
+            handler.sendMessage(message);
+            e.printStackTrace();
+        }
         }
 
     };
-
 }
