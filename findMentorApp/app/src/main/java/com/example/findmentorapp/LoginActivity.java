@@ -115,6 +115,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         MyApplication application = (MyApplication) getApplicationContext();
                         application.setSessionID(sessionID);
+                        application.setID(id);
                         //登录成功后在sharedpreference存入用户名和密码
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         {
