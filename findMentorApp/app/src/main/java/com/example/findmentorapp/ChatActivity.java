@@ -36,6 +36,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Timer;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -61,7 +62,6 @@ public class ChatActivity extends AppCompatActivity {
         Intent intent = getIntent();
         id = intent.getStringExtra("id");
 
-        //todo message添加方式如下，注意区分发送方，请按时间顺序排序，如9点的消息位置在8点之后
         Msg msg1 = new Msg("Hello, how are you?", Msg.TYPE_RECEIVED);
         msgList.add(msg1);
         Msg msg2 = new Msg("Fine, thank you, and you?", Msg.TYPE_SEND);
@@ -74,7 +74,7 @@ public class ChatActivity extends AppCompatActivity {
         send = (Button)findViewById(R.id.send);
         msgListView = (ListView)findViewById(R.id.msg_list_view);
         msgListView.setAdapter(adapter);
-        
+
         new Thread(getMsgList).start();
 
         send.setOnClickListener(new View.OnClickListener() {
@@ -190,10 +190,6 @@ public class ChatActivity extends AppCompatActivity {
                         //不成功，弹窗
                         Toast toast = Toast.makeText(MyApplication.getContext(), "发送失败", Toast.LENGTH_SHORT);
                         toast.show();
-                    } else if (message.what == 1) {
-                        //成功
-//                        msgList.add(msg);
-//                        adapter.notifyDataSetChanged();
                     }
                 }
             };
@@ -282,111 +278,113 @@ public class ChatActivity extends AppCompatActivity {
     private Runnable getMsgList = new Runnable() {
         @Override
         public void run() {
-            String personal_data_change_url = Urls.api_url;
-            Handler handler = new Handler(Looper.getMainLooper()) {
-                @Override
-                public void handleMessage(Message message) {
-                    super.handleMessage(message);
-                    if (message.what == 0) {
-                        //不成功，弹窗
-                        Toast toast = Toast.makeText(MyApplication.getContext(), "发送失败", Toast.LENGTH_SHORT);
-                        toast.show();
-                    } else if (message.what == 1) {
-                        //成功
-                        adapter.notifyDataSetChanged();
-                    }
+            while (true) {
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-            };
-            try {
-                URL url = new URL(personal_data_change_url);
-                HttpURLConnection conn = (HttpURLConnection)url.openConnection();
-                conn.setChunkedStreamingMode(0);
-                conn.setRequestMethod("POST");
-                conn.setReadTimeout(5000);
-                conn.setConnectTimeout(5000);
-
-                conn.setRequestProperty("Content-Type",
-                        "application/x-www-form-urlencoded;charset=UTF-8");
-
-                conn.setDoOutput(true);
-                conn.setDoInput(true);
-                conn.setUseCaches(false);
-
-                //MyApplication application = (MyApplication) getActivity().getApplicationContext();
-                MyApplication application = MyApplication.getInstance();
-                String sessionID = application.getSessionID();
-
-                String data = "action=getMsgList"+
-                        "&sessionID="+ URLEncoder.encode(sessionID,"UTF-8")+
-                        "&chatWith=" + URLEncoder.encode(id,"UTF-8");
-
-                OutputStream out = conn.getOutputStream();
-                out.write(data.getBytes());
-                out.flush();
-                out.close();
-
-                InputStream is = conn.getInputStream();
-                if(conn.getResponseCode()==HttpURLConnection.HTTP_OK) {
-                    StringBuilder response = new StringBuilder();
-                    byte[] b = new byte[1024];
-                    int len ;
-                    while((len = is.read(b))!=-1){
-                        response.append(new String(b, 0, len));
-                    }
-                    is.close();
-                    conn.disconnect();
-
-                    String res = new String(response);
-                    System.out.println(res);
-                    JSONObject obj = new JSONObject(res);
-                    String isconnect = obj.getString("result");
-                    msgList.clear();
-                    if(isconnect.equals("true")) {
-                        JSONArray dataArray = obj.getJSONArray("data");
-                        for (int i = 0;i<dataArray.length();i++)
-                        {
-                            JSONObject personData = dataArray.getJSONObject(i);
-                            String text = personData.getString("text");
-                            String senderID = personData.getString("senderID");
-                            if(senderID.equals(id))//别人发来的
-                                msgList.add(new Msg(text,Msg.TYPE_RECEIVED));
-                            else//自己发出去的
-                                msgList.add(new Msg(text,Msg.TYPE_SEND));
+                String personal_data_change_url = Urls.api_url;
+                Handler handler = new Handler(Looper.getMainLooper()) {
+                    @Override
+                    public void handleMessage(Message message) {
+                        super.handleMessage(message);
+                        if (message.what == 0) {
+                            //不成功，弹窗
+                            Toast toast = Toast.makeText(MyApplication.getContext(), "发送失败", Toast.LENGTH_SHORT);
+                            toast.show();
+                        } else if (message.what == 1) {
+                            //成功
+                            adapter.notifyDataSetChanged();
                         }
-
-                        Message message = Message.obtain();
-                        message.what = 1;
-                        handler.sendMessage(message);
                     }
-                    else
-                    {
+                };
+                try {
+                    URL url = new URL(personal_data_change_url);
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setChunkedStreamingMode(0);
+                    conn.setRequestMethod("POST");
+                    conn.setReadTimeout(5000);
+                    conn.setConnectTimeout(5000);
+
+                    conn.setRequestProperty("Content-Type",
+                            "application/x-www-form-urlencoded;charset=UTF-8");
+
+                    conn.setDoOutput(true);
+                    conn.setDoInput(true);
+                    conn.setUseCaches(false);
+
+                    //MyApplication application = (MyApplication) getActivity().getApplicationContext();
+                    MyApplication application = MyApplication.getInstance();
+                    String sessionID = application.getSessionID();
+
+                    String data = "action=getMsgList" +
+                            "&sessionID=" + URLEncoder.encode(sessionID, "UTF-8") +
+                            "&chatWith=" + URLEncoder.encode(id, "UTF-8");
+
+                    OutputStream out = conn.getOutputStream();
+                    out.write(data.getBytes());
+                    out.flush();
+                    out.close();
+
+                    InputStream is = conn.getInputStream();
+                    if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                        StringBuilder response = new StringBuilder();
+                        byte[] b = new byte[1024];
+                        int len;
+                        while ((len = is.read(b)) != -1) {
+                            response.append(new String(b, 0, len));
+                        }
+                        is.close();
+                        conn.disconnect();
+
+                        String res = new String(response);
+                        System.out.println(res);
+                        JSONObject obj = new JSONObject(res);
+                        String isconnect = obj.getString("result");
+                        msgList.clear();
+                        if (isconnect.equals("true")) {
+                            JSONArray dataArray = obj.getJSONArray("data");
+                            for (int i = 0; i < dataArray.length(); i++) {
+                                JSONObject personData = dataArray.getJSONObject(i);
+                                String text = personData.getString("text");
+                                String senderID = personData.getString("senderID");
+                                if (senderID.equals(id))//别人发来的
+                                    msgList.add(new Msg(text, Msg.TYPE_RECEIVED));
+                                else//自己发出去的
+                                    msgList.add(new Msg(text, Msg.TYPE_SEND));
+                            }
+
+                            Message message = Message.obtain();
+                            message.what = 1;
+                            handler.sendMessage(message);
+                        } else {
+                            Message message = Message.obtain();
+                            message.what = 0;
+                            handler.sendMessage(message);
+                        }
+                    } else {
                         Message message = Message.obtain();
                         message.what = 0;
                         handler.sendMessage(message);
                     }
-                }
-                else {
+                } catch (MalformedURLException e) {
                     Message message = Message.obtain();
                     message.what = 0;
                     handler.sendMessage(message);
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    Message message = Message.obtain();
+                    message.what = 0;
+                    handler.sendMessage(message);
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    Message message = Message.obtain();
+                    message.what = 0;
+                    handler.sendMessage(message);
+                    e.printStackTrace();
                 }
-            } catch (MalformedURLException e) {
-                Message message = Message.obtain();
-                message.what = 0;
-                handler.sendMessage(message);
-                e.printStackTrace();
-            } catch (IOException e) {
-                Message message = Message.obtain();
-                message.what = 0;
-                handler.sendMessage(message);
-                e.printStackTrace();
-            } catch (JSONException e) {
-                Message message = Message.obtain();
-                message.what = 0;
-                handler.sendMessage(message);
-                e.printStackTrace();
             }
         }
-
     };
 }
