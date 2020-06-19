@@ -74,7 +74,7 @@ public class ChatActivity extends AppCompatActivity {
         send = (Button)findViewById(R.id.send);
         msgListView = (ListView)findViewById(R.id.msg_list_view);
         msgListView.setAdapter(adapter);
-
+        
         new Thread(getMsgList).start();
 
         send.setOnClickListener(new View.OnClickListener() {
@@ -353,7 +353,7 @@ public class ChatActivity extends AppCompatActivity {
                             else//自己发出去的
                                 msgList.add(new Msg(text,Msg.TYPE_SEND));
                         }
-                        
+
                         Message message = Message.obtain();
                         message.what = 1;
                         handler.sendMessage(message);
