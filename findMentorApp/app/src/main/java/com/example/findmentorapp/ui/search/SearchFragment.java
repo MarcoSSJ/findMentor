@@ -240,6 +240,9 @@ public class SearchFragment extends Fragment {
                                 byte[] bytes = Base64.decode(imgStr, Base64.DEFAULT);
                                 bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                                 //s_pic.add(bitmap);
+                                Message message = Message.obtain();
+                                message.what = 1;
+                                handler.sendMessage(message);
                             }else {
                                 Message message = Message.obtain();
                                 message.what = 0;
