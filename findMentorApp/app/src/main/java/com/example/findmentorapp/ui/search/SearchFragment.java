@@ -64,7 +64,7 @@ public class SearchFragment extends Fragment {
     String s_grade[] = {};
     //存放用户id
     String s_id[] = {};
-    Bitmap s_pic[] = {};
+    ArrayList<Bitmap> s_pic = new ArrayList<>();
 
     String searchText;
     String searchSelect; //标识搜索选项，换成int也无所谓
@@ -175,8 +175,9 @@ public class SearchFragment extends Fragment {
             viewHolder.grade.setText(s_grade[position]);
             //用户id
             viewHolder.id = s_id[position];
-            viewHolder.img.setImageBitmap(s_pic[position]);
-            
+
+            viewHolder.img.setImageBitmap(s_pic.get(position));
+
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -339,8 +340,6 @@ public class SearchFragment extends Fragment {
         }
 
             int count = 0;
-            s_pic = new Bitmap[]{};
-            ArrayList<Bitmap> picList = new ArrayList<Bitmap>(s_id.length);
 
             while (count <= s_id.length) {
                 try {
@@ -392,8 +391,7 @@ public class SearchFragment extends Fragment {
                             String imgStr = obj.getString("picture");
                             byte[] bytes = Base64.decode(imgStr, Base64.DEFAULT);
                             bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                            picList.add(bitmap);
-
+                            s_pic.add(bitmap);
                         }
                     }
                 } catch (MalformedURLException e) {
@@ -405,7 +403,6 @@ public class SearchFragment extends Fragment {
                 }
             }
 
-            s_pic = picList.toArray(new Bitmap[0]);
             Message message = Message.obtain();
             message.what = 1;
             handler.sendMessage(message);
