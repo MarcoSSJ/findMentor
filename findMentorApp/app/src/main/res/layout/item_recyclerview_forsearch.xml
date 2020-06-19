@@ -82,6 +82,8 @@
                 android:id="@+id/textView_item_forSearch_text"
                 android:layout_width="match_parent"
                 android:layout_height="18dp"
+                android:singleLine="true"
+                android:ellipsize="end"
                 android:gravity="bottom"
                 android:textColor="@android:color/darker_gray"
                 android:textSize="12sp" />

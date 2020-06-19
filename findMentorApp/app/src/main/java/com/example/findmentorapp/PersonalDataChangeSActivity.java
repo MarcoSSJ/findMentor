@@ -305,8 +305,8 @@ public class PersonalDataChangeSActivity extends AppCompatActivity {
                 switch (which) {
                     case CHOOSE_PICTURE: // 选择本地照片
                         Intent openAlbumIntent = new Intent(
-                                Intent.ACTION_PICK);
-                        openAlbumIntent.setType("image/*");
+                                Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        //openAlbumIntent.setType("image/*");
                         startActivityForResult(openAlbumIntent, CHOOSE_PICTURE);
                         break;
                 }
