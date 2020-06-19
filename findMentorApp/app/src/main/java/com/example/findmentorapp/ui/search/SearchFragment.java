@@ -3,10 +3,13 @@ package com.example.findmentorapp.ui.search;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,6 +64,7 @@ public class SearchFragment extends Fragment {
     String s_grade[] = {};
     //存放用户id
     String s_id[] = {};
+    Bitmap s_pic[] = {};
 
     String searchText;
     String searchSelect; //标识搜索选项，换成int也无所谓
@@ -331,6 +335,78 @@ public class SearchFragment extends Fragment {
             handler.sendMessage(message);
             e.printStackTrace();
         }
+
+            int count = 0;
+            s_pic = new Bitmap[]{};
+            ArrayList<Bitmap> picList = new ArrayList<Bitmap>(s_id.length);
+
+            while (count <= s_id.length) {
+                try {
+                    String api_url = Urls.api_url;
+                    URL url = new URL(api_url);
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setChunkedStreamingMode(0);
+                    conn.setRequestMethod("POST");
+                    conn.setReadTimeout(5000);
+                    conn.setConnectTimeout(5000);
+
+                    conn.setRequestProperty("Content-Type",
+                            "application/x-www-form-urlencoded;charset=UTF-8");
+
+                    conn.setDoOutput(true);
+                    conn.setDoInput(true);
+                    conn.setUseCaches(false);
+
+                    //MyApplication application = (MyApplication) getActivity().getApplicationContext();
+                    MyApplication application = MyApplication.getInstance();
+                    String sessionID = application.getSessionID();
+
+                    String data = "action=DownloadPic" +
+                            "&sessionID=" + URLEncoder.encode(sessionID, "UTF-8")+
+                            "&id=" + URLEncoder.encode(s_id[count], "UTF-8");
+                    count++;
+                    OutputStream out = conn.getOutputStream();
+                    out.write(data.getBytes());
+                    out.flush();
+                    out.close();
+
+                    InputStream is = conn.getInputStream();
+                    if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                        StringBuilder response = new StringBuilder();
+                        byte[] b = new byte[1024];
+                        int len;
+                        while ((len = is.read(b)) != -1) {
+                            response.append(new String(b, 0, len));
+                        }
+                        is.close();
+                        conn.disconnect();
+
+                        String res = new String(response);
+                        System.out.println(res);
+                        JSONObject obj = new JSONObject(res);
+                        String isconnect = obj.getString("result");
+                        if (isconnect.equals("true")) {
+                            Bitmap bitmap = null;
+                            String imgStr = obj.getString("picture");
+                            byte[] bytes = Base64.decode(imgStr, Base64.DEFAULT);
+                            bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                            picList.add(bitmap);
+
+                        }
+                    }
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e){
+                    e.printStackTrace();
+                }
+            }
+
+            s_pic = picList.toArray(new Bitmap[0]);
+            Message message = Message.obtain();
+            message.what = 1;
+            handler.sendMessage(message);
         }
 
     };
