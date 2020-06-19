@@ -74,6 +74,10 @@
             android:name="com.example.findmentorapp.PublishActivity"
             android:label="动态列表" >
         </activity>
+        <activity
+            android:name="com.example.findmentorapp.ChatActivity"
+            android:label="聊天" >
+        </activity>
     </application>
 
 </manifest>
