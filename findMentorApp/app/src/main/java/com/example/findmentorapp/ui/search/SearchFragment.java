@@ -165,7 +165,7 @@ public class SearchFragment extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
 
             final MyHolder viewHolder = (MyHolder) holder;
 
@@ -211,11 +211,9 @@ public class SearchFragment extends Fragment {
                         MyApplication application = MyApplication.getInstance();
                         String sessionID = application.getSessionID();
 
-                        String data = "action=Search" +
-                                "&sessionID=" + URLEncoder.encode(sessionID, "UTF-8") +
-                                "&searchText=" + URLEncoder.encode(searchText, "UTF-8") +
-                                "&searchSelect=" + URLEncoder.encode(searchSelect, "UTF-8");
-
+                        String data = "action=DownloadPic" +
+                            "&sessionID=" + URLEncoder.encode(sessionID, "UTF-8")+
+                            "&id=" + URLEncoder.encode(s_id[position], "UTF-8");
                         OutputStream out = conn.getOutputStream();
                         out.write(data.getBytes());
                         out.flush();
