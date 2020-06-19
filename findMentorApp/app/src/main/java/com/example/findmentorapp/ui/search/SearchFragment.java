@@ -175,6 +175,7 @@ public class SearchFragment extends Fragment {
             viewHolder.grade.setText(s_grade[position]);
             //用户id
             viewHolder.id = s_id[position];
+            viewHolder.img.setImageBitmap(s_pic[position]);
             
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -197,6 +198,7 @@ public class SearchFragment extends Fragment {
             TextView text, name, grade;
             //标识号
             String id;
+            ImageView img;
 
             MyHolder(View itemView) {
                 super(itemView);
@@ -205,7 +207,7 @@ public class SearchFragment extends Fragment {
                 text = itemView.findViewById(R.id.textView_item_forSearch_text);
                 name = itemView.findViewById(R.id.textView_item_forSearch_name);
                 grade = itemView.findViewById(R.id.textView_item_forSearch_grade);
-
+                img = itemView.findViewById(R.id.imageView_item_forsearch);
             }
 
         }

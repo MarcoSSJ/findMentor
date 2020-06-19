@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -95,6 +96,7 @@ public class FavoriteActivity extends AppCompatActivity {
             viewHolder.grade.setText(s_grade[position]);
             //用户id
             viewHolder.id = s_id[position];
+            viewHolder.img.setImageBitmap(s_pic[position]);
 
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -117,6 +119,7 @@ public class FavoriteActivity extends AppCompatActivity {
             TextView text, name, grade;
             //标识号
             String id;
+            ImageView img;
 
             public MyHolder(View itemView) {
                 super(itemView);
@@ -126,6 +129,7 @@ public class FavoriteActivity extends AppCompatActivity {
                 text = itemView.findViewById(R.id.textView_item_favorite_text);
                 name = itemView.findViewById(R.id.textView_item_favorite_name);
                 grade = itemView.findViewById(R.id.textView_item_favorite_grade);
+                img = itemView.findViewById(R.id.imageView_item_favorite);
 
             }
 
