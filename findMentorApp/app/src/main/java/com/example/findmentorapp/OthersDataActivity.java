@@ -323,13 +323,17 @@ public class OthersDataActivity extends AppCompatActivity {
             conn.setDoInput(true);
             conn.setUseCaches(false);
 
-            //MyApplication application = (MyApplication) getActivity().getApplicationContext();
             MyApplication application = MyApplication.getInstance();
             String sessionID = application.getSessionID();
-
-            String data = "action=Follow"+
+            String data = "";
+            if(button_favorite.getText().toString().equals("关注"))
+                data = "action=Follow"+
                     "&sessionID="+ URLEncoder.encode(sessionID,"UTF-8")+
                     "&id=" + URLEncoder.encode(id,"UTF-8");
+            else
+                data = "action=Unfollow"+
+                        "&sessionID="+ URLEncoder.encode(sessionID,"UTF-8")+
+                        "&id=" + URLEncoder.encode(id,"UTF-8");
 
             OutputStream out = conn.getOutputStream();
             out.write(data.getBytes());
