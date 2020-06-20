@@ -59,9 +59,6 @@ public class LoginActivity extends AppCompatActivity {
                         toast.show();
                     } else if (msg.what == 1) {
                         //以下为登陆成功跳转代码
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        //intent.putExtra("fragid",1); //添加Extra
-                        startActivity(intent);
                         finish();
                     }
 

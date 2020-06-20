@@ -58,7 +58,7 @@ public class FavoriteActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        new Thread(runnable).start();
+
 
         //RecyclerView相关函数
         final RecyclerView recyclerView_search = findViewById(R.id.recyclerView_favorite_mine);
@@ -67,9 +67,18 @@ public class FavoriteActivity extends AppCompatActivity {
         myAdapter = new MyAdapter();
 
         recyclerView_search.setAdapter(myAdapter);
+    }
 
+    @Override
+    protected void onResume() {
+        new Thread(runnable).start();
+
+        super.onResume();
 
     }
+
+
+
 
     class MyAdapter extends RecyclerView.Adapter {
 
