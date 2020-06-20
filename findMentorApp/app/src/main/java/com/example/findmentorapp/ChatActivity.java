@@ -91,7 +91,6 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-
     }
 
     class MsgAdapter extends ArrayAdapter<Msg> {

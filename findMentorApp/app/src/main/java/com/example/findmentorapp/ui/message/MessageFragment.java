@@ -103,9 +103,6 @@ public class MessageFragment extends Fragment {
             constraintLayout.setVisibility(View.VISIBLE);
         }
 
-        new Thread(runnable).start();
-
-
         recyclerView_message.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         myAdapter = new MyAdapter();
 
@@ -128,9 +125,13 @@ public class MessageFragment extends Fragment {
             }
         });
 
-
         return root;
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        new Thread(runnable).start();
     }
 
     class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyHolder> implements Filterable {
