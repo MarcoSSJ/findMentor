@@ -49,7 +49,6 @@ public class InfoDetailActivity extends AppCompatActivity{
         infoID = intent.getStringExtra("infoID");
 
         //各种信息
-        //todo 本页面暂时先不管等动态能提交了再处理
         textView_title = (TextView)findViewById(R.id.textView_infoDetail_title);
         textView_name = (TextView)findViewById(R.id.textView_infoDetail_name);
         textView_personInfo = (TextView)findViewById(R.id.textView_infoDetail_personInfo);
