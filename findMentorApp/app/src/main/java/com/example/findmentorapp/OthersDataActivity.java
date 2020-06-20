@@ -40,6 +40,7 @@ public class OthersDataActivity extends AppCompatActivity {
     private TextView textView_range;
     private TextView textView_school;
     private TextView textView_department;
+    private TextView textView_toChat;
     private TextView textView_grade;
     private TextView textView6;
     private TextView textView7;
@@ -74,6 +75,7 @@ public class OthersDataActivity extends AppCompatActivity {
         textView_department = (TextView)findViewById(R.id.textView_othersData_department);
         textView_range = (TextView)findViewById(R.id.textView_othersData_range);
         textView_grade = (TextView)findViewById(R.id.textView_othersData_grade);
+        textView_toChat = (TextView)findViewById(R.id.textView_othersdata_tochat);
         textView_intro.setMovementMethod(ScrollingMovementMethod.getInstance());
         textView_range.setMovementMethod(ScrollingMovementMethod.getInstance());
         imageView_data = (ImageView) findViewById(R.id.imageView_othersData);
@@ -103,6 +105,15 @@ public class OthersDataActivity extends AppCompatActivity {
             public void onClick (View v) {
                 button_favorite.setText("关注");
                 new Thread(runFollow).start();
+            }
+        });
+
+        textView_toChat.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick (View v) {
+                //todo 跳转聊天别忘了加id
+                Intent intent = new Intent(OthersDataActivity.this, ChatActivity.class);
+                startActivity(intent);
             }
         });
     }
