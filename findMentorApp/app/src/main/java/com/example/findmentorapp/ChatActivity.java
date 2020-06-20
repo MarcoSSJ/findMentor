@@ -213,7 +213,7 @@ public class ChatActivity extends AppCompatActivity {
                 String sessionID = application.getSessionID();
                 String senderID = application.getID();
 
-                String data = "action=sendMessage"+
+                String data = "action=SendMessage"+
                         "&sessionID="+ URLEncoder.encode(sessionID,"UTF-8")+
                         "&sendText=" + URLEncoder.encode(msg.content,"UTF-8")+
                         "&receiverID=" + URLEncoder.encode(id,"UTF-8")+
@@ -318,7 +318,7 @@ public class ChatActivity extends AppCompatActivity {
                     MyApplication application = MyApplication.getInstance();
                     String sessionID = application.getSessionID();
 
-                    String data = "action=getMsgList" +
+                    String data = "action=GetMessageList" +
                             "&sessionID=" + URLEncoder.encode(sessionID, "UTF-8") +
                             "&chatWith=" + URLEncoder.encode(id, "UTF-8");
 

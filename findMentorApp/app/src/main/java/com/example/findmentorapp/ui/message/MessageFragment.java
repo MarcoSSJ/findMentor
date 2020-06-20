@@ -284,7 +284,7 @@ public class MessageFragment extends Fragment {
                 MyApplication application = MyApplication.getInstance();
                 String sessionID = application.getSessionID();
 
-                String data = "action=messageList"+
+                String data = "action=MessageList"+
                         "&sessionID="+ URLEncoder.encode(sessionID,"UTF-8");
 
                 OutputStream out = conn.getOutputStream();
