@@ -8,6 +8,7 @@ public class MyApplication extends Application {
     private static Context mContext;
     private static String sessionID;
     private static String id;
+    private static String type;
 
     @Override
     public void onCreate() {
@@ -31,6 +32,9 @@ public class MyApplication extends Application {
     public void setID(String id) {
         MyApplication.id = id;
     }
+    public void setType(String type) {
+        MyApplication.type = type;
+    }
 
     public String getSessionID() {
         if (sessionID == null)
@@ -41,5 +45,10 @@ public class MyApplication extends Application {
         if (id == null)
             return "";
         return id;
+    }
+    public String getType() {
+        if (type == null)
+            return "";
+        return type;
     }
 }

@@ -223,7 +223,7 @@ public class PublishActivity extends AppCompatActivity {
                         String title = personData.getString("title");
                         String text = personData.getString("text");
                         //String name = personData.getString("name");
-                        String time = personData.getString("time");
+                        String time = personData.getString("datetime");
                         String infoID = personData.getString("infoID");
 
                         titleList.add(title);

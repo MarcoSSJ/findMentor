@@ -51,7 +51,6 @@ import java.net.URLEncoder;
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
-    private SharedPreferences sharedPreferences;
 
     private Button toLogButton;
     private LinearLayout layout_toAccount;
@@ -77,12 +76,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        //获取登陆状态
-        //MyApplication application = (MyApplication) getActivity().getApplication();
-        MyApplication application = MyApplication.getInstance();
-        String sessionID = application.getSessionID();
-
-        sharedPreferences = getActivity().getSharedPreferences("remenberpass", Context.MODE_PRIVATE);
+        final MyApplication application = MyApplication.getInstance();
 
         //跳转登录界面
         toLogButton = (Button) root.findViewById(R.id.toLogin);
@@ -98,7 +92,7 @@ public class HomeFragment extends Fragment {
         toPersonalData.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick (View v) {
-                String type =  sharedPreferences.getString("type","");
+                String type = application.getType();
                 if(type.equals("teacher")) {
                     //老师跳转
                     Intent intent = new Intent(getActivity(), PersonalDataTActivity.class);
@@ -144,9 +138,8 @@ public class HomeFragment extends Fragment {
         layout_toPublish.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick (View v) {
-                String id =  sharedPreferences.getString("id","");
+                String id = application.getID();
                 Intent intent = new Intent(getActivity(), PublishActivity.class);
-                //这里的id是自己的id
                 intent.putExtra("id",id);
                 startActivity(intent);
             }
@@ -161,7 +154,6 @@ public class HomeFragment extends Fragment {
         MyApplication application = MyApplication.getInstance();
         String sessionID = application.getSessionID();
 
-        sharedPreferences = getActivity().getSharedPreferences("remenberpass", Context.MODE_PRIVATE);
 
         if(sessionID.equals("")) {
             toLogButton.setVisibility(View.VISIBLE);
