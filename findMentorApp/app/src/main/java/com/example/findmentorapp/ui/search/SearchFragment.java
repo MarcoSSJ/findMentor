@@ -164,8 +164,7 @@ public class SearchFragment extends Fragment {
                 searchSelect = temp;
             }
         });
-
-        //todo 推荐线程启动放在这下面
+        
         new Thread(getRecommend).start();
     }
 
