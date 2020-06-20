@@ -297,17 +297,19 @@ public class OthersDataActivity extends AppCompatActivity {
                     Toast toast = Toast.makeText(MyApplication.getContext(), "关注失败", Toast.LENGTH_SHORT);
                     toast.show();
                 } else if (msg.what == 1) {
+                    Toast toast = Toast.makeText(MyApplication.getContext(), "关注成功", Toast.LENGTH_SHORT);
+                    toast.show();
                     button_favorite.setText("取消关注");
                     button_favorite.setBackgroundResource(R.drawable.button_drawable_white);
                     button_favorite.setTextColor(getResources().getColor(R.color.colorPrimary));
                 } else if (msg.what == 2) {
+                    Toast toast = Toast.makeText(MyApplication.getContext(), "取消关注", Toast.LENGTH_SHORT);
+                    toast.show();
                     button_favorite.setText("关注");
                 }
             }
         };
         try {
-
-
             URL url = new URL(follow_url);
             HttpURLConnection conn = (HttpURLConnection)url.openConnection();
             conn.setRequestMethod("POST");
