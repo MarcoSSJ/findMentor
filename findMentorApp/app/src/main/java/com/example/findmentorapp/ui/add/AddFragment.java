@@ -139,10 +139,10 @@ public class AddFragment extends Fragment {
             MyApplication application = MyApplication.getInstance();
             String sessionID = application.getSessionID();
 
-            String data = "action=add"+
+            String data = "action=CreatePost"+
                 "&sessionID=" + URLEncoder.encode(sessionID,"UTF-8")+
                 "&title=" + URLEncoder.encode(editText_title.getText().toString(),"UTF-8")+
-                "&info=" + URLEncoder.encode(editText_info.getText().toString(),"UTF-8");
+                "&text=" + URLEncoder.encode(editText_info.getText().toString(),"UTF-8");
 
             OutputStream out = conn.getOutputStream();
             out.write(data.getBytes());
