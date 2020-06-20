@@ -2,6 +2,8 @@ package com.example.findmentorapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -44,6 +46,8 @@ public class ChatActivity extends AppCompatActivity {
     private EditText inputText;
     private Button send;
     private MsgAdapter adapter;
+    Bitmap bitmap1;//对方头像
+    Bitmap bitmap2;//自己头像
     private List<Msg> msgList = new ArrayList<Msg>();
 
     private String id;//在和谁聊天
@@ -68,6 +72,12 @@ public class ChatActivity extends AppCompatActivity {
 //        msgList.add(msg2);
 //        Msg msg3 = new Msg("I am fine, too!", Msg.TYPE_RECEIVED);
 //        msgList.add(msg3);
+
+
+        bitmap1 = BitmapFactory.decodeFile("@drawable/head1");
+        bitmap2 = BitmapFactory.decodeFile("@drawable/head2");
+
+        //todo 在这底下添加线程获取头像bitmap放在bitmap1，bitmap2中，2为自己头像
 
         adapter = new MsgAdapter(ChatActivity.this, R.layout.item_message_detail, msgList);
         inputText = (EditText)findViewById(R.id.input_text);
@@ -114,18 +124,22 @@ public class ChatActivity extends AppCompatActivity {
                 viewHolder.rightMsg = (TextView) view.findViewById(R.id.right_msg);
                 viewHolder.head1 = (ImageView) view.findViewById(R.id.head_left);
                 viewHolder.head2 = (ImageView) view.findViewById(R.id.head_right);
+                viewHolder.head1.setImageBitmap(bitmap1);
+                viewHolder.head2.setImageBitmap(bitmap2);
                 view.setTag(viewHolder);
             } else {
                 view = convertView;
                 viewHolder = (ViewHolder) view.getTag();
             }
             if (msg.getType() == Msg.TYPE_RECEIVED) {
+                //收到的消息
                 viewHolder.leftLayout.setVisibility(View.VISIBLE);
                 viewHolder.head1.setVisibility(View.VISIBLE);
                 viewHolder.rightLayout.setVisibility(View.GONE);
                 viewHolder.head2.setVisibility(View.GONE);
                 viewHolder.leftMsg.setText(msg.getContent());
             } else if (msg.getType() == Msg.TYPE_SEND) {
+                //没收到的消息
                 viewHolder.rightLayout.setVisibility(View.VISIBLE);
                 viewHolder.head2.setVisibility(View.VISIBLE);
                 viewHolder.leftLayout.setVisibility(View.GONE);
