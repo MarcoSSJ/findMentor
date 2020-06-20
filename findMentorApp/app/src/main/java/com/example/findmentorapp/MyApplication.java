@@ -13,7 +13,6 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        //setSessionID("");
         mInstance = this;
         mContext = getApplicationContext();
     }
@@ -50,5 +49,10 @@ public class MyApplication extends Application {
         if (type == null)
             return "";
         return type;
+    }
+    public void clear() {
+        sessionID = "";
+        id = "";
+        type = "";
     }
 }
