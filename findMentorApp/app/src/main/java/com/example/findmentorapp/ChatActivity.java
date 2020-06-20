@@ -62,12 +62,12 @@ public class ChatActivity extends AppCompatActivity {
         Intent intent = getIntent();
         id = intent.getStringExtra("id");
 
-        Msg msg1 = new Msg("Hello, how are you?", Msg.TYPE_RECEIVED);
-        msgList.add(msg1);
-        Msg msg2 = new Msg("Fine, thank you, and you?", Msg.TYPE_SEND);
-        msgList.add(msg2);
-        Msg msg3 = new Msg("I am fine, too!", Msg.TYPE_RECEIVED);
-        msgList.add(msg3);
+//        Msg msg1 = new Msg("Hello, how are you?", Msg.TYPE_RECEIVED);
+//        msgList.add(msg1);
+//        Msg msg2 = new Msg("Fine, thank you, and you?", Msg.TYPE_SEND);
+//        msgList.add(msg2);
+//        Msg msg3 = new Msg("I am fine, too!", Msg.TYPE_RECEIVED);
+//        msgList.add(msg3);
 
         adapter = new MsgAdapter(ChatActivity.this, R.layout.item_message_detail, msgList);
         inputText = (EditText)findViewById(R.id.input_text);

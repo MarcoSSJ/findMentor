@@ -94,10 +94,6 @@ public class HomeFragment extends Fragment {
         imageView_lock = (ImageView)root.findViewById(R.id.imageView_lock);
 
         imageView_user = (ImageView)root.findViewById(R.id.imageView_home_user);
-        //todo 设置头像
-        //设置图片如imageView.setImageBitmap(photo)，photo为bitmap格式
-
-
 
         toPersonalData.setOnClickListener(new View.OnClickListener(){
             @Override
