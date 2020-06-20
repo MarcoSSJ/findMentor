@@ -208,7 +208,7 @@ public class PersonalDataChangeTActivity extends AppCompatActivity {
         String grade = sharedPreferences.getString("grade","");
         sex1 = sex;
         if(sex1 == "")
-            sex1 = "male";
+            sex1 = "男";
         MyApplication application = (MyApplication) getApplicationContext();
         String sessionID = application.getSessionID();
 
@@ -229,7 +229,7 @@ public class PersonalDataChangeTActivity extends AppCompatActivity {
 
             if(sex.equals(""))
                 radioButton_male.setChecked(true);
-            else if(sex.equals("male"))
+            else if(sex.equals("男"))
                 radioButton_male.setChecked(true);
             else
                 radioButton_female.setChecked(true);
@@ -255,12 +255,12 @@ public class PersonalDataChangeTActivity extends AppCompatActivity {
 
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                String temp="male";
+                String temp="男";
                 if(radioButton_male.getId()==checkedId){
-                    temp="male";
+                    temp="男";
                 }
                 else if(radioButton_female.getId()==checkedId){
-                    temp="female";
+                    temp="女";
                 }
                 sex1 = temp;
             }

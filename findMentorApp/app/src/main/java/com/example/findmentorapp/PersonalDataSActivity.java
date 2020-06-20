@@ -93,7 +93,7 @@ public class PersonalDataSActivity extends AppCompatActivity {
 //        } catch (FileNotFoundException e) {
 //            System.out.println("目前未设置头像");
 //        }
-        new Thread(getHead).start();
+        //new Thread(getHead).start();
 
 
         MyApplication application = (MyApplication) getApplicationContext();
@@ -152,7 +152,7 @@ public class PersonalDataSActivity extends AppCompatActivity {
                 textView_grade.setText(grade);
         }
 
-        new Thread(runnable).start();
+        //new Thread(runnable).start();
 
         //开启修改简介的activity
         button = (Button)findViewById(R.id.button_personalData);
@@ -163,6 +163,16 @@ public class PersonalDataSActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+    }
+
+    @Override
+    protected void onResume() {
+        new Thread(getHead).start();
+        new Thread(runnable).start();
+
+
+        super.onResume();
 
     }
 
