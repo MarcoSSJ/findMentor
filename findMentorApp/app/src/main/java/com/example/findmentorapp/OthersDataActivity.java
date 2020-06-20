@@ -144,7 +144,6 @@ public class OthersDataActivity extends AppCompatActivity {
         public void run() {
             String others_data_url = Urls.api_url;
             Handler handler = new Handler(Looper.getMainLooper()) {
-                @SuppressLint("ResourceAsColor")
                 @Override
                 public void handleMessage(Message msg) {
                     super.handleMessage(msg);
@@ -166,10 +165,12 @@ public class OthersDataActivity extends AppCompatActivity {
                             if(condition.equals("follow")) {
                                 button_favorite.setText("取消关注");
                                 button_favorite.setBackgroundResource(R.drawable.button_drawable_white);
-                                button_favorite.setTextColor(R.color.colorPrimary);
+                                button_favorite.setTextColor(getResources().getColor(R.color.colorPrimary));
                             }
                             else
                                 button_favorite.setText("关注");
+//                                button_favorite.setBackgroundResource(R.drawable.button_drawable_big);
+//                                button_favorite.setTextColor(getResources().getColor(R.color.white));
                         }
                         else
                         {
@@ -186,10 +187,12 @@ public class OthersDataActivity extends AppCompatActivity {
                             if(condition.equals("follow")) {
                                 button_favorite.setText("取消关注");
                                 button_favorite.setBackgroundResource(R.drawable.button_drawable_white);
-                                button_favorite.setTextColor(R.color.colorPrimary);
+                                button_favorite.setTextColor(getResources().getColor(R.color.colorPrimary));
                             }
                             else
                                 button_favorite.setText("关注");
+//                                button_favorite.setBackgroundResource(R.drawable.button_drawable_big);
+//                                button_favorite.setTextColor(getResources().getColor(R.color.white));
                         }
                     }
                 }
@@ -306,6 +309,8 @@ public class OthersDataActivity extends AppCompatActivity {
                     Toast toast = Toast.makeText(MyApplication.getContext(), "取消关注", Toast.LENGTH_SHORT);
                     toast.show();
                     button_favorite.setText("关注");
+                    button_favorite.setBackgroundResource(R.drawable.button_drawable_big);
+                    button_favorite.setTextColor(getResources().getColor(R.color.white));
                 }
             }
         };

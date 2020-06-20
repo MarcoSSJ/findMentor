@@ -145,6 +145,7 @@ public class SearchFragment extends Fragment {
             imageView_lock.setVisibility(View.INVISIBLE);
             search_layout.setVisibility(View.VISIBLE);
             recyclerView_search.setVisibility(View.VISIBLE);
+            new Thread(getRecommend).start();
         }
 
         radioGroup_search.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -164,8 +165,6 @@ public class SearchFragment extends Fragment {
                 searchSelect = temp;
             }
         });
-        
-        new Thread(getRecommend).start();
     }
 
     class MyAdapter extends RecyclerView.Adapter{
@@ -463,7 +462,7 @@ public class SearchFragment extends Fragment {
                     super.handleMessage(msg);
                     if (msg.what == 0) {
                         //不成功，弹窗
-                        Toast toast = Toast.makeText(MyApplication.getContext(), "搜索失败", Toast.LENGTH_SHORT);
+                        Toast toast = Toast.makeText(MyApplication.getContext(), "获取失败", Toast.LENGTH_SHORT);
                         toast.show();
                     } else if (msg.what == 1) {
                         //成功
