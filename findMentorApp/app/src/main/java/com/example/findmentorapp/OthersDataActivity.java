@@ -111,8 +111,8 @@ public class OthersDataActivity extends AppCompatActivity {
         textView_toChat.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick (View v) {
-                //todo 跳转聊天别忘了加id
                 Intent intent = new Intent(OthersDataActivity.this, ChatActivity.class);
+                intent.putExtra("id",id);
                 startActivity(intent);
             }
         });
