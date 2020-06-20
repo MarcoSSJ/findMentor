@@ -70,8 +70,6 @@ public class ChatActivity extends AppCompatActivity {
         bitmap1 = BitmapFactory.decodeFile("@drawable/head1");
         bitmap2 = BitmapFactory.decodeFile("@drawable/head2");
 
-        //todo 在这底下添加线程获取头像bitmap放在bitmap1，bitmap2中，2为自己头像
-
         new Thread(getHead1).start();
         new Thread(getHead2).start();
 

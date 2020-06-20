@@ -178,8 +178,6 @@ public class ChangePasswordActivity extends AppCompatActivity {
         password_new2 = (EditText)findViewById(R.id.editText_changePassword_newpassword2);
 
         imageView_data = (ImageView) findViewById(R.id.imageView_changePassword);
-        //todo 设置头像
-        //设置图片如imageView.setImageBitmap(photo)，photo为bitmap格式
 
         button = (Button)findViewById(R.id.button_changePassword);
         button.setOnClickListener(new View.OnClickListener(){

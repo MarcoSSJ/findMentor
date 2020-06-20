@@ -284,10 +284,6 @@ public class PersonalDataChangeTActivity extends AppCompatActivity {
         new Thread(getHead).start();
     }
 
-    //以下为头像修改代码
-    //todo 完成头像上传等操作（目前只使用本地图片，只剩下上传操作了），参考https://blog.csdn.net/ydxlt/article/details/48024017#t1
-    //其他地方也可以开始着手头像设置了
-    //设置图片如imageView.setImageBitmap(photo);
     protected void showChoosePicDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("设置头像");
