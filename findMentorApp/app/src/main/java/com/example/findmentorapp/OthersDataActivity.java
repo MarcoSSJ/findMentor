@@ -79,6 +79,8 @@ public class OthersDataActivity extends AppCompatActivity {
         textView_intro.setMovementMethod(ScrollingMovementMethod.getInstance());
         textView_range.setMovementMethod(ScrollingMovementMethod.getInstance());
         imageView_data = (ImageView) findViewById(R.id.imageView_othersData);
+        button_favorite = (Button)findViewById(R.id.button_othersData_favorite);
+        button_publish = (Button)findViewById(R.id.button_othersData_publish);
 
         //在这里进行网络访问取信息
         new Thread(runnable).start();
@@ -87,7 +89,6 @@ public class OthersDataActivity extends AppCompatActivity {
 
         //按钮处理
         //查看他人动态
-        button_publish = (Button)findViewById(R.id.button_othersData_publish);
         button_publish.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick (View v) {
@@ -99,11 +100,10 @@ public class OthersDataActivity extends AppCompatActivity {
         });
 
         //关注与取关
-        button_favorite = (Button)findViewById(R.id.button_othersData_favorite);
         button_favorite.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick (View v) {
-                button_favorite.setText("关注");
+                //button_favorite.setText("关注");
                 new Thread(runFollow).start();
             }
         });
@@ -138,6 +138,7 @@ public class OthersDataActivity extends AppCompatActivity {
         private String school = "";
         private String department = "";
         private String range = "";
+        private String condition = "";
         @Override
         public void run() {
             String others_data_url = Urls.api_url;
@@ -160,6 +161,10 @@ public class OthersDataActivity extends AppCompatActivity {
                             textView_range.setText(range);
                             textView_school.setText(school);
                             textView_sex.setText(sex);
+                            if(condition.equals("follow"))
+                                button_favorite.setText("取消关注");
+                            else
+                                button_favorite.setText("关注");
                         }
                         else
                         {
@@ -173,6 +178,10 @@ public class OthersDataActivity extends AppCompatActivity {
                             textView_range.setText(range);
                             textView_school.setText(school);
                             textView_sex.setText(sex);
+                            if(condition.equals("follow"))
+                                button_favorite.setText("取消关注");
+                            else
+                                button_favorite.setText("关注");
                         }
                     }
                 }
@@ -229,6 +238,7 @@ public class OthersDataActivity extends AppCompatActivity {
                         school = obj.getString("school");
                         department = obj.getString("department");
                         range = obj.getString("range");
+                        condition = obj.getString("condition");
 
 
                         Message message = Message.obtain();

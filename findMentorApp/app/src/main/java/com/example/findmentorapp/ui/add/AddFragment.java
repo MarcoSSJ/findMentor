@@ -40,7 +40,8 @@ import java.net.URLEncoder;
 public class AddFragment extends Fragment {
 
     private AddViewModel addViewModel;
-
+    private EditText editText_title;
+    private EditText editText_info;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         addViewModel =
@@ -55,7 +56,7 @@ public class AddFragment extends Fragment {
         });
 
         //获取登陆状态
-        MyApplication application = (MyApplication) getActivity().getApplication();
+        MyApplication application = MyApplication.getInstance();
         String sessionID = application.getSessionID();
 
         textView.setText("未登录，请登录");
@@ -65,8 +66,8 @@ public class AddFragment extends Fragment {
         final TextView textView2 = root.findViewById(R.id.textView_add_2);
         final ImageView imageView_lock = (ImageView)root.findViewById(R.id.imageView_lock);
         //标题与信息输入
-        final EditText editText_title = root.findViewById(R.id.editText_add_title);
-        final EditText editText_info = root.findViewById(R.id.editText_add_info);
+        editText_title = root.findViewById(R.id.editText_add_title);
+        editText_info = root.findViewById(R.id.editText_add_info);
         Button button_submit = (Button)root.findViewById(R.id.button_add_submit);
 
 
@@ -100,93 +101,99 @@ public class AddFragment extends Fragment {
         return root;
     }
 
-    Runnable runnable = new Runnable() {
+    private Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            String api_url = Urls.api_url;
+        String api_url = Urls.api_url;
 
-            Handler handler = new Handler(Looper.getMainLooper()) {
-                @Override
-                public void handleMessage(Message msg) {
-                    super.handleMessage(msg);
-                    if (msg.what == 0) {
-                        //弹窗
-                        Toast toast = Toast.makeText(MyApplication.getContext(), "发布失败", Toast.LENGTH_SHORT);
-                        toast.show();
-                    } else if (msg.what == 1) {
-                        Toast toast = Toast.makeText(MyApplication.getContext(), "发布成功", Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
+        Handler handler = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                if (msg.what == 0) {
+                    //弹窗
+                    Toast toast = Toast.makeText(MyApplication.getContext(), "发布失败", Toast.LENGTH_SHORT);
+                    toast.show();
+                } else if (msg.what == 1) {
+                    Toast toast = Toast.makeText(MyApplication.getContext(), "发布成功", Toast.LENGTH_SHORT);
+                    toast.show();
                 }
-            };
+            }
+        };
 
 
-            try {
-                URL url = new URL(api_url);
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setRequestMethod("POST");
-                conn.setReadTimeout(5000);
-                conn.setConnectTimeout(5000);
+        try {
+            URL url = new URL(api_url);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setReadTimeout(5000);
+            conn.setConnectTimeout(5000);
 
-                conn.setRequestProperty("Content-Type",
-                        "application/x-www-form-urlencoded;charset=UTF-8");
+            conn.setRequestProperty("Content-Type",
+                    "application/x-www-form-urlencoded;charset=UTF-8");
 
-                conn.setDoOutput(true);
-                conn.setDoInput(true);
-                conn.setUseCaches(false);
+            conn.setDoOutput(true);
+            conn.setDoInput(true);
+            conn.setUseCaches(false);
 
-                String data = "action=add"+"&type=" + URLEncoder.encode("teacher","UTF-8");
+            MyApplication application = MyApplication.getInstance();
+            String sessionID = application.getSessionID();
 
-                OutputStream out = conn.getOutputStream();
-                out.write(data.getBytes());
-                out.flush();
-                out.close();
+            String data = "action=add"+
+                "&sessionID=" + URLEncoder.encode(sessionID,"UTF-8")+
+                "&title=" + URLEncoder.encode(editText_title.getText().toString(),"UTF-8")+
+                "&info=" + URLEncoder.encode(editText_info.getText().toString(),"UTF-8");
 
-                InputStream is = conn.getInputStream();
-                if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                    StringBuilder response = new StringBuilder();
-                    byte[] b = new byte[1024];
-                    int len;
-                    while ((len = is.read(b)) != -1) {
-                        response.append(new String(b, 0, len));
-                    }
-                    is.close();
-                    conn.disconnect();
+            OutputStream out = conn.getOutputStream();
+            out.write(data.getBytes());
+            out.flush();
+            out.close();
 
-                    String res = new String(response);
-                    System.out.println(res);
-                    JSONObject obj = new JSONObject(res);
-                    String login = obj.getString("result");
-                    if (login.equals("true")) {
-                        Message message = Message.obtain();
-                        message.what = 1;
-                        handler.sendMessage(message);
-                    } else {
-                        Message message = Message.obtain();
-                        message.what = 0;
-                        handler.sendMessage(message);
-                    }
+            InputStream is = conn.getInputStream();
+            if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                StringBuilder response = new StringBuilder();
+                byte[] b = new byte[1024];
+                int len;
+                while ((len = is.read(b)) != -1) {
+                    response.append(new String(b, 0, len));
+                }
+                is.close();
+                conn.disconnect();
+
+                String res = new String(response);
+                System.out.println(res);
+                JSONObject obj = new JSONObject(res);
+                String login = obj.getString("result");
+                if (login.equals("true")) {
+                    Message message = Message.obtain();
+                    message.what = 1;
+                    handler.sendMessage(message);
                 } else {
                     Message message = Message.obtain();
                     message.what = 0;
                     handler.sendMessage(message);
                 }
-            } catch (MalformedURLException e) {
+            } else {
                 Message message = Message.obtain();
                 message.what = 0;
                 handler.sendMessage(message);
-                e.printStackTrace();
-            } catch (IOException e) {
-                Message message = Message.obtain();
-                message.what = 0;
-                handler.sendMessage(message);
-                e.printStackTrace();
-            } catch (JSONException e) {
-                Message message = Message.obtain();
-                message.what = 0;
-                handler.sendMessage(message);
-                e.printStackTrace();
             }
+        } catch (MalformedURLException e) {
+            Message message = Message.obtain();
+            message.what = 0;
+            handler.sendMessage(message);
+            e.printStackTrace();
+        } catch (IOException e) {
+            Message message = Message.obtain();
+            message.what = 0;
+            handler.sendMessage(message);
+            e.printStackTrace();
+        } catch (JSONException e) {
+            Message message = Message.obtain();
+            message.what = 0;
+            handler.sendMessage(message);
+            e.printStackTrace();
+        }
         }
 
     };
