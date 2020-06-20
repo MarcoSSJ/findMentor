@@ -166,7 +166,7 @@ public class SearchFragment extends Fragment {
         });
 
         //todo 推荐线程启动放在这下面
-
+        new Thread(getRecommend).start();
     }
 
     class MyAdapter extends RecyclerView.Adapter{
@@ -452,6 +452,130 @@ public class SearchFragment extends Fragment {
                 e.printStackTrace();
             }
         }
+    };
 
+    private Runnable getRecommend = new Runnable() {
+        @Override
+        public void run() {
+            String personal_data_change_url = Urls.api_url;
+            Handler handler = new Handler(Looper.getMainLooper()) {
+                @Override
+                public void handleMessage(Message msg) {
+                    super.handleMessage(msg);
+                    if (msg.what == 0) {
+                        //不成功，弹窗
+                        Toast toast = Toast.makeText(MyApplication.getContext(), "搜索失败", Toast.LENGTH_SHORT);
+                        toast.show();
+                    } else if (msg.what == 1) {
+                        //成功
+                        myAdapter.notifyDataSetChanged();
+                    }
+                }
+            };
+            try {
+                URL url = new URL(personal_data_change_url);
+                HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+                conn.setChunkedStreamingMode(0);
+                conn.setRequestMethod("POST");
+                conn.setReadTimeout(5000);
+                conn.setConnectTimeout(5000);
+
+                conn.setRequestProperty("Content-Type",
+                        "application/x-www-form-urlencoded;charset=UTF-8");
+
+                conn.setDoOutput(true);
+                conn.setDoInput(true);
+                conn.setUseCaches(false);
+
+                //MyApplication application = (MyApplication) getActivity().getApplicationContext();
+                MyApplication application = MyApplication.getInstance();
+                String sessionID = application.getSessionID();
+
+                String data = "action=Recommend"+
+                        "&sessionID="+ URLEncoder.encode(sessionID,"UTF-8");
+
+                OutputStream out = conn.getOutputStream();
+                out.write(data.getBytes());
+                out.flush();
+                out.close();
+
+                InputStream is = conn.getInputStream();
+                if(conn.getResponseCode()==HttpURLConnection.HTTP_OK) {
+                    StringBuilder response = new StringBuilder();
+                    byte[] b = new byte[1024];
+                    int len ;
+                    while((len = is.read(b))!=-1){
+                        response.append(new String(b, 0, len));
+                    }
+                    is.close();
+                    conn.disconnect();
+
+                    String res = new String(response);
+                    System.out.println(res);
+                    JSONObject obj = new JSONObject(res);
+                    String isconnect = obj.getString("result");
+                    if(isconnect.equals("true")) {
+
+                        s_name = new String[]{};
+                        s_text = new String[]{};
+                        s_grade = new String[]{};
+                        s_id = new String[]{};
+                        JSONArray dataArray = obj.getJSONArray("data");
+                        ArrayList<String> nameList = new ArrayList<String>();
+                        ArrayList<String> textList = new ArrayList<String>();
+                        ArrayList<String> gradeList = new ArrayList<String>();
+                        ArrayList<String> idList = new ArrayList<String>();
+                        for (int i = 0;i<dataArray.length();i++)
+                        {
+                            JSONObject personData = dataArray.getJSONObject(i);
+                            String name = personData.getString("name");
+                            String text = personData.getString("text");
+                            String grade = personData.getString("grade");
+                            String id = personData.getString("id");
+
+                            nameList.add(name);
+                            textList.add(text);
+                            gradeList.add(grade);
+                            idList.add(id);
+
+                        }
+                        s_name = nameList.toArray(new String[0]);
+                        s_text = textList.toArray(new String[0]);
+                        s_grade = gradeList.toArray(new String[0]);
+                        s_id = idList.toArray(new String[0]);
+
+                        Message message = Message.obtain();
+                        message.what = 1;
+                        handler.sendMessage(message);
+                    }
+                    else
+                    {
+                        Message message = Message.obtain();
+                        message.what = 0;
+                        handler.sendMessage(message);
+                    }
+                }
+                else {
+                    Message message = Message.obtain();
+                    message.what = 0;
+                    handler.sendMessage(message);
+                }
+            } catch (MalformedURLException e) {
+                Message message = Message.obtain();
+                message.what = 0;
+                handler.sendMessage(message);
+                e.printStackTrace();
+            } catch (IOException e) {
+                Message message = Message.obtain();
+                message.what = 0;
+                handler.sendMessage(message);
+                e.printStackTrace();
+            } catch (JSONException e) {
+                Message message = Message.obtain();
+                message.what = 0;
+                handler.sendMessage(message);
+                e.printStackTrace();
+            }
+        }
     };
 }
