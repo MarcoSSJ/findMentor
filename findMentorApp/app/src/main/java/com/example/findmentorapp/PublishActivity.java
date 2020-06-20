@@ -36,7 +36,7 @@ import java.util.Collections;
 public class PublishActivity extends AppCompatActivity {
 
     String s_title[] = {};
-    //String s_name[] = {};
+    String s_name[] = {};
     String s_text[] = {};
     String s_time[] = {};
     String s_infoID[] = {};
@@ -91,7 +91,7 @@ public class PublishActivity extends AppCompatActivity {
             //将数据映射到控件中
             viewHolder.title.setText(s_title[position]);
             viewHolder.text.setText(s_text[position]);
-            //viewHolder.name.setText(s_name[position]);
+            viewHolder.name.setText(s_name[position]);
             viewHolder.time.setText(s_time[position]);
             //活动id
             viewHolder.infoID = s_infoID[position];
@@ -124,7 +124,7 @@ public class PublishActivity extends AppCompatActivity {
                 //实例化子对象，把对象和列表项布局文件中的id绑定
                 title = itemView.findViewById(R.id.textView_item_publish_title);
                 text = itemView.findViewById(R.id.textView_item_publish_text);
-                //name = itemView.findViewById(R.id.textView_item_publish_name);
+                name = itemView.findViewById(R.id.textView_item_publish_name);
                 time = itemView.findViewById(R.id.textView_item_publish_time);
 
             }
@@ -206,14 +206,14 @@ public class PublishActivity extends AppCompatActivity {
                 String isconnect = obj.getString("result");
                 if(isconnect.equals("true")) {
                     s_title = new String[]{};
-                    //s_name = new String[]{};
+                    s_name = new String[]{};
                     s_text = new String[]{};
                     s_time = new String[]{};
                     s_infoID = new String[]{};
                     JSONArray dataArray = obj.getJSONArray("data");
                     ArrayList<String> titleList = new ArrayList<String>(s_title.length);
                     ArrayList<String> textList = new ArrayList<String>(s_text.length);
-                    //ArrayList<String> nameList = new ArrayList<String>(s_name.length);
+                    ArrayList<String> nameList = new ArrayList<String>(s_name.length);
                     ArrayList<String> timeList = new ArrayList<String>(s_time.length);
                     ArrayList<String> infoIDList = new ArrayList<String>(s_infoID.length);
 
@@ -222,19 +222,19 @@ public class PublishActivity extends AppCompatActivity {
                         JSONObject personData = dataArray.getJSONObject(i);
                         String title = personData.getString("title");
                         String text = personData.getString("text");
-                        //String name = personData.getString("name");
+                        String name = personData.getString("name");
                         String time = personData.getString("datetime");
                         String infoID = personData.getString("infoID");
 
                         titleList.add(title);
                         textList.add(text);
-                        //nameList.add(name);
+                        nameList.add(name);
                         timeList.add(time);
                         infoIDList.add(infoID);
                     }
                     s_title = titleList.toArray(new String[0]);
                     s_text = textList.toArray(new String[0]);
-                    //s_name = nameList.toArray(new String[0]);
+                    s_name = nameList.toArray(new String[0]);
                     s_time = timeList.toArray(new String[0]);
                     s_infoID = infoIDList.toArray(new String[0]);
 
