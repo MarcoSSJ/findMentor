@@ -1,5 +1,6 @@
 package com.example.findmentorapp;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -143,12 +144,13 @@ public class OthersDataActivity extends AppCompatActivity {
         public void run() {
             String others_data_url = Urls.api_url;
             Handler handler = new Handler(Looper.getMainLooper()) {
+                @SuppressLint("ResourceAsColor")
                 @Override
                 public void handleMessage(Message msg) {
                     super.handleMessage(msg);
                     if (msg.what == 0) {
                         //不成功，弹窗
-                        Toast toast = Toast.makeText(MyApplication.getContext(), "查看失败", Toast.LENGTH_SHORT);
+                        Toast toast = Toast.makeText(MyApplication.getContext(), "加载失败", Toast.LENGTH_SHORT);
                         toast.show();
                     } else if (msg.what == 1) {
                         if(type.equals("student"))
@@ -161,8 +163,11 @@ public class OthersDataActivity extends AppCompatActivity {
                             textView_range.setText(range);
                             textView_school.setText(school);
                             textView_sex.setText(sex);
-                            if(condition.equals("follow"))
+                            if(condition.equals("follow")) {
                                 button_favorite.setText("取消关注");
+                                button_favorite.setBackgroundResource(R.drawable.button_drawable_white);
+                                button_favorite.setTextColor(R.color.colorPrimary);
+                            }
                             else
                                 button_favorite.setText("关注");
                         }
@@ -178,8 +183,11 @@ public class OthersDataActivity extends AppCompatActivity {
                             textView_range.setText(range);
                             textView_school.setText(school);
                             textView_sex.setText(sex);
-                            if(condition.equals("follow"))
+                            if(condition.equals("follow")) {
                                 button_favorite.setText("取消关注");
+                                button_favorite.setBackgroundResource(R.drawable.button_drawable_white);
+                                button_favorite.setTextColor(R.color.colorPrimary);
+                            }
                             else
                                 button_favorite.setText("关注");
                         }
@@ -286,10 +294,12 @@ public class OthersDataActivity extends AppCompatActivity {
                 super.handleMessage(msg);
                 if (msg.what == 0) {
                     //不成功，弹窗
-                    Toast toast = Toast.makeText(MyApplication.getContext(), "查看失败", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(MyApplication.getContext(), "关注失败", Toast.LENGTH_SHORT);
                     toast.show();
                 } else if (msg.what == 1) {
                     button_favorite.setText("取消关注");
+                    button_favorite.setBackgroundResource(R.drawable.button_drawable_white);
+                    button_favorite.setTextColor(getResources().getColor(R.color.colorPrimary));
                 } else if (msg.what == 2) {
                     button_favorite.setText("关注");
                 }
