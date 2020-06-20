@@ -165,8 +165,6 @@ public class SearchFragment extends Fragment {
                 searchSelect = temp;
             }
         });
-
-        new Thread(getRecommend).start();
     }
 
     class MyAdapter extends RecyclerView.Adapter{

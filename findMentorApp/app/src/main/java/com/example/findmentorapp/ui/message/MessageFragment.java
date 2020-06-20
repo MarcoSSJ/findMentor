@@ -56,11 +56,6 @@ public class MessageFragment extends Fragment {
     //存放消息数据的ArrayList
     private List<MessageBrief> s_message;
     private List<MessageBrief> mFilterList;
-    String s_name[] = {"test1","test2","test11","test12"};
-    String s_text[] = {"test1","test2","test11","test12"};
-    String s_time[] = {"test1","test2","test11","test12"};
-    //存放用户id
-    String s_id[] = {"1","2","3","4"};
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -159,6 +154,8 @@ public class MessageFragment extends Fragment {
             viewHolder.time.setText(mFilterList.get(position).time);
             //用户id
             viewHolder.id = mFilterList.get(position).id;
+            //todo 这里加头像，跟搜索应该一样
+            //viewHolder.img.setImageBitmap(bitmap);
 
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -217,6 +214,7 @@ public class MessageFragment extends Fragment {
             TextView text, name, time;
             //标识号
             String id;
+            ImageView img;
 
             MyHolder(View itemView) {
                 super(itemView);
@@ -225,6 +223,7 @@ public class MessageFragment extends Fragment {
                 text = itemView.findViewById(R.id.textView_item_chatbrief_text);
                 name = itemView.findViewById(R.id.textView_item_chatbrief_name);
                 time = itemView.findViewById(R.id.textView_item_chatbrief_time);
+                img = itemView.findViewById(R.id.imageView_item_chatbrief);
 
             }
 

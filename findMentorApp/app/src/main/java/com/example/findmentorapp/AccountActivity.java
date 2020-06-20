@@ -51,11 +51,9 @@ public class AccountActivity extends AppCompatActivity {
                         Toast toast=Toast.makeText(getApplicationContext(), "退出失败", Toast.LENGTH_SHORT);
                         toast.show();
                     } else if (msg.what == 1) {
-                        //以下为注册成功跳转代码
+                        //以下为跳转成功代码
                         MyApplication application = MyApplication.getInstance();
                         application.clear();
-                        Intent intent = new Intent(AccountActivity.this, MainActivity.class);
-                        startActivity(intent);
                         finish();
                     }
                 }
