@@ -249,7 +249,6 @@ public class AccountActivity extends AppCompatActivity {
         }
 
         imageView_account = (ImageView) findViewById(R.id.imageView_account);
-        //todo 设置头像
         //设置图片如imageView.setImageBitmap(photo)，photo为bitmap格式
         new Thread(getHead).start();
 

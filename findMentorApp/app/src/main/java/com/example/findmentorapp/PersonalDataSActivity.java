@@ -83,18 +83,6 @@ public class PersonalDataSActivity extends AppCompatActivity {
         textView_range.setMovementMethod(ScrollingMovementMethod.getInstance());
 
         imageView_data = (ImageView) findViewById(R.id.imageView_personalData);
-        //设置图片如imageView.setImageBitmap(photo)，photo为bitmap格式
-//        String filepath = getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString();
-//        filepath += "/myhead.png";
-//        try {
-//            BufferedInputStream bis = new BufferedInputStream(new FileInputStream(filepath));
-//            Bitmap bitmap = BitmapFactory.decodeStream(bis);
-//            imageView_data.setImageBitmap(bitmap);
-//        } catch (FileNotFoundException e) {
-//            System.out.println("目前未设置头像");
-//        }
-        //new Thread(getHead).start();
-
 
         MyApplication application = (MyApplication) getApplicationContext();
         String sessionID = application.getSessionID();
