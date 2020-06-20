@@ -59,6 +59,17 @@ public class SearchFragment extends Fragment {
     private SearchViewModel searchViewModel;
     private MyAdapter myAdapter;
 
+    private EditText searchEditText;
+    private Button searchButton;
+    private RecyclerView recyclerView_search;
+    private RadioGroup radioGroup_search;
+    private RadioButton radioButton_byname;
+    private RadioButton radioButton_byschool;
+    private RadioButton radioButton_byrange;
+    private ConstraintLayout search_layout;
+    private ImageView imageView_lock;
+    private TextView textView;
+
     String s_name[] = {};
     String s_text[] = {};
     String s_grade[] = {};
@@ -74,7 +85,7 @@ public class SearchFragment extends Fragment {
         searchViewModel =
                 ViewModelProviders.of(this).get(SearchViewModel.class);
         View root = inflater.inflate(R.layout.fragment_search, container, false);
-        final TextView textView = root.findViewById(R.id.textView_search);
+        textView = root.findViewById(R.id.textView_search);
         searchViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
@@ -87,17 +98,42 @@ public class SearchFragment extends Fragment {
         String sessionID = application.getSessionID();
 
         textView.setText("未登录，请登录");
-        final EditText searchEditText = root.findViewById(R.id.editText_search_searchByWord);
-        final Button searchButton = root.findViewById(R.id.button_search_searchByText);
-        final RecyclerView recyclerView_search = root.findViewById(R.id.recyclerView_search_forSerach);
-        final RadioGroup radioGroup_search=root.findViewById(R.id.radioGroup_search);
-        final RadioButton radioButton_byname=root.findViewById(R.id.radioButton_search_name);
-        final RadioButton radioButton_byschool=root.findViewById(R.id.radioButton_search_school);
-        final RadioButton radioButton_byrange=root.findViewById(R.id.radioButton_search_range);
-        final ConstraintLayout search_layout = root.findViewById(R.id.searchLayout);
-        final ImageView imageView_lock = (ImageView)root.findViewById(R.id.imageView_lock);
+        searchEditText = root.findViewById(R.id.editText_search_searchByWord);
+        searchButton = root.findViewById(R.id.button_search_searchByText);
+        recyclerView_search = root.findViewById(R.id.recyclerView_search_forSerach);
+        radioGroup_search=root.findViewById(R.id.radioGroup_search);
+        radioButton_byname=root.findViewById(R.id.radioButton_search_name);
+        radioButton_byschool=root.findViewById(R.id.radioButton_search_school);
+        radioButton_byrange=root.findViewById(R.id.radioButton_search_range);
+        search_layout = root.findViewById(R.id.searchLayout);
+        imageView_lock = (ImageView)root.findViewById(R.id.imageView_lock);
         searchSelect = "name";
 
+
+
+        searchButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick (View v) {
+                searchText = searchEditText.getText().toString();
+                new Thread(runnable).start();
+            }
+        });
+
+        //RecyclerView相关函数，暂时放在下面。以后可能需要放入ViewModel
+
+        recyclerView_search.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        myAdapter = new MyAdapter();
+
+        recyclerView_search.setAdapter(myAdapter);
+
+        return root;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MyApplication application = MyApplication.getInstance();
+        String sessionID = application.getSessionID();
         if(sessionID.equals("")) {
             textView.setVisibility(View.VISIBLE);
             imageView_lock.setVisibility(View.VISIBLE);
@@ -110,8 +146,6 @@ public class SearchFragment extends Fragment {
             search_layout.setVisibility(View.VISIBLE);
             recyclerView_search.setVisibility(View.VISIBLE);
         }
-
-
 
         radioGroup_search.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 
@@ -131,22 +165,8 @@ public class SearchFragment extends Fragment {
             }
         });
 
-        searchButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick (View v) {
-                searchText = searchEditText.getText().toString();
-                new Thread(runnable).start();
-            }
-        });
+        //todo 推荐线程启动放在这下面
 
-        //RecyclerView相关函数，暂时放在下面。以后可能需要放入ViewModel
-
-        recyclerView_search.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        myAdapter = new MyAdapter();
-
-        recyclerView_search.setAdapter(myAdapter);
-
-        return root;
     }
 
     class MyAdapter extends RecyclerView.Adapter{
