@@ -55,7 +55,7 @@ public class InfoDetailActivity extends AppCompatActivity{
         textView_detailInfo = (TextView)findViewById(R.id.textView_infoDetail_detailInfo);
         textView_detailInfo.setMovementMethod(ScrollingMovementMethod.getInstance());
 
-
+        new Thread(runnable).start();
     }
 
 

@@ -300,7 +300,7 @@ public class ChatActivity extends AppCompatActivity {
                         super.handleMessage(message);
                         if (message.what == 0) {
                             //不成功，弹窗
-                            Toast toast = Toast.makeText(MyApplication.getContext(), "发送失败", Toast.LENGTH_SHORT);
+                            Toast toast = Toast.makeText(MyApplication.getContext(), "获取失败", Toast.LENGTH_SHORT);
                             toast.show();
                         } else if (message.what == 1) {
                             //成功
