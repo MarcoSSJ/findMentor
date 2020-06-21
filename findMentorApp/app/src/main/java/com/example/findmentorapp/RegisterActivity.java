@@ -2,6 +2,7 @@ package com.example.findmentorapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -44,6 +45,7 @@ public class RegisterActivity extends AppCompatActivity {
     private Button button_confirm;
 
     private String comfirmCode;
+    private CountDownTimer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +69,24 @@ public class RegisterActivity extends AppCompatActivity {
         school_text = (EditText)findViewById(R.id.editText_register_school);
         department_text = (EditText)findViewById(R.id.editText_register_department);
 
+        //按钮定时器
+        timer = new CountDownTimer(60000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                button_confirm.setEnabled(false);
+                button_confirm.setText("已发送(" + millisUntilFinished / 1000 + ")");
+                button_confirm.setBackgroundResource(R.drawable.button_drawable_white_small);
+                button_confirm.setTextColor(getResources().getColor(R.color.colorPrimary));
+            }
+
+            @Override
+            public void onFinish() {
+                button_confirm.setEnabled(true);
+                button_confirm.setText("重新获取");
+                button_confirm.setBackgroundResource(R.drawable.button_drawable_small);
+                button_confirm.setTextColor(getResources().getColor(R.color.white));
+            }
+        };
         //邮箱验证
         confirm_text = (EditText)findViewById(R.id.editText_register_confirm);
         button_confirm = (Button)findViewById(R.id.button_register_confirm);
@@ -358,6 +378,7 @@ public class RegisterActivity extends AppCompatActivity {
                     } else if (msg.what == 1) {
                         Toast toast = Toast.makeText(getApplicationContext(), "发送成功", Toast.LENGTH_SHORT);
                         toast.show();
+                        timer.start();//计时器开始
                     }
                 }
             };
