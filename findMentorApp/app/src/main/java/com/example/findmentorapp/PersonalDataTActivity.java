@@ -183,7 +183,7 @@ public class PersonalDataTActivity extends AppCompatActivity {
                 super.handleMessage(msg);
                 if (msg.what == 0) {
                     //不成功，弹窗
-                    Toast toast = Toast.makeText(getApplicationContext(), "修改失败", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(getApplicationContext(), "获取失败", Toast.LENGTH_SHORT);
                     toast.show();
                 } else if (msg.what == 1) {
                     textView_name.setText(name);

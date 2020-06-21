@@ -3,10 +3,13 @@ package com.example.findmentorapp;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Base64;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -187,6 +190,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
             }
         });
 
+        new Thread(getHead).start();
     }
 
     @Override
@@ -199,4 +203,103 @@ public class ChangePasswordActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    final Runnable getHead = new Runnable() {
+        Bitmap bitmap = null;
+        @Override
+        public void run() {
+            String personal_data_change_url = Urls.api_url;
+            Handler handler = new Handler(Looper.getMainLooper()) {
+                @Override
+                public void handleMessage(Message msg) {
+                    super.handleMessage(msg);
+                    if (msg.what == 0) {
+                        //不成功，弹窗
+                        Toast toast = Toast.makeText(getApplicationContext(), "头像获取失败", Toast.LENGTH_SHORT);
+                        toast.show();
+                    } else if (msg.what == 1) {
+                        imageView_data.setImageBitmap(bitmap);
+                    }
+                }
+            };
+            try {
+
+                URL url = new URL(personal_data_change_url);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("POST");
+                conn.setReadTimeout(5000);
+                conn.setConnectTimeout(5000);
+
+                conn.setRequestProperty("Content-Type",
+                        "application/x-www-form-urlencoded;charset=UTF-8");
+
+                conn.setDoOutput(true);
+                conn.setDoInput(true);
+                conn.setUseCaches(false);
+
+                MyApplication application = (MyApplication) getApplicationContext();
+                String sessionID = application.getSessionID();
+                String id = application.getID();
+
+                String data = "action=DownloadPic" +
+                        "&sessionID=" + URLEncoder.encode(sessionID, "UTF-8")+
+                        "&id=" + URLEncoder.encode(id, "UTF-8");
+
+                OutputStream out = conn.getOutputStream();
+                out.write(data.getBytes());
+                out.flush();
+                out.close();
+
+                InputStream is = conn.getInputStream();
+                if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                    StringBuilder response = new StringBuilder();
+                    byte[] b = new byte[1024];
+                    int len;
+                    while ((len = is.read(b)) != -1) {
+                        response.append(new String(b, 0, len));
+                    }
+                    is.close();
+                    conn.disconnect();
+
+                    String res = new String(response);
+                    System.out.println(res);
+                    JSONObject obj = new JSONObject(res);
+                    String isconnect = obj.getString("result");
+                    if (isconnect.equals("true")) {
+
+                        String imgStr = obj.getString("picture");
+                        byte[] bytes = Base64.decode(imgStr, Base64.DEFAULT);
+                        bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                        //s_pic.add(bitmap);
+                        Message message = Message.obtain();
+                        message.what = 1;
+                        handler.sendMessage(message);
+                    } else {
+                        Message message = Message.obtain();
+                        message.what = 0;
+                        handler.sendMessage(message);
+                    }
+                } else {
+                    Message message = Message.obtain();
+                    message.what = 0;
+                    handler.sendMessage(message);
+                }
+            } catch (MalformedURLException e) {
+                Message message = Message.obtain();
+                message.what = 0;
+                handler.sendMessage(message);
+                e.printStackTrace();
+            } catch (IOException e) {
+                Message message = Message.obtain();
+                message.what = 0;
+                handler.sendMessage(message);
+                e.printStackTrace();
+            } catch (JSONException e) {
+                Message message = Message.obtain();
+                message.what = 0;
+                handler.sendMessage(message);
+                e.printStackTrace();
+            }
+        }
+
+    };
 }
