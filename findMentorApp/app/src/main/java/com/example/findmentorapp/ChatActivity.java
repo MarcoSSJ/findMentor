@@ -50,6 +50,7 @@ public class ChatActivity extends AppCompatActivity {
     Bitmap bitmap1;//对方头像
     Bitmap bitmap2;//自己头像
     private List<Msg> msgList = new ArrayList<Msg>();
+    volatile boolean keepRunning = true;
 
     private String id;//在和谁聊天
     private Msg msg;
@@ -179,6 +180,7 @@ public class ChatActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                keepRunning = false;
                 this.finish(); // back button
                 return true;
         }
@@ -285,7 +287,7 @@ public class ChatActivity extends AppCompatActivity {
     private Runnable getMsgList = new Runnable() {
         @Override
         public void run() {
-            while (true) {
+            while (keepRunning) {
                 try {
                     Thread.sleep(500);
                 } catch (InterruptedException e) {
