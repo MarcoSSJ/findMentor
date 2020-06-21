@@ -164,6 +164,7 @@ public class HomeFragment extends Fragment {
             layout_toPublish.setVisibility(View.INVISIBLE);
             toPersonalData.setVisibility(View.INVISIBLE);
             layout1.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            imageView_user.setImageResource(R.drawable.ic_account_circle_black_24dp);
         }
         else {
             layout_toAccount.setVisibility(View.VISIBLE);
