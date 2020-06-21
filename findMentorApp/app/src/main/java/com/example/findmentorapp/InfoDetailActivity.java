@@ -55,7 +55,7 @@ public class InfoDetailActivity extends AppCompatActivity{
         textView_detailInfo = (TextView)findViewById(R.id.textView_infoDetail_detailInfo);
         textView_detailInfo.setMovementMethod(ScrollingMovementMethod.getInstance());
 
-
+        new Thread(runnable).start();
     }
 
 
@@ -76,7 +76,7 @@ public class InfoDetailActivity extends AppCompatActivity{
         String detailInfo = "";
         @Override
         public void run() {
-            String others_data_url = Urls.api_url;
+            String api_url = Urls.api_url;
             Handler handler = new Handler(Looper.getMainLooper()) {
                 @Override
                 public void handleMessage(Message msg) {
@@ -94,7 +94,7 @@ public class InfoDetailActivity extends AppCompatActivity{
                 }
             };
             try {
-                URL url = new URL(others_data_url);
+                URL url = new URL(api_url);
                 HttpURLConnection conn = (HttpURLConnection)url.openConnection();
                 conn.setRequestMethod("POST");
                 conn.setReadTimeout(5000);
@@ -111,7 +111,7 @@ public class InfoDetailActivity extends AppCompatActivity{
                 MyApplication application = MyApplication.getInstance();
                 String sessionID = application.getSessionID();
 
-                String data = "action=ViewOthersData"+
+                String data = "action=ViewDetailedActivity"+
                         "&sessionID="+ URLEncoder.encode(sessionID,"UTF-8")+
                         "&id=" + URLEncoder.encode(infoID,"UTF-8");
 
