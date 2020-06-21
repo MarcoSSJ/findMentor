@@ -43,6 +43,8 @@ public class RegisterActivity extends AppCompatActivity {
     private Button button_student;
     private Button button_confirm;
 
+    private String comfirmCode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +73,7 @@ public class RegisterActivity extends AppCompatActivity {
         button_confirm.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick (View v) {
-                //todo 这里进行请求发送验证码线程，应该设个变量存下验证码
+                new Thread(confirm).start();
             }
         });
 
@@ -338,6 +340,96 @@ public class RegisterActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+        }
+    };
+    Runnable confirm = new Runnable() {
+        @Override
+        public void run() {
+            String mail = confirm_text.getText().toString();
+            String register_url = Urls.api_url;
+
+            Handler handler = new Handler(Looper.getMainLooper()) {
+                @Override
+                public void handleMessage(Message msg) {
+                    super.handleMessage(msg);
+                    if (msg.what == 0) {
+                        Toast toast = Toast.makeText(getApplicationContext(), "发送失败", Toast.LENGTH_SHORT);
+                        toast.show();
+                    } else if (msg.what == 1) {
+                        Toast toast = Toast.makeText(getApplicationContext(), "发送成功", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+                }
+            };
+
+
+            try {
+                URL url = new URL(register_url);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("POST");
+                conn.setReadTimeout(5000);
+                conn.setConnectTimeout(5000);
+
+                conn.setRequestProperty("Content-Type",
+                        "application/x-www-form-urlencoded;charset=UTF-8");
+
+                conn.setDoOutput(true);
+                conn.setDoInput(true);
+                conn.setUseCaches(false);
+
+                String data = "action=Confirm"+"&mail=" + URLEncoder.encode(mail,"UTF-8");
+
+                OutputStream out = conn.getOutputStream();
+                out.write(data.getBytes());
+                out.flush();
+                out.close();
+
+                InputStream is = conn.getInputStream();
+                if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                    StringBuilder response = new StringBuilder();
+                    byte[] b = new byte[1024];
+                    int len;
+                    while ((len = is.read(b)) != -1) {
+                        response.append(new String(b, 0, len));
+                    }
+                    is.close();
+                    conn.disconnect();
+
+                    String res = new String(response);
+                    System.out.println(res);
+                    JSONObject obj = new JSONObject(res);
+                    String login = obj.getString("result");
+                    if (login.equals("true")) {
+                        Message message = Message.obtain();
+                        message.what = 1;
+                        handler.sendMessage(message);
+                    } else {
+                        Message message = Message.obtain();
+                        message.what = 0;
+                        handler.sendMessage(message);
+                    }
+                } else {
+                    Message message = Message.obtain();
+                    message.what = 0;
+                    handler.sendMessage(message);
+                }
+            } catch (MalformedURLException e) {
+                Message message = Message.obtain();
+                message.what = 0;
+                handler.sendMessage(message);
+                e.printStackTrace();
+            } catch (IOException e) {
+                Message message = Message.obtain();
+                message.what = 0;
+                handler.sendMessage(message);
+                e.printStackTrace();
+            } catch (JSONException e) {
+                Message message = Message.obtain();
+                message.what = 0;
+                handler.sendMessage(message);
+                e.printStackTrace();
+            }
+
         }
     };
 
