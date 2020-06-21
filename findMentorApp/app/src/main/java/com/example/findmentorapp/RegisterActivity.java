@@ -37,9 +37,11 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText school_text;
     private EditText department_text;
 
+    private EditText confirm_text;
 
     private Button button_tearcher;
     private Button button_student;
+    private Button button_confirm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +64,16 @@ public class RegisterActivity extends AppCompatActivity {
         name_text = (EditText)findViewById(R.id.editText_register_name);
         school_text = (EditText)findViewById(R.id.editText_register_school);
         department_text = (EditText)findViewById(R.id.editText_register_department);
+
+        //邮箱验证
+        confirm_text = (EditText)findViewById(R.id.editText_register_confirm);
+        button_confirm = (Button)findViewById(R.id.button_register_confirm);
+        button_confirm.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick (View v) {
+                //todo 这里进行请求发送验证码线程，应该设个变量存下验证码
+            }
+        });
 
         //注册为老师
         button_tearcher = (Button)findViewById(R.id.button_register_teacher);
