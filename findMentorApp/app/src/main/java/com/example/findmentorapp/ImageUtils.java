@@ -19,10 +19,6 @@ public class ImageUtils {
 
 	/**
 	 * Save image to the SD card
-	 *
-	 * @param photoBitmap
-	 * @param photoName
-	 * @param path
 	 */
 	public static String savePhoto(Bitmap photoBitmap, String path,
 								   String photoName) {
@@ -74,9 +70,6 @@ public class ImageUtils {
 
 	/**
 	 * 转换图片成圆形
-	 *
-	 * @param bitmap 传入Bitmap对象
-	 * @return
 	 */
 	public static Bitmap toRoundBitmap(Bitmap bitmap) {
 		int width = bitmap.getWidth();

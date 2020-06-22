@@ -91,13 +91,15 @@ public class HomeFragment extends Fragment {
         layout_toFavorite = (LinearLayout)root.findViewById(R.id.layout_home_favorite);
         layout_toPublish = (LinearLayout)root.findViewById(R.id.layout_home_publish);
         toPersonalData = (TextView)root.findViewById(R.id.textView_home_data);
+        //上半部分
         layout1 = (ConstraintLayout)root.findViewById(R.id.layout_home1);
-        imageView_lock = (ImageView)root.findViewById(R.id.imageView_lock);
-
         imageView_user = (ImageView)root.findViewById(R.id.imageView_home_user);
         textView_name = (TextView) root.findViewById(R.id.textView_home_name);
         textView_school = (TextView) root.findViewById(R.id.textView_home_school);
 
+        imageView_lock = (ImageView)root.findViewById(R.id.imageView_lock);
+
+        //跳转登录
         toLogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,7 +108,7 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
-
+        //跳转账户界面
         layout_toAccount.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick (View v) {

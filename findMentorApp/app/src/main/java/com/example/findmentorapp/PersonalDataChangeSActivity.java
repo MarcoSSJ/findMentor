@@ -193,7 +193,7 @@ public class PersonalDataChangeSActivity extends AppCompatActivity {
         }
 
         //获取输入的性别等
-        //加入了研究领域与年级（这个得加入处理）
+        //加入了研究领域与年级
 
         radioGroup_sex=(RadioGroup)findViewById(R.id.radioGroup_personalDataChange);
         radioButton_male=(RadioButton)findViewById(R.id.radioButton_personalDataChange_male);

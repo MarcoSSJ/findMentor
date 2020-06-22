@@ -86,7 +86,6 @@ public class OthersDataActivity extends AppCompatActivity {
         //在这里进行网络访问取信息
         new Thread(runnable).start();
         new Thread(setHead).start();
-        //设置图片如imageView.setImageBitmap(photo)，photo为bitmap格式
 
         //按钮处理
         //查看他人动态

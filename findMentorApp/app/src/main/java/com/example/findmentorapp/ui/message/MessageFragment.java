@@ -78,8 +78,9 @@ public class MessageFragment extends Fragment {
         String sessionID = application.getSessionID();
 
         textView.setText("未登录，请登录");
-
         final ImageView imageView_lock = (ImageView)root.findViewById(R.id.imageView_lock);
+
+        //信息界面元素
         final RecyclerView recyclerView_message = root.findViewById(R.id.recyclerView_message);
         final EditText editText = root.findViewById(R.id.editText_message_byname);
         final ConstraintLayout constraintLayout = root.findViewById(R.id.messageLayout);
@@ -101,11 +102,12 @@ public class MessageFragment extends Fragment {
             constraintLayout.setVisibility(View.VISIBLE);
         }
 
+        //recyclerView
         recyclerView_message.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         myAdapter = new MyAdapter();
-
         recyclerView_message.setAdapter(myAdapter);
 
+        //过滤器输入框监听
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence sequence, int i, int i1, int i2) {
@@ -284,7 +286,7 @@ public class MessageFragment extends Fragment {
                     } else {
                         List<MessageBrief> filteredList = new ArrayList<>();
                         for (MessageBrief str : s_message) {
-                            //这里根据需求，添加匹配规则
+                            //匹配规则
                             if (str.name.contains(charString)) {
                                 filteredList.add(str);
                             }

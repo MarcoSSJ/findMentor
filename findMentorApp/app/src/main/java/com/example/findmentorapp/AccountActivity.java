@@ -267,7 +267,6 @@ public class AccountActivity extends AppCompatActivity {
         deleteButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick (View v) {
-
                 AlertDialog.Builder dialog = new AlertDialog.Builder(AccountActivity.this);
                 dialog.setTitle("确认注销？");
                 dialog.setIcon(android.R.drawable.ic_dialog_info);
@@ -291,7 +290,6 @@ public class AccountActivity extends AppCompatActivity {
                 });
 
                 dialog.show();
-
 
             }
         });

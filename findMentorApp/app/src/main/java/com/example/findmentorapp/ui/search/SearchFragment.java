@@ -119,11 +119,9 @@ public class SearchFragment extends Fragment {
             }
         });
 
-        //RecyclerView相关函数，暂时放在下面。以后可能需要放入ViewModel
-
+        //RecyclerView相关函数
         recyclerView_search.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         myAdapter = new MyAdapter();
-
         recyclerView_search.setAdapter(myAdapter);
 
         return root;
@@ -132,6 +130,7 @@ public class SearchFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        //登陆状态与显示处理
         MyApplication application = MyApplication.getInstance();
         String sessionID = application.getSessionID();
         if(sessionID.equals("")) {
@@ -148,6 +147,7 @@ public class SearchFragment extends Fragment {
             new Thread(getRecommend).start();
         }
 
+        //获取搜索选项
         radioGroup_search.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 
             @Override
@@ -176,7 +176,6 @@ public class SearchFragment extends Fragment {
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
             MyHolder myHolder = new MyHolder(LayoutInflater.from(getActivity()).inflate(R.layout.item_recyclerview_forsearch, null));
-
 
             return myHolder;
         }

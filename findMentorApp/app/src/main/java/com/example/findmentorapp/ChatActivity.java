@@ -134,7 +134,7 @@ public class ChatActivity extends AppCompatActivity {
                 viewHolder.head2.setVisibility(View.GONE);
                 viewHolder.leftMsg.setText(msg.getContent());
             } else if (msg.getType() == Msg.TYPE_SEND) {
-                //没收到的消息
+                //发送的消息
                 viewHolder.rightLayout.setVisibility(View.VISIBLE);
                 viewHolder.head2.setVisibility(View.VISIBLE);
                 viewHolder.leftLayout.setVisibility(View.GONE);

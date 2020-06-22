@@ -70,7 +70,7 @@ public class AddFragment extends Fragment {
         editText_info = root.findViewById(R.id.editText_add_info);
         Button button_submit = (Button)root.findViewById(R.id.button_add_submit);
 
-
+        //根据不同登录状态，设置显示
         if(sessionID.equals("")) {
             textView.setVisibility(View.VISIBLE);
             imageView_lock.setVisibility(View.VISIBLE);
@@ -90,7 +90,7 @@ public class AddFragment extends Fragment {
             textView2.setVisibility(View.VISIBLE);
         }
 
-
+        //发布按钮
         button_submit.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick (View v) {
